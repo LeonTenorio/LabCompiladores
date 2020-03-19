@@ -1,0 +1,546 @@
+{
+'tree:'
+     [
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          }
+     },
+     {
+     'Node': 'output', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'vet', 
+          'child[0]': 
+               {
+               'Node': 10
+               }
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          'child[0]': 
+               [
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'a', 
+                    }
+               },
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'low', 
+                    }
+               }               ,
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'high', 
+                    }
+               }
+          'child[1]': 
+               [
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'i', 
+                    }
+               },
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'x', 
+                    }
+               }               ,
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'k', 
+                    }
+               }               ,
+               {
+               'Node': '=', 
+               'child[0]': 
+                    {
+                    'Node': 'k', 
+                    }
+               'child[1]': 
+                    {
+                    'Node': 'low', 
+                    }
+               }               ,
+               {
+               'Node': '=', 
+               'child[0]': 
+                    {
+                    'Node': 'x', 
+                    }
+               'child[1]': 
+                    {
+                    'Node': 'a', 
+                    'child[0]': 
+                         {
+                         'Node': 'low', 
+                         }
+                    }
+               }               ,
+               {
+               'Node': '=', 
+               'child[0]': 
+                    {
+                    'Node': 'i', 
+                    }
+               'child[1]': 
+                    {
+                    'Node': '+', 
+                    'child[0]': 
+                         {
+                         'Node': 'low', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': 1
+                         }
+                    }
+               }               ,
+               {
+               'Node': 'while', 
+               'child[0]': 
+                    {
+                    'Node': '<', 
+                    'child[0]': 
+                         {
+                         'Node': 'i', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': 'high', 
+                         }
+                    }
+               'child[1]': 
+                    [
+                    {
+                    'Node': 'if', 
+                    'child[0]': 
+                         {
+                         'Node': '<', 
+                         'child[0]': 
+                              {
+                              'Node': 'a', 
+                              'child[0]': 
+                                   {
+                                   'Node': 'i', 
+                                   }
+                              }
+                         'child[1]': 
+                              {
+                              'Node': 'x', 
+                              }
+                         }
+                    'child[1]': 
+                         [
+                         {
+                         'Node': '=', 
+                         'child[0]': 
+                              {
+                              'Node': 'x', 
+                              }
+                         'child[1]': 
+                              {
+                              'Node': 'a', 
+                              'child[0]': 
+                                   {
+                                   'Node': 'i', 
+                                   }
+                              }
+                         },
+                         {
+                         'Node': '=', 
+                         'child[0]': 
+                              {
+                              'Node': 'k', 
+                              }
+                         'child[1]': 
+                              {
+                              'Node': 'i', 
+                              }
+                         }
+                    },
+                    {
+                    'Node': '=', 
+                    'child[0]': 
+                         {
+                         'Node': 'i', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': '+', 
+                         'child[0]': 
+                              {
+                              'Node': 'i', 
+                              }
+                         'child[1]': 
+                              {
+                              'Node': 1
+                              }
+                         }
+                    }
+               }               ,
+               {
+               'Node': 'return', 
+               'child[0]': 
+                    {
+                    'Node': 'k', 
+                    }
+               }
+          }
+     }     ,
+     {
+     'Node': 'void', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          'child[0]': 
+               [
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'a', 
+                    }
+               },
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'low', 
+                    }
+               }               ,
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'high', 
+                    }
+               }
+          'child[1]': 
+               [
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'i', 
+                    }
+               },
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'k', 
+                    }
+               }               ,
+               {
+               'Node': '=', 
+               'child[0]': 
+                    {
+                    'Node': 'i', 
+                    }
+               'child[1]': 
+                    {
+                    'Node': 'low', 
+                    }
+               }               ,
+               {
+               'Node': 'while', 
+               'child[0]': 
+                    {
+                    'Node': '<', 
+                    'child[0]': 
+                         {
+                         'Node': 'i', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': '-', 
+                         'child[0]': 
+                              {
+                              'Node': 'high', 
+                              }
+                         'child[1]': 
+                              {
+                              'Node': 1
+                              }
+                         }
+                    }
+               'child[1]': 
+                    [
+                    {
+                    'Node': 'int', 
+                    'child[0]': 
+                         {
+                         'Node': 't', 
+                         }
+                    },
+                    {
+                    'Node': '=', 
+                    'child[0]': 
+                         {
+                         'Node': 'k', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': 'CALL - minloc',
+                         'child[0]': 
+                              [
+                              {
+                              'Node': 'a', 
+                              },
+                              {
+                              'Node': 'i', 
+                              }                              ,
+                              {
+                              'Node': 'high', 
+                              }
+                         }
+                    }                    ,
+                    {
+                    'Node': '=', 
+                    'child[0]': 
+                         {
+                         'Node': 't', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': 'a', 
+                         'child[0]': 
+                              {
+                              'Node': 'k', 
+                              }
+                         }
+                    }                    ,
+                    {
+                    'Node': '=', 
+                    'child[0]': 
+                         {
+                         'Node': 'a', 
+                         'child[0]': 
+                              {
+                              'Node': 'k', 
+                              }
+                         }
+                    'child[1]': 
+                         {
+                         'Node': 'a', 
+                         'child[0]': 
+                              {
+                              'Node': 'i', 
+                              }
+                         }
+                    }                    ,
+                    {
+                    'Node': '=', 
+                    'child[0]': 
+                         {
+                         'Node': 'a', 
+                         'child[0]': 
+                              {
+                              'Node': 'i', 
+                              }
+                         }
+                    'child[1]': 
+                         {
+                         'Node': 't', 
+                         }
+                    }                    ,
+                    {
+                    'Node': '=', 
+                    'child[0]': 
+                         {
+                         'Node': 'i', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': '+', 
+                         'child[0]': 
+                              {
+                              'Node': 'i', 
+                              }
+                         'child[1]': 
+                              {
+                              'Node': 1
+                              }
+                         }
+                    }
+               }
+          }
+     }     ,
+     {
+     'Node': 'void', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          'child[1]': 
+               [
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'i', 
+                    }
+               },
+               {
+               'Node': '=', 
+               'child[0]': 
+                    {
+                    'Node': 'i', 
+                    }
+               'child[1]': 
+                    {
+                    'Node': 0
+                    }
+               }               ,
+               {
+               'Node': 'while', 
+               'child[0]': 
+                    {
+                    'Node': '<', 
+                    'child[0]': 
+                         {
+                         'Node': 'i', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': 10
+                         }
+                    }
+               'child[1]': 
+                    [
+                    {
+                    'Node': '=', 
+                    'child[0]': 
+                         {
+                         'Node': 'vet', 
+                         'child[0]': 
+                              {
+                              'Node': 'i', 
+                              }
+                         }
+                    'child[1]': 
+                         {
+                         'Node': 'CALL - input',
+                         }
+                    },
+                    {
+                    'Node': '=', 
+                    'child[0]': 
+                         {
+                         'Node': 'i', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': '+', 
+                         'child[0]': 
+                              {
+                              'Node': 'i', 
+                              }
+                         'child[1]': 
+                              {
+                              'Node': 1
+                              }
+                         }
+                    }
+               }               ,
+               {
+               'Node': 'CALL - sort',
+               'child[0]': 
+                    [
+                    {
+                    'Node': 'vet', 
+                    },
+                    {
+                    'Node': 0
+                    }                    ,
+                    {
+                    'Node': 10
+                    }
+               }               ,
+               {
+               'Node': '=', 
+               'child[0]': 
+                    {
+                    'Node': 'i', 
+                    }
+               'child[1]': 
+                    {
+                    'Node': 0
+                    }
+               }               ,
+               {
+               'Node': 'while', 
+               'child[0]': 
+                    {
+                    'Node': '<', 
+                    'child[0]': 
+                         {
+                         'Node': 'i', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': 10
+                         }
+                    }
+               'child[1]': 
+                    [
+                    {
+                    'Node': 'CALL - output',
+                    'child[0]': 
+                         {
+                         'Node': 'vet', 
+                         'child[0]': 
+                              {
+                              'Node': 'i', 
+                              }
+                         }
+                    },
+                    {
+                    'Node': '=', 
+                    'child[0]': 
+                         {
+                         'Node': 'i', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': '+', 
+                         'child[0]': 
+                              {
+                              'Node': 'i', 
+                              }
+                         'child[1]': 
+                              {
+                              'Node': 1
+                              }
+                         }
+                    }
+               }
+          }
+     }
+}
