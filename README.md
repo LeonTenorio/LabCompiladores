@@ -1,4 +1,4 @@
-################################################################################
+--------------------------------------------------------------------------------
                                   C- Compiler
                       Subject matter: Compiler LAB - 1S2020
                           ICT UNIFESP - São José dos Campos
@@ -9,7 +9,7 @@
                                 Collaboration:
                         Vlademir Celso dos Santos Júnior
        (Base code developed together in previous subject matter Compiler)
-################################################################################
+
 
 --------------------------------------------------------------------------------
                                     Usage:
@@ -21,7 +21,8 @@
                  *Symbolic table "symbTab"
                  *intermediatte quadruples code "quadCode"
 
-################################################################################
+--------------------------------------------------------------------------------
+
                                 Compilador C-
                        UC: LAB de Compiladores - 1S2020
                       ICT UNIFESP - São José dos Campos
@@ -32,7 +33,6 @@
                                 Contribuição:
                         Vlademir Celso dos Santos Júnior
     (Código base desenvolvido em grupo na disciplina anterior UC Compiladores)
-################################################################################
 
 --------------------------------------------------------------------------------
                                   Execução
