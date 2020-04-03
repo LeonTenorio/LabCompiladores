@@ -147,11 +147,25 @@ string quadCodeGenerator(treeNode *node){
         break;
       }
       case FnK:{
-        quadCode = quadCode + "(label, " + node->name + ", , )\n";
-        quadCode = quadCode + "(func, , , )\n";
-        getParamsFunction(node->child[0]);
-        quadCodeGenerator(node->child[1]);
-        quadCode = quadCode + "(end_func, , , )\n";
+        if(node->name=="input"){
+          quadCode = quadCode + "(label, " + node->name + ", , )\n";
+          quadCode = quadCode + "(system_in, _t"+to_string(tempIndex)+", , )\n";
+          quadCode = quadCode + "(return, _t"+to_string(tempIndex) + ", , )\n";
+          tempIndex++;
+          quadCode = quadCode + "(end_fun, , , )\n";
+        }
+        else if(node->name=="output"){
+          quadCode = quadCode + "(label, " + node->name + ", , )\n";
+          quadCode = quadCode + "(pop_param, val, , )\n";
+          quadCode = quadCode + "(system_out, val, , )\n";
+          quadCode = quadCode + "(end_fun, , , )\n";
+        }
+        else{
+          quadCode = quadCode + "(label, " + node->name + ", , )\n";
+          getParamsFunction(node->child[0]);
+          quadCodeGenerator(node->child[1]);
+          quadCode = quadCode + "(end_fun, , , )\n";
+        }
         quadCodeGenerator(node->sibling);
         return "";
         break;
@@ -161,12 +175,23 @@ string quadCodeGenerator(treeNode *node){
         if(node->child[0]->nodeKind==OpK){
           tempIndex++;
         }
+        else if(node->child[0]->nodeKind==CallK){
+          quadCode = quadCode + "(catch_return, _t"+to_string(tempIndex) + ", , )\n";
+          left = "_t" + to_string(tempIndex);
+          tempIndex++;
+        }
         string right = quadCodeGenerator(node->child[1]);
         if(node->child[1]->nodeKind==OpK){
           tempIndex++;
         }
+        else if(node->child[1]->nodeKind==CallK){
+          quadCode = quadCode + "(catch_return, _t"+to_string(tempIndex) + ", , )\n";
+          right = "_t" + to_string(tempIndex);
+          tempIndex++;
+        }
         quadCode = quadCode + "("+node->name+", _t" + to_string(tempIndex) + ", " + left + ", " + right + ")\n";
-        return "_t" + to_string(tempIndex);
+        tempIndex++;
+        return "_t" + to_string(tempIndex-1);
       }
       case ReturnK:{
         quadCode = quadCode + "(return, "+quadCodeGenerator(node->child[0]) + ", , )\n";
@@ -256,10 +281,17 @@ string quadCodeGenerator(treeNode *node){
       case CallK:{
         treeNode *sibling = node->child[0];
         while(sibling!=NULL){
-          quadCode = quadCode + "(param, " + quadCodeGenerator(sibling) + ", , )\n";
+          string siblingString = quadCodeGenerator(sibling);
+          if(sibling->nodeKind==CallK){
+            quadCode = quadCode + "(catch_return, _t"+to_string(tempIndex)+", , )\n";
+            siblingString = "_t"+to_string(tempIndex);
+            cout << tempIndex;
+            tempIndex++;
+          }
+          quadCode = quadCode + "(param, " + siblingString + ", , )\n";
           sibling = sibling->sibling;
         }
-        quadCode = quadCode + "(goto, " + node->name + ", , )\n";
+        quadCode = quadCode + "(jal, " + node->name + ", , )\n";
 
         string aux = quadCodeGenerator(node->sibling);
 
@@ -267,9 +299,7 @@ string quadCodeGenerator(treeNode *node){
         break;
       }
       case AtrK:{
-        //A esquerda ou tenho um IdK ou IdArrayK
         string left = quadCodeGenerator(node->child[0]);
-
         if(node->child[1]->nodeKind==OpK && node->child[1]->child[0]->nodeKind!=OpK && node->child[1]->child[0]->nodeKind!=OpK){
           quadCode = quadCode + "(" + node->child[1]->name + ", " + left + ", " + quadCodeGenerator(node->child[1]->child[0]) + ", " + quadCodeGenerator(node->child[1]->child[1]) + ")\n";
         }
@@ -282,7 +312,6 @@ string quadCodeGenerator(treeNode *node){
             tempIndex++;
           if(node->child[1]->nodeKind==OpK)
             tempIndex++;
-          //A direita +, -, *, /, NUM (ConstK), CallK
           string right = quadCodeGenerator(node->child[1]);
           quadCode = quadCode + "(asn, " + left + ", " + right + ", )\n";
         }

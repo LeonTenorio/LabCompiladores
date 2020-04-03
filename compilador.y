@@ -100,13 +100,13 @@ var_declaration:
       $$->child[0] = newNode(IdK);
       $$->child[0]->name = savedIDs.top();
       if(currentFunction != " "){
-        if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
-        if(savedIDs.top().compare(currentFunction) == 0) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
+        if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 1"; exit(-1);}
+        if(savedIDs.top().compare(currentFunction) == 0) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 2"; exit(-1);}
         if($$->name=="int"){
-          if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
+          if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 3"; exit(-1);}
         }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno;; exit(-1);}
       }else{
-        if(existIdEveryScope(savedIDs.top())) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
+        if(existIdEveryScope(savedIDs.top())) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 4"; exit(-1);}
         insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno);
       }
       savedIDs.pop();
@@ -118,12 +118,12 @@ var_declaration:
       $$->child[0]->name = savedIDs.top();
       if(currentFunction != " "){
         if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
-        if(savedIDs.top().compare(currentFunction) == 0) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
+        if(savedIDs.top().compare(currentFunction) == 0) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 5"; exit(-1);}
         if($$->name=="int"){
-          if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
-        }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno;; exit(-1);}
+          if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 6"; exit(-1);}
+        }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 7";; exit(-1);}
       }else{
-        if(existIdEveryScope(savedIDs.top())) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
+        if(existIdEveryScope(savedIDs.top())) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 8"; exit(-1);}
         insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno);
       }
       savedIDs.pop();
@@ -146,14 +146,20 @@ type_specifier:
   ;
 
 fun_declaration:
-  type_specifier erro ID {savedIDs.push(copyString(currentToken)); currentFunction = copyString(currentToken);} PRTO params PRTC compound_stmt{
-      if(existIdEveryScope(savedIDs.top())) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
+  type_specifier erro ID {
+      savedIDs.push(copyString(currentToken)); currentFunction = copyString(currentToken);
+      $$ = $1;
       if($$->name=="int"){
         insertSymTab(savedIDs.top(),FuncType," ",Int,yylineno);
       }else {
         !insertSymTab(savedIDs.top(),FuncType," ",Void,yylineno);
       }
-      $$ = $1;
+    } PRTO params PRTC compound_stmt{
+      if(existIdEveryScope(savedIDs.top())) {
+        if(currentFunction!=savedIDs.top()){
+          cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 9"; exit(-1);
+        }
+      }
       $$->child[0] = newNode(FnK);
       $$->child[0]->name = savedIDs.top();
       savedIDs.pop();
@@ -243,7 +249,7 @@ selection_else_stmt:
 
 iteration_stmt:
   WHILE PRTO expression PRTC statement{
-    if(checkAtr($3)) {cout <<"Erro semântico na atribuicao na linha " << yylineno; exit(-1);}
+    if(checkAtr($3)) {cout <<"Erro semântico na atribuição na linha " << yylineno; exit(-1);}
     $$ = newNode(LoopK);
     $$->name = "while";
     $$->child[0] = $3;
@@ -264,7 +270,7 @@ return_stmt:
 
 expression:
   var ATR expression{
-    if(checkVoid($3)) {cout <<"Erro semântico no ID: " << $3->name << " na linha " << yylineno; exit(-1);}
+    if(checkVoid($3)) {cout <<"Erro semântico no ID: " << $3->name << " na linha " << yylineno << ": Erro 10"; exit(-1);}
     $$ = newNode(AtrK);
     $$->name = "=";
     $$->child[0] = $1;
@@ -277,16 +283,16 @@ expression:
 
 var:
   erro ID {savedIDs.push(copyString(currentToken));}{
-    if(!existID(savedIDs.top(),currentFunction)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
-    if(getTypeID(savedIDs.top(),currentFunction) != VarType) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
+    if(!existID(savedIDs.top(),currentFunction)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 11"; exit(-1);}
+    if(getTypeID(savedIDs.top(),currentFunction) != VarType) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 12"; exit(-1);}
     $$ = newNode(IdK);
     $$->name = savedIDs.top();
     insertLineID(savedIDs.top(), currentFunction, yylineno);
     savedIDs.pop();
   }
   | erro ID {savedIDs.push(copyString(currentToken));} SBTO expression SBTC{
-    if(!existID(savedIDs.top(),currentFunction)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
-    if(getTypeID(savedIDs.top(),currentFunction) != VarType) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
+    if(!existID(savedIDs.top(),currentFunction)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 13"; exit(-1);}
+    if(getTypeID(savedIDs.top(),currentFunction) != VarType) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 14"; exit(-1);}
     if(checkAtr($5)) {cout <<"Erro semântico na atribuicao na linha " << yylineno; exit(-1);}
     $$ = newNode(IdArrayK);
     $$->name = savedIDs.top();
@@ -325,7 +331,7 @@ relop:
 
 additive_expression:
   additive_expression adop term{
-    if(checkVoid($3)) {cout <<"Erro semântico no ID: " << $3->name << " na linha " << yylineno; exit(-1);}
+    if(checkVoid($3)) {cout <<"Erro semântico no ID: " << $3->name << " na linha " << yylineno << ": Erro 15"; exit(-1);}
     $$ = $2;
     $$->child[0] = $1;
     $$->child[1] = $3;
@@ -348,7 +354,7 @@ adop:
 
 term:
   factor mulop term{
-    if(checkVoid($3)) {cout <<"Erro semântico no ID: " << $3->name << " na linha " << yylineno; exit(-1);}
+    if(checkVoid($3)) {cout <<"Erro semântico no ID: " << $3->name << " na linha " << yylineno << ": Erro 16"; exit(-1);}
     $$ = $2;
     $$->child[0] = $1;
     $$->child[1] = $3;
@@ -387,7 +393,7 @@ factor:
 
 call:
   erro ID {savedIDs.push(copyString(currentToken));} PRTO args PRTC{
-    if(!existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
+    if(!existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << " função não declarada"; exit(-1);}
     $$ = newNode(CallK);
     $$->name = savedIDs.top();
     insertLineIDGlobal(savedIDs.top(), yylineno);
@@ -417,7 +423,7 @@ arg_list:
     }
   }
   | expression{
-    if(checkVoid($1)) {cout <<"Erro semântico no ID: " << $1->name << " na linha " << yylineno; exit(-1);}
+    if(checkVoid($1)) {cout <<"Erro semântico no ID: " << $1->name << " na linha " << yylineno << ": Erro 17"; exit(-1);}
     $$ = $1;
   }
   ;
@@ -477,20 +483,20 @@ param_list:
 param:
   type_specifier erro ID{
     savedIDs.push(copyString(currentToken));
-    if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno;; exit(-1);}
+    if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 18";; exit(-1);}
     if($$->name=="int"){
-      if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
-    }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno;; exit(-1);}
+      if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 19"; exit(-1);}
+    }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 20";; exit(-1);}
     $$ = $1;
     $$->child[0] = newNode(IdK);
     $$->child[0]->name = savedIDs.top();
     savedIDs.pop();
   }
   |type_specifier erro ID {savedIDs.push(copyString(currentToken));} SBTO SBTC{
-    if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno;; exit(-1);}
+    if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 21";; exit(-1);}
     if($$->name=="int"){
-      if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
-    }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno;; exit(-1);}
+      if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 22"; exit(-1);}
+    }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 23";; exit(-1);}
     $$ = $1;
     $$->child[0] = newNode(IdK);
     $$->child[0]->name = savedIDs.top();
@@ -526,17 +532,10 @@ int main()
     treePreOrderFile << treePreOrder;
     treePreOrderFile.close();
 
-    /*
-    codeGenerator(savedTree,0);
-    ofstream threeAdressCodeFile;
-    threeAdressCodeFile.open("./outputs/threeAdressCode");
-    threeAdressCodeFile << threeAdressCode;
-    threeAdressCodeFile.close();
-    */
-
     quadCodeGenerator(savedTree);
     ofstream quadCodeFile;
     quadCodeFile.open("./outputs/quadCode");
+    quadCode = quadCode + "(end, , , )";
     quadCodeFile << quadCode;
     quadCodeFile.close();
 
