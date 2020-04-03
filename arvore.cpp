@@ -269,10 +269,21 @@ string quadCodeGenerator(treeNode *node){
         quadCode = quadCode + "(label, " + trueLabel + ", , )\n";
 
         string aux = quadCodeGenerator(node->child[1]);
+        
+        if(node->child[2]!=NULL){
+          string outLabel = "_l"+to_string(labelIndex);
+          labelIndex++;
 
-        quadCode = quadCode + "(label, " + falseLabel + ", , )\n";
+          quadCode = quadCode + "(goto, " + outLabel + ", , )\n";
+          quadCode = quadCode + "(label, " + falseLabel + ", , )\n";
 
-        aux = quadCodeGenerator(node->child[2]);
+          aux = quadCodeGenerator(node->child[2]);
+
+          quadCode = quadCode + "(label, "+outLabel + ", , )\n";
+        }
+        else{
+          quadCode = quadCode + "(label, " + falseLabel + ", , )\n";
+        }
 
         aux = quadCodeGenerator(node->sibling);
         return "";

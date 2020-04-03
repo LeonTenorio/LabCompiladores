@@ -29,6 +29,7 @@
                     }
                }
           'child[1]': 
+               [
                {
                'Node': 'if', 
                'child[0]': 
@@ -52,6 +53,7 @@
                          }
                     }
                'child[2]': 
+                    [
                     {
                     'Node': 'if', 
                     'child[0]': 
@@ -114,6 +116,20 @@
                                    }
                               }
                          }
+                    },
+                    {
+                    'Node': 'CALL - output',
+                    'child[0]': 
+                         {
+                         'Node': 2
+                         }
+                    }
+               },
+               {
+               'Node': 'CALL - output',
+               'child[0]': 
+                    {
+                    'Node': 1
                     }
                }
           }

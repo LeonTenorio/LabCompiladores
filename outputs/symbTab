@@ -1,5 +1,5 @@
 ID: input, SCOPE:  , DATA TYPE: int, TYPE ID: func, LINES: [0]
 ID: n, SCOPE: fibo, DATA TYPE: int, TYPE ID: var, LINES: [10 10 6 2 1]
-ID: main, SCOPE:  , DATA TYPE: void, TYPE ID: func, LINES: [15]
-ID: output, SCOPE:  , DATA TYPE: void, TYPE ID: func, LINES: [16 0]
-ID: fibo, SCOPE:  , DATA TYPE: int, TYPE ID: func, LINES: [16 10 10 1]
+ID: main, SCOPE:  , DATA TYPE: void, TYPE ID: func, LINES: [17]
+ID: output, SCOPE:  , DATA TYPE: void, TYPE ID: func, LINES: [18 14 12 0]
+ID: fibo, SCOPE:  , DATA TYPE: int, TYPE ID: func, LINES: [18 10 10 1]
