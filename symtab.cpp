@@ -21,6 +21,9 @@ typedef struct BucketListRec{
   DataType data_type;
   LineList lines;
   BucketListRec* next;
+  int mem_loc;
+  int mem_pos;
+  int var_amount;
 }*BucketList;
 
 static BucketList hashTable[SIZE];
@@ -37,7 +40,27 @@ int hashTab(string key)
   return temp;
 }
 
-bool insertSymTab(string id, TypeID type_id, string scope, DataType data_type, int lineno){
+void insertAllocMemScope(string scope, int mem_loc){
+  int pos = hashTab(scope+" ");
+  BucketList l = hashTable[pos];
+  while(l!=NULL){
+    if(scope.compare(l->id)==0) break;
+    l = l->next;
+  }
+  l->mem_loc = l->mem_loc + mem_loc;
+}
+
+void insertVarInScope(string scope){
+  int pos = hashTab(scope+" ");
+  BucketList l = hashTable[pos];
+  while(l!=NULL){
+    if(scope.compare(l->id)==0) break;
+    l = l->next;
+  }
+  l->var_amount = l->var_amount + 1;
+}
+
+bool insertSymTab(string id, TypeID type_id, string scope, DataType data_type, int lineno, int mem_loc){
   int pos = hashTab(id+scope);
   BucketList l = hashTable[pos];
   while(l!=NULL){
@@ -53,6 +76,15 @@ bool insertSymTab(string id, TypeID type_id, string scope, DataType data_type, i
   newElm->lines->lineno = lineno;
   newElm->lines->next = NULL;
   newElm->next = hashTable[pos];
+  newElm->mem_loc = mem_loc;
+  newElm->mem_pos = -1;
+  newElm->var_amount = 0;
+  if(scope!=" "){
+    insertAllocMemScope(scope, mem_loc);
+  }
+  else if(mem_loc!=0){
+    insertAllocMemScope("GLOBAL", mem_loc);
+  }
   hashTable[pos] = newElm;
   return true;
 }
@@ -115,7 +147,10 @@ void showSymbTab(){
       symbTabString = symbTabString + "ID: " + l->id + ", SCOPE: " + l->scope + ", DATA TYPE: " + stringDataType(l->data_type) + ", TYPE ID: " + stringTypeID(l->type_id) + ", LINES: ";
       symbTabString = symbTabString + "[";
       symbTabString = symbTabString + showLines(l->lines);
-      symbTabString = symbTabString + "]\n";
+      symbTabString = symbTabString + "]";
+      symbTabString = symbTabString + " MEMLOC: " + to_string(l->mem_loc);
+      symbTabString = symbTabString + " MEMPOS: " + to_string(l->mem_pos);
+      symbTabString = symbTabString + " VARAMOUNT: " + to_string(l->var_amount) + "\n";
       l = l->next;
     }
   }

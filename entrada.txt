@@ -1,3 +1,5 @@
+int var[10];
+
 int fibo( int n ){
 	if(n==0){
 		return 0;
@@ -15,5 +17,7 @@ int fibo( int n ){
 }
 
 void main(void){
+	int x[5];
+	int a;
 	output(fibo(5));
 }

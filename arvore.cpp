@@ -147,6 +147,7 @@ string quadCodeGenerator(treeNode *node){
         break;
       }
       case FnK:{
+        int previousTempIndex = tempIndex;
         if(node->name=="input"){
           quadCode = quadCode + "(label, " + node->name + ", , )\n";
           quadCode = quadCode + "(system_in, _t"+to_string(tempIndex)+", , )\n";
@@ -166,11 +167,14 @@ string quadCodeGenerator(treeNode *node){
           quadCodeGenerator(node->child[1]);
           quadCode = quadCode + "(end_fun, , , )\n";
         }
+        //setTempAmountScope(node->name, tempIndex);
+        tempIndex = previousTempIndex;
         quadCodeGenerator(node->sibling);
         return "";
         break;
       }
       case OpK:{
+        int previousTempIndex = tempIndex;
         string left = quadCodeGenerator(node->child[0]);
         if(node->child[0]->nodeKind==OpK){
           tempIndex++;
@@ -191,7 +195,8 @@ string quadCodeGenerator(treeNode *node){
         }
         quadCode = quadCode + "("+node->name+", _t" + to_string(tempIndex) + ", " + left + ", " + right + ")\n";
         tempIndex++;
-        return "_t" + to_string(tempIndex-1);
+        tempIndex = previousTempIndex;
+        return "_t" + to_string(tempIndex);
       }
       case ReturnK:{
         quadCode = quadCode + "(return, "+quadCodeGenerator(node->child[0]) + ", , )\n";
@@ -200,6 +205,7 @@ string quadCodeGenerator(treeNode *node){
         break;
       }
       case LoopK:{
+        int previousTempIndex = tempIndex;
         string compareLabel = "_l" + to_string(labelIndex);
         labelIndex++;
         string loopLabel = "_l" + to_string(labelIndex);
@@ -237,10 +243,12 @@ string quadCodeGenerator(treeNode *node){
         quadCode = quadCode + "(label, "+ outLabel + ", , )\n";
 
         aux = quadCodeGenerator(node->sibling);
+        tempIndex = previousTempIndex;
         return "";
         break;
       }
       case CondK:{
+        int previousTempIndex = tempIndex;
         string trueLabel = "_l" + to_string(labelIndex);
         labelIndex++;
         string falseLabel = "_l" + to_string(labelIndex);
@@ -286,6 +294,7 @@ string quadCodeGenerator(treeNode *node){
         }
 
         aux = quadCodeGenerator(node->sibling);
+        tempIndex = previousTempIndex;
         return "";
         break;
       }

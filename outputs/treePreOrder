@@ -19,6 +19,17 @@
      'Node': 'int', 
      'child[0]': 
           {
+          'Node': 'var', 
+          'child[0]': 
+               {
+               'Node': 10
+               }
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
           'Node': 'FUNCTION', 
           'child[0]': 
                {
@@ -140,6 +151,25 @@
           {
           'Node': 'FUNCTION', 
           'child[1]': 
+               [
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'x', 
+                    'child[0]': 
+                         {
+                         'Node': 5
+                         }
+                    }
+               },
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'a', 
+                    }
+               }               ,
                {
                'Node': 'CALL - output',
                'child[0]': 

@@ -478,14 +478,14 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    47,    47,    74,    85,    90,    92,    97,    97,   114,
-     114,   114,   136,   141,   149,   149,   173,   187,   197,   203,
-     206,   209,   212,   215,   221,   224,   230,   241,   244,   251,
-     261,   265,   272,   279,   285,   285,   293,   293,   306,   310,
-     314,   318,   322,   326,   333,   339,   345,   349,   356,   362,
-     368,   372,   379,   382,   385,   385,   389,   395,   395,   406,
-     409,   415,   425,   432,   437,   443,   453,   459,   462,   468,
-     478,   484,   495,   495,   508,   509
+       0,    47,    47,    74,    85,    90,    92,    97,    97,   118,
+     118,   118,   144,   149,   157,   157,   181,   195,   205,   211,
+     214,   217,   220,   223,   229,   232,   238,   249,   252,   259,
+     269,   273,   280,   287,   293,   293,   301,   301,   314,   318,
+     322,   326,   330,   334,   341,   347,   353,   357,   364,   370,
+     376,   380,   387,   390,   393,   393,   397,   403,   403,   414,
+     417,   423,   433,   440,   445,   451,   461,   467,   470,   476,
+     486,   492,   503,   503,   516,   517
 };
 #endif
 
@@ -1424,31 +1424,35 @@ yyreduce:
         if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 1"; exit(-1);}
         if(savedIDs.top().compare(currentFunction) == 0) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 2"; exit(-1);}
         if(yyval->name=="int"){
-          if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 3"; exit(-1);}
+          if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, 1)) {
+            cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 3"; exit(-1);
+          }
+          insertVarInScope(currentFunction);
         }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno;; exit(-1);}
       }else{
         if(existIdEveryScope(savedIDs.top())) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 4"; exit(-1);}
-        insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno);
+        insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, 1);
+        insertVarInScope("GLOBAL");
       }
       savedIDs.pop();
     }
-#line 1436 "compilador.tab.c"
+#line 1440 "compilador.tab.c"
     break;
 
   case 9:
-#line 114 "compilador.y"
+#line 118 "compilador.y"
     {savedIDs.push(copyString(currentToken));}
-#line 1442 "compilador.tab.c"
+#line 1446 "compilador.tab.c"
     break;
 
   case 10:
-#line 114 "compilador.y"
+#line 118 "compilador.y"
     {savedInt = atoi(copyString(currentToken));}
-#line 1448 "compilador.tab.c"
+#line 1452 "compilador.tab.c"
     break;
 
   case 11:
-#line 115 "compilador.y"
+#line 119 "compilador.y"
     {
       yyval = yyvsp[-8];
       yyval->child[0] = newNode(IdArrayK);
@@ -1457,53 +1461,57 @@ yyreduce:
         if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
         if(savedIDs.top().compare(currentFunction) == 0) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 5"; exit(-1);}
         if(yyval->name=="int"){
-          if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 6"; exit(-1);}
+          if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, savedInt)) {
+            cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 6"; exit(-1);
+          }
+          insertVarInScope(currentFunction);
         }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 7";; exit(-1);}
       }else{
         if(existIdEveryScope(savedIDs.top())) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 8"; exit(-1);}
-        insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno);
+        insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, savedInt);
+        insertVarInScope("GLOBAL");
       }
       savedIDs.pop();
       yyval->child[0]->child[0] = newNode(ConstK);
       yyval->child[0]->child[0]->val = savedInt;
     }
-#line 1471 "compilador.tab.c"
+#line 1479 "compilador.tab.c"
     break;
 
   case 12:
-#line 137 "compilador.y"
+#line 145 "compilador.y"
     {
       yyval = newNode(TypeK);
       yyval->name = "int";
     }
-#line 1480 "compilador.tab.c"
+#line 1488 "compilador.tab.c"
     break;
 
   case 13:
-#line 142 "compilador.y"
+#line 150 "compilador.y"
     {
       yyval = newNode(TypeK);
       yyval->name = "void";
     }
-#line 1489 "compilador.tab.c"
+#line 1497 "compilador.tab.c"
     break;
 
   case 14:
-#line 149 "compilador.y"
+#line 157 "compilador.y"
     {
       savedIDs.push(copyString(currentToken)); currentFunction = copyString(currentToken);
       yyval = yyvsp[-2];
       if(yyval->name=="int"){
-        insertSymTab(savedIDs.top(),FuncType," ",Int,yylineno);
+        insertSymTab(savedIDs.top(),FuncType," ",Int,yylineno, 0);
       }else {
-        !insertSymTab(savedIDs.top(),FuncType," ",Void,yylineno);
+        !insertSymTab(savedIDs.top(),FuncType," ",Void,yylineno, 0);
       }
     }
-#line 1503 "compilador.tab.c"
+#line 1511 "compilador.tab.c"
     break;
 
   case 15:
-#line 157 "compilador.y"
+#line 165 "compilador.y"
     {
       if(existIdEveryScope(savedIDs.top())) {
         if(currentFunction!=savedIDs.top()){
@@ -1517,11 +1525,11 @@ yyreduce:
       yyval->child[0]->child[1] = yyvsp[0];
       currentFunction = " ";
     }
-#line 1521 "compilador.tab.c"
+#line 1529 "compilador.tab.c"
     break;
 
   case 16:
-#line 173 "compilador.y"
+#line 181 "compilador.y"
     {
     yyval = yyvsp[-2];
     if(yyval==NULL){
@@ -1533,11 +1541,11 @@ yyreduce:
       t->sibling = yyvsp[-1];
     }
   }
-#line 1537 "compilador.tab.c"
+#line 1545 "compilador.tab.c"
     break;
 
   case 17:
-#line 187 "compilador.y"
+#line 195 "compilador.y"
     {
     YYSTYPE t = yyvsp[-1];
     if(t!=NULL){
@@ -1548,75 +1556,75 @@ yyreduce:
       yyval = yyvsp[0];
     }
   }
-#line 1552 "compilador.tab.c"
-    break;
-
-  case 18:
-#line 197 "compilador.y"
-    {
-    yyval = NULL;
-  }
 #line 1560 "compilador.tab.c"
     break;
 
-  case 19:
-#line 203 "compilador.y"
+  case 18:
+#line 205 "compilador.y"
     {
-    yyval = yyvsp[0];
+    yyval = NULL;
   }
 #line 1568 "compilador.tab.c"
     break;
 
-  case 20:
-#line 206 "compilador.y"
+  case 19:
+#line 211 "compilador.y"
     {
     yyval = yyvsp[0];
   }
 #line 1576 "compilador.tab.c"
     break;
 
-  case 21:
-#line 209 "compilador.y"
+  case 20:
+#line 214 "compilador.y"
     {
     yyval = yyvsp[0];
   }
 #line 1584 "compilador.tab.c"
     break;
 
-  case 22:
-#line 212 "compilador.y"
+  case 21:
+#line 217 "compilador.y"
     {
     yyval = yyvsp[0];
   }
 #line 1592 "compilador.tab.c"
     break;
 
-  case 23:
-#line 215 "compilador.y"
+  case 22:
+#line 220 "compilador.y"
     {
     yyval = yyvsp[0];
   }
 #line 1600 "compilador.tab.c"
     break;
 
-  case 24:
-#line 221 "compilador.y"
+  case 23:
+#line 223 "compilador.y"
     {
-    yyval = yyvsp[-1];
+    yyval = yyvsp[0];
   }
 #line 1608 "compilador.tab.c"
     break;
 
-  case 25:
-#line 224 "compilador.y"
+  case 24:
+#line 229 "compilador.y"
     {
-    yyval = NULL;
+    yyval = yyvsp[-1];
   }
 #line 1616 "compilador.tab.c"
     break;
 
+  case 25:
+#line 232 "compilador.y"
+    {
+    yyval = NULL;
+  }
+#line 1624 "compilador.tab.c"
+    break;
+
   case 26:
-#line 230 "compilador.y"
+#line 238 "compilador.y"
     {
     if(checkAtr(yyvsp[-3])) {cout <<"Erro semântico na atribuicao na linha " << yylineno; exit(-1);}
     yyval = newNode(CondK);
@@ -1625,27 +1633,27 @@ yyreduce:
     yyval->child[1] = yyvsp[-1];
     yyval->child[2] = yyvsp[0];
   }
-#line 1629 "compilador.tab.c"
-    break;
-
-  case 27:
-#line 241 "compilador.y"
-    {
-    yyval = yyvsp[0];
-  }
 #line 1637 "compilador.tab.c"
     break;
 
-  case 28:
-#line 244 "compilador.y"
+  case 27:
+#line 249 "compilador.y"
     {
-    yyval = NULL;
+    yyval = yyvsp[0];
   }
 #line 1645 "compilador.tab.c"
     break;
 
+  case 28:
+#line 252 "compilador.y"
+    {
+    yyval = NULL;
+  }
+#line 1653 "compilador.tab.c"
+    break;
+
   case 29:
-#line 251 "compilador.y"
+#line 259 "compilador.y"
     {
     if(checkAtr(yyvsp[-2])) {cout <<"Erro semântico na atribuição na linha " << yylineno; exit(-1);}
     yyval = newNode(LoopK);
@@ -1653,29 +1661,29 @@ yyreduce:
     yyval->child[0] = yyvsp[-2];
     yyval->child[1] = yyvsp[0];
   }
-#line 1657 "compilador.tab.c"
+#line 1665 "compilador.tab.c"
     break;
 
   case 30:
-#line 261 "compilador.y"
+#line 269 "compilador.y"
     {
     yyval = newNode(ReturnK);
     yyval->name = "return";
   }
-#line 1666 "compilador.tab.c"
+#line 1674 "compilador.tab.c"
     break;
 
   case 31:
-#line 265 "compilador.y"
+#line 273 "compilador.y"
     {
     yyval = newNode(ReturnK);
     yyval->child[0] = yyvsp[-1];
   }
-#line 1675 "compilador.tab.c"
+#line 1683 "compilador.tab.c"
     break;
 
   case 32:
-#line 272 "compilador.y"
+#line 280 "compilador.y"
     {
     if(checkVoid(yyvsp[0])) {cout <<"Erro semântico no ID: " << yyvsp[0]->name << " na linha " << yylineno << ": Erro 10"; exit(-1);}
     yyval = newNode(AtrK);
@@ -1683,25 +1691,25 @@ yyreduce:
     yyval->child[0] = yyvsp[-2];
     yyval->child[1] = yyvsp[0];
   }
-#line 1687 "compilador.tab.c"
-    break;
-
-  case 33:
-#line 279 "compilador.y"
-    {
-    yyval = yyvsp[0];
-  }
 #line 1695 "compilador.tab.c"
     break;
 
+  case 33:
+#line 287 "compilador.y"
+    {
+    yyval = yyvsp[0];
+  }
+#line 1703 "compilador.tab.c"
+    break;
+
   case 34:
-#line 285 "compilador.y"
+#line 293 "compilador.y"
     {savedIDs.push(copyString(currentToken));}
-#line 1701 "compilador.tab.c"
+#line 1709 "compilador.tab.c"
     break;
 
   case 35:
-#line 285 "compilador.y"
+#line 293 "compilador.y"
     {
     if(!existID(savedIDs.top(),currentFunction)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 11"; exit(-1);}
     if(getTypeID(savedIDs.top(),currentFunction) != VarType) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 12"; exit(-1);}
@@ -1710,17 +1718,17 @@ yyreduce:
     insertLineID(savedIDs.top(), currentFunction, yylineno);
     savedIDs.pop();
   }
-#line 1714 "compilador.tab.c"
+#line 1722 "compilador.tab.c"
     break;
 
   case 36:
-#line 293 "compilador.y"
+#line 301 "compilador.y"
     {savedIDs.push(copyString(currentToken));}
-#line 1720 "compilador.tab.c"
+#line 1728 "compilador.tab.c"
     break;
 
   case 37:
-#line 293 "compilador.y"
+#line 301 "compilador.y"
     {
     if(!existID(savedIDs.top(),currentFunction)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 13"; exit(-1);}
     if(getTypeID(savedIDs.top(),currentFunction) != VarType) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 14"; exit(-1);}
@@ -1731,184 +1739,184 @@ yyreduce:
     savedIDs.pop();
     yyval->child[0] = yyvsp[-1];
   }
-#line 1735 "compilador.tab.c"
+#line 1743 "compilador.tab.c"
     break;
 
   case 38:
-#line 306 "compilador.y"
+#line 314 "compilador.y"
     {
     yyval = newNode(OpK);
     yyval->name = "<=";
   }
-#line 1744 "compilador.tab.c"
+#line 1752 "compilador.tab.c"
     break;
 
   case 39:
-#line 310 "compilador.y"
+#line 318 "compilador.y"
     {
     yyval = newNode(OpK);
     yyval->name = "<";
   }
-#line 1753 "compilador.tab.c"
+#line 1761 "compilador.tab.c"
     break;
 
   case 40:
-#line 314 "compilador.y"
+#line 322 "compilador.y"
     {
     yyval = newNode(OpK);
     yyval->name = ">";
   }
-#line 1762 "compilador.tab.c"
+#line 1770 "compilador.tab.c"
     break;
 
   case 41:
-#line 318 "compilador.y"
+#line 326 "compilador.y"
     {
     yyval = newNode(OpK);
     yyval->name = ">=";
   }
-#line 1771 "compilador.tab.c"
+#line 1779 "compilador.tab.c"
     break;
 
   case 42:
-#line 322 "compilador.y"
+#line 330 "compilador.y"
     {
     yyval = newNode(OpK);
     yyval->name = "==";
   }
-#line 1780 "compilador.tab.c"
+#line 1788 "compilador.tab.c"
     break;
 
   case 43:
-#line 326 "compilador.y"
+#line 334 "compilador.y"
     {
     yyval = newNode(OpK);
     yyval->name = "!=";
   }
-#line 1789 "compilador.tab.c"
+#line 1797 "compilador.tab.c"
     break;
 
   case 44:
-#line 333 "compilador.y"
+#line 341 "compilador.y"
     {
     if(checkVoid(yyvsp[0])) {cout <<"Erro semântico no ID: " << yyvsp[0]->name << " na linha " << yylineno << ": Erro 15"; exit(-1);}
     yyval = yyvsp[-1];
     yyval->child[0] = yyvsp[-2];
     yyval->child[1] = yyvsp[0];
   }
-#line 1800 "compilador.tab.c"
-    break;
-
-  case 45:
-#line 339 "compilador.y"
-    {
-    yyval = yyvsp[0];
-  }
 #line 1808 "compilador.tab.c"
     break;
 
+  case 45:
+#line 347 "compilador.y"
+    {
+    yyval = yyvsp[0];
+  }
+#line 1816 "compilador.tab.c"
+    break;
+
   case 46:
-#line 345 "compilador.y"
+#line 353 "compilador.y"
     {
     yyval = newNode(OpK);
     yyval->name = "+";
   }
-#line 1817 "compilador.tab.c"
+#line 1825 "compilador.tab.c"
     break;
 
   case 47:
-#line 349 "compilador.y"
+#line 357 "compilador.y"
     {
     yyval = newNode(OpK);
     yyval->name = "-";
   }
-#line 1826 "compilador.tab.c"
+#line 1834 "compilador.tab.c"
     break;
 
   case 48:
-#line 356 "compilador.y"
+#line 364 "compilador.y"
     {
     if(checkVoid(yyvsp[0])) {cout <<"Erro semântico no ID: " << yyvsp[0]->name << " na linha " << yylineno << ": Erro 16"; exit(-1);}
     yyval = yyvsp[-1];
     yyval->child[0] = yyvsp[-2];
     yyval->child[1] = yyvsp[0];
   }
-#line 1837 "compilador.tab.c"
-    break;
-
-  case 49:
-#line 362 "compilador.y"
-    {
-    yyval = yyvsp[0];
-  }
 #line 1845 "compilador.tab.c"
     break;
 
+  case 49:
+#line 370 "compilador.y"
+    {
+    yyval = yyvsp[0];
+  }
+#line 1853 "compilador.tab.c"
+    break;
+
   case 50:
-#line 368 "compilador.y"
+#line 376 "compilador.y"
     {
     yyval = newNode(OpK);
     yyval->name = "*";
   }
-#line 1854 "compilador.tab.c"
+#line 1862 "compilador.tab.c"
     break;
 
   case 51:
-#line 372 "compilador.y"
+#line 380 "compilador.y"
     {
     yyval = newNode(OpK);
     yyval->name = "/";
   }
-#line 1863 "compilador.tab.c"
-    break;
-
-  case 52:
-#line 379 "compilador.y"
-    {
-    yyval = yyvsp[-1];
-  }
 #line 1871 "compilador.tab.c"
     break;
 
-  case 53:
-#line 382 "compilador.y"
+  case 52:
+#line 387 "compilador.y"
     {
-    yyval = yyvsp[0];
+    yyval = yyvsp[-1];
   }
 #line 1879 "compilador.tab.c"
     break;
 
+  case 53:
+#line 390 "compilador.y"
+    {
+    yyval = yyvsp[0];
+  }
+#line 1887 "compilador.tab.c"
+    break;
+
   case 54:
-#line 385 "compilador.y"
+#line 393 "compilador.y"
     {savedInt = atoi(copyString(currentToken));}
-#line 1885 "compilador.tab.c"
+#line 1893 "compilador.tab.c"
     break;
 
   case 55:
-#line 385 "compilador.y"
+#line 393 "compilador.y"
     {
     yyval = newNode(ConstK);
     yyval->val = savedInt;
   }
-#line 1894 "compilador.tab.c"
-    break;
-
-  case 56:
-#line 389 "compilador.y"
-    {
-    yyval = yyvsp[0];
-  }
 #line 1902 "compilador.tab.c"
     break;
 
+  case 56:
+#line 397 "compilador.y"
+    {
+    yyval = yyvsp[0];
+  }
+#line 1910 "compilador.tab.c"
+    break;
+
   case 57:
-#line 395 "compilador.y"
+#line 403 "compilador.y"
     {savedIDs.push(copyString(currentToken));}
-#line 1908 "compilador.tab.c"
+#line 1916 "compilador.tab.c"
     break;
 
   case 58:
-#line 395 "compilador.y"
+#line 403 "compilador.y"
     {
     if(!existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << " função não declarada"; exit(-1);}
     yyval = newNode(CallK);
@@ -1917,27 +1925,27 @@ yyreduce:
     savedIDs.pop();
     yyval->child[0] = yyvsp[-1];
   }
-#line 1921 "compilador.tab.c"
-    break;
-
-  case 59:
-#line 406 "compilador.y"
-    {
-    yyval = yyvsp[0];
-  }
 #line 1929 "compilador.tab.c"
     break;
 
-  case 60:
-#line 409 "compilador.y"
+  case 59:
+#line 414 "compilador.y"
     {
-    yyval = NULL;
+    yyval = yyvsp[0];
   }
 #line 1937 "compilador.tab.c"
     break;
 
+  case 60:
+#line 417 "compilador.y"
+    {
+    yyval = NULL;
+  }
+#line 1945 "compilador.tab.c"
+    break;
+
   case 61:
-#line 415 "compilador.y"
+#line 423 "compilador.y"
     {
     YYSTYPE t = yyvsp[-2];
     if(t!=NULL){
@@ -1948,38 +1956,38 @@ yyreduce:
       yyval = yyvsp[0];
     }
   }
-#line 1952 "compilador.tab.c"
+#line 1960 "compilador.tab.c"
     break;
 
   case 62:
-#line 425 "compilador.y"
+#line 433 "compilador.y"
     {
     if(checkVoid(yyvsp[0])) {cout <<"Erro semântico no ID: " << yyvsp[0]->name << " na linha " << yylineno << ": Erro 17"; exit(-1);}
     yyval = yyvsp[0];
   }
-#line 1961 "compilador.tab.c"
+#line 1969 "compilador.tab.c"
     break;
 
   case 63:
-#line 432 "compilador.y"
+#line 440 "compilador.y"
     {
       yyval = yyvsp[-1];
       yyval->child[0] = yyvsp[-2];
       yyval->child[1] = yyvsp[0];
     }
-#line 1971 "compilador.tab.c"
-    break;
-
-  case 64:
-#line 437 "compilador.y"
-    {
-    yyval = yyvsp[0];
-  }
 #line 1979 "compilador.tab.c"
     break;
 
+  case 64:
+#line 445 "compilador.y"
+    {
+    yyval = yyvsp[0];
+  }
+#line 1987 "compilador.tab.c"
+    break;
+
   case 65:
-#line 443 "compilador.y"
+#line 451 "compilador.y"
     {
     YYSTYPE t = yyvsp[-1];
     if(t!=NULL){
@@ -1990,35 +1998,35 @@ yyreduce:
       yyval = yyvsp[0];
     }
   }
-#line 1994 "compilador.tab.c"
-    break;
-
-  case 66:
-#line 453 "compilador.y"
-    {
-    yyval = NULL;
-  }
 #line 2002 "compilador.tab.c"
     break;
 
-  case 67:
-#line 459 "compilador.y"
+  case 66:
+#line 461 "compilador.y"
     {
-        yyval = yyvsp[0];
-      }
+    yyval = NULL;
+  }
 #line 2010 "compilador.tab.c"
     break;
 
-  case 68:
-#line 462 "compilador.y"
+  case 67:
+#line 467 "compilador.y"
     {
-        yyval = NULL;
+        yyval = yyvsp[0];
       }
 #line 2018 "compilador.tab.c"
     break;
 
+  case 68:
+#line 470 "compilador.y"
+    {
+        yyval = NULL;
+      }
+#line 2026 "compilador.tab.c"
+    break;
+
   case 69:
-#line 468 "compilador.y"
+#line 476 "compilador.y"
     {
     YYSTYPE t = yyvsp[-2];
     if(t!=NULL){
@@ -2029,62 +2037,62 @@ yyreduce:
       yyval = yyvsp[0];
     }
   }
-#line 2033 "compilador.tab.c"
-    break;
-
-  case 70:
-#line 478 "compilador.y"
-    {
-    yyval = yyvsp[0];
-  }
 #line 2041 "compilador.tab.c"
     break;
 
+  case 70:
+#line 486 "compilador.y"
+    {
+    yyval = yyvsp[0];
+  }
+#line 2049 "compilador.tab.c"
+    break;
+
   case 71:
-#line 484 "compilador.y"
+#line 492 "compilador.y"
     {
     savedIDs.push(copyString(currentToken));
     if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 18";; exit(-1);}
     if(yyval->name=="int"){
-      if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 19"; exit(-1);}
+      if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, 1)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 19"; exit(-1);}
     }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 20";; exit(-1);}
     yyval = yyvsp[-2];
     yyval->child[0] = newNode(IdK);
     yyval->child[0]->name = savedIDs.top();
     savedIDs.pop();
   }
-#line 2057 "compilador.tab.c"
+#line 2065 "compilador.tab.c"
     break;
 
   case 72:
-#line 495 "compilador.y"
+#line 503 "compilador.y"
     {savedIDs.push(copyString(currentToken));}
-#line 2063 "compilador.tab.c"
+#line 2071 "compilador.tab.c"
     break;
 
   case 73:
-#line 495 "compilador.y"
+#line 503 "compilador.y"
     {
     if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 21";; exit(-1);}
     if(yyval->name=="int"){
-      if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 22"; exit(-1);}
+      if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, 1)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 22"; exit(-1);}
     }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 23";; exit(-1);}
     yyval = yyvsp[-5];
     yyval->child[0] = newNode(IdK);
     yyval->child[0]->name = savedIDs.top();
     savedIDs.pop();
   }
-#line 2078 "compilador.tab.c"
+#line 2086 "compilador.tab.c"
     break;
 
   case 74:
-#line 508 "compilador.y"
+#line 516 "compilador.y"
     {yyerror("lex error"); exit(-1);}
-#line 2084 "compilador.tab.c"
+#line 2092 "compilador.tab.c"
     break;
 
 
-#line 2088 "compilador.tab.c"
+#line 2096 "compilador.tab.c"
 
       default: break;
     }
@@ -2316,15 +2324,16 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 512 "compilador.y"
+#line 520 "compilador.y"
 
 
 int main()
 {
   cout << "\nParser em execução...\n";
   abrirArq();
-  insertSymTab("input",FuncType," ",Int,0);
-  insertSymTab("output",FuncType," ",Void,0);
+  insertSymTab("GLOBAL", FuncType, " ", Void, 0, 0);
+  insertSymTab("input",FuncType," ",Int,0, 0);
+  insertSymTab("output",FuncType," ",Void,0, 0);
   yyparse();
   if(!checkMain()) {cout <<"Nao foi declarada uma funcao main"; exit(-1);}
   else{
