@@ -420,7 +420,7 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  9
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   119
+#define YYLAST   122
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  31
@@ -535,16 +535,16 @@ static const yytype_uint16 yytoknum[] =
 static const yytype_int8 yypact[] =
 {
       11,   -63,   -63,     4,    11,   -63,   -63,   -21,   -63,   -63,
-     -63,   -63,    13,    36,    30,    38,    60,   -63,    67,    39,
-     -63,    61,   -21,    63,    58,   -63,    64,    70,    65,    11,
-      66,    71,   -63,   -63,   -63,   -63,    72,    11,    69,   -63,
-     -21,     3,   -63,    73,    75,    76,    17,   -63,    22,   -63,
-     -63,   -63,   -63,   -63,   -63,   -63,   -63,    74,    77,    34,
-     -63,    57,   -63,   -63,    82,    78,    22,    22,   -63,    79,
-     -63,    68,   -63,    22,   -63,   -63,   -63,   -63,   -63,   -63,
+     -63,   -63,    13,    36,    30,    38,    51,   -63,    66,    39,
+     -63,    55,   -21,    60,    57,   -63,    61,    68,    59,    11,
+      63,    64,   -63,   -63,   -63,   -63,    67,    11,    65,   -63,
+     -21,     3,   -63,    75,    71,    72,    17,   -63,    22,   -63,
+     -63,   -63,   -63,   -63,   -63,   -63,   -63,    69,    70,    34,
+      56,   -63,   -63,   -63,    79,    73,    22,    22,   -63,    76,
+     -63,    78,   -63,    22,   -63,   -63,   -63,   -63,   -63,   -63,
      -63,   -63,    22,    22,   -63,   -63,    22,    50,    80,    81,
-     -63,   -63,   -63,   -63,    62,   -63,   -63,   -63,    84,    87,
-      -2,    -2,    22,    20,    88,   -63,    85,   -63,    83,    86,
+     -63,   -63,   -63,   -63,    62,    56,   -63,   -63,    74,    77,
+      -2,    -2,    22,    20,    92,   -63,    82,   -63,    83,    84,
       -2,   -63,   -63,   -63,    22,   -63,   -63
 };
 
@@ -570,10 +570,10 @@ static const yytype_uint8 yydefact[] =
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -63,   -63,   -63,   100,    44,   -63,   -63,   -63,    35,   -63,
-     -63,    89,   -63,   -62,   -63,   -63,   -63,   -63,   -63,   -46,
-     -42,   -63,   -63,   -63,    23,   -63,   -17,   -63,   -63,   -63,
-     -63,   -63,   -63,   -63,   -63,   -63,   -63,   -63,    90,   -63,
+     -63,   -63,   -63,    97,    85,   -63,   -63,   -63,    35,   -63,
+     -63,    86,   -63,   -62,   -63,   -63,   -63,   -63,   -63,   -46,
+     -42,   -63,   -63,   -63,    21,   -63,    19,   -63,    23,   -63,
+     -63,   -63,   -63,   -63,   -63,   -63,   -63,   -63,    87,   -63,
       -6
 };
 
@@ -598,12 +598,13 @@ static const yytype_int8 yytable[] =
      -75,    47,    48,    11,    43,    48,    68,    48,   104,   105,
       93,    93,     1,    21,    93,    74,    75,    11,   115,    17,
       11,   -14,    11,    -9,    22,    18,   106,   107,    76,    77,
-      78,    79,    80,    81,    22,   -57,    95,   -36,   116,    96,
-      84,    85,    40,    74,    75,    19,    20,   -68,    29,    28,
-      31,    39,    30,    65,    91,    35,    32,    42,   -72,    38,
-      66,    67,    87,    72,   110,    -9,   100,   101,    90,   113,
-      73,   102,   103,   112,    10,    94,   114,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,    33,     0,    34
+      78,    79,    80,    81,    22,   -57,    19,   -36,   116,    84,
+      85,   -68,    40,    74,    75,    20,    28,    29,    31,    30,
+      32,   -72,    35,    42,    38,    65,    66,    67,    72,    87,
+      -9,   102,   103,    73,    91,    90,   100,   101,   110,   113,
+     112,    10,    95,    94,   114,     0,     0,     0,     0,    96,
+       0,     0,     0,     0,    33,     0,    34,     0,     0,     0,
+       0,     0,    39
 };
 
 static const yytype_int8 yycheck[] =
@@ -614,12 +615,13 @@ static const yytype_int8 yycheck[] =
       10,     9,    15,    30,    40,    15,    19,    15,   100,   101,
       82,    83,     3,     4,    86,    11,    12,    30,   110,    19,
       30,    15,    30,    17,    19,    17,   102,   103,    24,    25,
-      26,    27,    28,    29,    29,    15,    83,    17,   114,    86,
-      13,    14,    37,    11,    12,    15,     9,    16,    20,    16,
-      10,    37,    18,    10,    16,    19,    21,    18,    17,    17,
-      15,    15,    10,    19,     6,    17,    16,    16,    19,    16,
-      23,    17,    15,    18,     4,    82,    20,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    28,    -1,    29
+      26,    27,    28,    29,    29,    15,    15,    17,   114,    13,
+      14,    16,    37,    11,    12,     9,    16,    20,    10,    18,
+      21,    17,    19,    18,    17,    10,    15,    15,    19,    10,
+      17,    17,    15,    23,    16,    19,    16,    16,     6,    16,
+      18,     4,    83,    82,    20,    -1,    -1,    -1,    -1,    86,
+      -1,    -1,    -1,    -1,    28,    -1,    29,    -1,    -1,    -1,
+      -1,    -1,    37
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -635,7 +637,7 @@ static const yytype_uint8 yystos[] =
       57,    59,    61,    65,    71,    10,    15,    15,    19,    50,
       60,    50,    19,    23,    11,    12,    24,    25,    26,    27,
       28,    29,    54,    56,    13,    14,    58,    10,    50,    50,
-      19,    16,    50,    51,    55,    57,    57,    52,    53,    62,
+      19,    16,    50,    51,    55,    57,    59,    52,    53,    62,
       16,    16,    17,    15,    44,    44,    50,    50,    63,    64,
        6,    47,    18,    16,    20,    44,    50
 };
@@ -1372,7 +1374,7 @@ yyreduce:
         savedTree->sibling->child[0]->child[i] = NULL;
       savedTree->sibling->sibling = yyvsp[0];
     }
-#line 1376 "compilador.tab.c"
+#line 1378 "compilador.tab.c"
     break;
 
   case 3:
@@ -1387,31 +1389,31 @@ yyreduce:
         yyval = yyvsp[0];
       }
     }
-#line 1391 "compilador.tab.c"
+#line 1393 "compilador.tab.c"
     break;
 
   case 4:
 #line 86 "compilador.y"
     {yyval = yyvsp[0];}
-#line 1397 "compilador.tab.c"
+#line 1399 "compilador.tab.c"
     break;
 
   case 5:
 #line 91 "compilador.y"
     {yyval = yyvsp[0];}
-#line 1403 "compilador.tab.c"
+#line 1405 "compilador.tab.c"
     break;
 
   case 6:
 #line 93 "compilador.y"
     {yyval  = yyvsp[0];}
-#line 1409 "compilador.tab.c"
+#line 1411 "compilador.tab.c"
     break;
 
   case 7:
 #line 97 "compilador.y"
     {savedIDs.push(copyString(currentToken));}
-#line 1415 "compilador.tab.c"
+#line 1417 "compilador.tab.c"
     break;
 
   case 8:
@@ -1427,28 +1429,28 @@ yyreduce:
           if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, 1)) {
             cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 3"; exit(-1);
           }
-          insertVarInScope(currentFunction);
+          insertVarInScope(currentFunction, savedIDs.top());
         }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno;; exit(-1);}
       }else{
         if(existIdEveryScope(savedIDs.top())) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 4"; exit(-1);}
         insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, 1);
-        insertVarInScope("GLOBAL");
+        insertVarInScope("GLOBAL", savedIDs.top());
       }
       savedIDs.pop();
     }
-#line 1440 "compilador.tab.c"
+#line 1442 "compilador.tab.c"
     break;
 
   case 9:
 #line 118 "compilador.y"
     {savedIDs.push(copyString(currentToken));}
-#line 1446 "compilador.tab.c"
+#line 1448 "compilador.tab.c"
     break;
 
   case 10:
 #line 118 "compilador.y"
     {savedInt = atoi(copyString(currentToken));}
-#line 1452 "compilador.tab.c"
+#line 1454 "compilador.tab.c"
     break;
 
   case 11:
@@ -1464,18 +1466,18 @@ yyreduce:
           if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, savedInt)) {
             cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 6"; exit(-1);
           }
-          insertVarInScope(currentFunction);
+          insertVarInScope(currentFunction, savedIDs.top());
         }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 7";; exit(-1);}
       }else{
         if(existIdEveryScope(savedIDs.top())) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 8"; exit(-1);}
         insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, savedInt);
-        insertVarInScope("GLOBAL");
+        insertVarInScope("GLOBAL", savedIDs.top());
       }
       savedIDs.pop();
       yyval->child[0]->child[0] = newNode(ConstK);
       yyval->child[0]->child[0]->val = savedInt;
     }
-#line 1479 "compilador.tab.c"
+#line 1481 "compilador.tab.c"
     break;
 
   case 12:
@@ -1484,7 +1486,7 @@ yyreduce:
       yyval = newNode(TypeK);
       yyval->name = "int";
     }
-#line 1488 "compilador.tab.c"
+#line 1490 "compilador.tab.c"
     break;
 
   case 13:
@@ -1493,7 +1495,7 @@ yyreduce:
       yyval = newNode(TypeK);
       yyval->name = "void";
     }
-#line 1497 "compilador.tab.c"
+#line 1499 "compilador.tab.c"
     break;
 
   case 14:
@@ -1507,7 +1509,7 @@ yyreduce:
         !insertSymTab(savedIDs.top(),FuncType," ",Void,yylineno, 0);
       }
     }
-#line 1511 "compilador.tab.c"
+#line 1513 "compilador.tab.c"
     break;
 
   case 15:
@@ -1525,7 +1527,7 @@ yyreduce:
       yyval->child[0]->child[1] = yyvsp[0];
       currentFunction = " ";
     }
-#line 1529 "compilador.tab.c"
+#line 1531 "compilador.tab.c"
     break;
 
   case 16:
@@ -1541,7 +1543,7 @@ yyreduce:
       t->sibling = yyvsp[-1];
     }
   }
-#line 1545 "compilador.tab.c"
+#line 1547 "compilador.tab.c"
     break;
 
   case 17:
@@ -1556,7 +1558,7 @@ yyreduce:
       yyval = yyvsp[0];
     }
   }
-#line 1560 "compilador.tab.c"
+#line 1562 "compilador.tab.c"
     break;
 
   case 18:
@@ -1564,7 +1566,7 @@ yyreduce:
     {
     yyval = NULL;
   }
-#line 1568 "compilador.tab.c"
+#line 1570 "compilador.tab.c"
     break;
 
   case 19:
@@ -1572,7 +1574,7 @@ yyreduce:
     {
     yyval = yyvsp[0];
   }
-#line 1576 "compilador.tab.c"
+#line 1578 "compilador.tab.c"
     break;
 
   case 20:
@@ -1580,7 +1582,7 @@ yyreduce:
     {
     yyval = yyvsp[0];
   }
-#line 1584 "compilador.tab.c"
+#line 1586 "compilador.tab.c"
     break;
 
   case 21:
@@ -1588,7 +1590,7 @@ yyreduce:
     {
     yyval = yyvsp[0];
   }
-#line 1592 "compilador.tab.c"
+#line 1594 "compilador.tab.c"
     break;
 
   case 22:
@@ -1596,7 +1598,7 @@ yyreduce:
     {
     yyval = yyvsp[0];
   }
-#line 1600 "compilador.tab.c"
+#line 1602 "compilador.tab.c"
     break;
 
   case 23:
@@ -1604,7 +1606,7 @@ yyreduce:
     {
     yyval = yyvsp[0];
   }
-#line 1608 "compilador.tab.c"
+#line 1610 "compilador.tab.c"
     break;
 
   case 24:
@@ -1612,7 +1614,7 @@ yyreduce:
     {
     yyval = yyvsp[-1];
   }
-#line 1616 "compilador.tab.c"
+#line 1618 "compilador.tab.c"
     break;
 
   case 25:
@@ -1620,7 +1622,7 @@ yyreduce:
     {
     yyval = NULL;
   }
-#line 1624 "compilador.tab.c"
+#line 1626 "compilador.tab.c"
     break;
 
   case 26:
@@ -1633,7 +1635,7 @@ yyreduce:
     yyval->child[1] = yyvsp[-1];
     yyval->child[2] = yyvsp[0];
   }
-#line 1637 "compilador.tab.c"
+#line 1639 "compilador.tab.c"
     break;
 
   case 27:
@@ -1641,7 +1643,7 @@ yyreduce:
     {
     yyval = yyvsp[0];
   }
-#line 1645 "compilador.tab.c"
+#line 1647 "compilador.tab.c"
     break;
 
   case 28:
@@ -1649,7 +1651,7 @@ yyreduce:
     {
     yyval = NULL;
   }
-#line 1653 "compilador.tab.c"
+#line 1655 "compilador.tab.c"
     break;
 
   case 29:
@@ -1661,7 +1663,7 @@ yyreduce:
     yyval->child[0] = yyvsp[-2];
     yyval->child[1] = yyvsp[0];
   }
-#line 1665 "compilador.tab.c"
+#line 1667 "compilador.tab.c"
     break;
 
   case 30:
@@ -1670,7 +1672,7 @@ yyreduce:
     yyval = newNode(ReturnK);
     yyval->name = "return";
   }
-#line 1674 "compilador.tab.c"
+#line 1676 "compilador.tab.c"
     break;
 
   case 31:
@@ -1679,7 +1681,7 @@ yyreduce:
     yyval = newNode(ReturnK);
     yyval->child[0] = yyvsp[-1];
   }
-#line 1683 "compilador.tab.c"
+#line 1685 "compilador.tab.c"
     break;
 
   case 32:
@@ -1691,7 +1693,7 @@ yyreduce:
     yyval->child[0] = yyvsp[-2];
     yyval->child[1] = yyvsp[0];
   }
-#line 1695 "compilador.tab.c"
+#line 1697 "compilador.tab.c"
     break;
 
   case 33:
@@ -1699,13 +1701,13 @@ yyreduce:
     {
     yyval = yyvsp[0];
   }
-#line 1703 "compilador.tab.c"
+#line 1705 "compilador.tab.c"
     break;
 
   case 34:
 #line 293 "compilador.y"
     {savedIDs.push(copyString(currentToken));}
-#line 1709 "compilador.tab.c"
+#line 1711 "compilador.tab.c"
     break;
 
   case 35:
@@ -1718,13 +1720,13 @@ yyreduce:
     insertLineID(savedIDs.top(), currentFunction, yylineno);
     savedIDs.pop();
   }
-#line 1722 "compilador.tab.c"
+#line 1724 "compilador.tab.c"
     break;
 
   case 36:
 #line 301 "compilador.y"
     {savedIDs.push(copyString(currentToken));}
-#line 1728 "compilador.tab.c"
+#line 1730 "compilador.tab.c"
     break;
 
   case 37:
@@ -1739,7 +1741,7 @@ yyreduce:
     savedIDs.pop();
     yyval->child[0] = yyvsp[-1];
   }
-#line 1743 "compilador.tab.c"
+#line 1745 "compilador.tab.c"
     break;
 
   case 38:
@@ -1748,7 +1750,7 @@ yyreduce:
     yyval = newNode(OpK);
     yyval->name = "<=";
   }
-#line 1752 "compilador.tab.c"
+#line 1754 "compilador.tab.c"
     break;
 
   case 39:
@@ -1757,7 +1759,7 @@ yyreduce:
     yyval = newNode(OpK);
     yyval->name = "<";
   }
-#line 1761 "compilador.tab.c"
+#line 1763 "compilador.tab.c"
     break;
 
   case 40:
@@ -1766,7 +1768,7 @@ yyreduce:
     yyval = newNode(OpK);
     yyval->name = ">";
   }
-#line 1770 "compilador.tab.c"
+#line 1772 "compilador.tab.c"
     break;
 
   case 41:
@@ -1775,7 +1777,7 @@ yyreduce:
     yyval = newNode(OpK);
     yyval->name = ">=";
   }
-#line 1779 "compilador.tab.c"
+#line 1781 "compilador.tab.c"
     break;
 
   case 42:
@@ -1784,7 +1786,7 @@ yyreduce:
     yyval = newNode(OpK);
     yyval->name = "==";
   }
-#line 1788 "compilador.tab.c"
+#line 1790 "compilador.tab.c"
     break;
 
   case 43:
@@ -1793,7 +1795,7 @@ yyreduce:
     yyval = newNode(OpK);
     yyval->name = "!=";
   }
-#line 1797 "compilador.tab.c"
+#line 1799 "compilador.tab.c"
     break;
 
   case 44:
@@ -1804,7 +1806,7 @@ yyreduce:
     yyval->child[0] = yyvsp[-2];
     yyval->child[1] = yyvsp[0];
   }
-#line 1808 "compilador.tab.c"
+#line 1810 "compilador.tab.c"
     break;
 
   case 45:
@@ -1812,7 +1814,7 @@ yyreduce:
     {
     yyval = yyvsp[0];
   }
-#line 1816 "compilador.tab.c"
+#line 1818 "compilador.tab.c"
     break;
 
   case 46:
@@ -1821,7 +1823,7 @@ yyreduce:
     yyval = newNode(OpK);
     yyval->name = "+";
   }
-#line 1825 "compilador.tab.c"
+#line 1827 "compilador.tab.c"
     break;
 
   case 47:
@@ -1830,18 +1832,18 @@ yyreduce:
     yyval = newNode(OpK);
     yyval->name = "-";
   }
-#line 1834 "compilador.tab.c"
+#line 1836 "compilador.tab.c"
     break;
 
   case 48:
 #line 364 "compilador.y"
     {
-    if(checkVoid(yyvsp[0])) {cout <<"Erro semântico no ID: " << yyvsp[0]->name << " na linha " << yylineno << ": Erro 16"; exit(-1);}
+    if(checkVoid(yyvsp[-2])) {cout <<"Erro semântico no ID: " << yyvsp[0]->name << " na linha " << yylineno << ": Erro 16"; exit(-1);}
     yyval = yyvsp[-1];
     yyval->child[0] = yyvsp[-2];
     yyval->child[1] = yyvsp[0];
   }
-#line 1845 "compilador.tab.c"
+#line 1847 "compilador.tab.c"
     break;
 
   case 49:
@@ -1849,7 +1851,7 @@ yyreduce:
     {
     yyval = yyvsp[0];
   }
-#line 1853 "compilador.tab.c"
+#line 1855 "compilador.tab.c"
     break;
 
   case 50:
@@ -1858,7 +1860,7 @@ yyreduce:
     yyval = newNode(OpK);
     yyval->name = "*";
   }
-#line 1862 "compilador.tab.c"
+#line 1864 "compilador.tab.c"
     break;
 
   case 51:
@@ -1867,7 +1869,7 @@ yyreduce:
     yyval = newNode(OpK);
     yyval->name = "/";
   }
-#line 1871 "compilador.tab.c"
+#line 1873 "compilador.tab.c"
     break;
 
   case 52:
@@ -1875,7 +1877,7 @@ yyreduce:
     {
     yyval = yyvsp[-1];
   }
-#line 1879 "compilador.tab.c"
+#line 1881 "compilador.tab.c"
     break;
 
   case 53:
@@ -1883,13 +1885,13 @@ yyreduce:
     {
     yyval = yyvsp[0];
   }
-#line 1887 "compilador.tab.c"
+#line 1889 "compilador.tab.c"
     break;
 
   case 54:
 #line 393 "compilador.y"
     {savedInt = atoi(copyString(currentToken));}
-#line 1893 "compilador.tab.c"
+#line 1895 "compilador.tab.c"
     break;
 
   case 55:
@@ -1898,7 +1900,7 @@ yyreduce:
     yyval = newNode(ConstK);
     yyval->val = savedInt;
   }
-#line 1902 "compilador.tab.c"
+#line 1904 "compilador.tab.c"
     break;
 
   case 56:
@@ -1906,13 +1908,13 @@ yyreduce:
     {
     yyval = yyvsp[0];
   }
-#line 1910 "compilador.tab.c"
+#line 1912 "compilador.tab.c"
     break;
 
   case 57:
 #line 403 "compilador.y"
     {savedIDs.push(copyString(currentToken));}
-#line 1916 "compilador.tab.c"
+#line 1918 "compilador.tab.c"
     break;
 
   case 58:
@@ -1925,7 +1927,7 @@ yyreduce:
     savedIDs.pop();
     yyval->child[0] = yyvsp[-1];
   }
-#line 1929 "compilador.tab.c"
+#line 1931 "compilador.tab.c"
     break;
 
   case 59:
@@ -1933,7 +1935,7 @@ yyreduce:
     {
     yyval = yyvsp[0];
   }
-#line 1937 "compilador.tab.c"
+#line 1939 "compilador.tab.c"
     break;
 
   case 60:
@@ -1941,7 +1943,7 @@ yyreduce:
     {
     yyval = NULL;
   }
-#line 1945 "compilador.tab.c"
+#line 1947 "compilador.tab.c"
     break;
 
   case 61:
@@ -1956,7 +1958,7 @@ yyreduce:
       yyval = yyvsp[0];
     }
   }
-#line 1960 "compilador.tab.c"
+#line 1962 "compilador.tab.c"
     break;
 
   case 62:
@@ -1965,7 +1967,7 @@ yyreduce:
     if(checkVoid(yyvsp[0])) {cout <<"Erro semântico no ID: " << yyvsp[0]->name << " na linha " << yylineno << ": Erro 17"; exit(-1);}
     yyval = yyvsp[0];
   }
-#line 1969 "compilador.tab.c"
+#line 1971 "compilador.tab.c"
     break;
 
   case 63:
@@ -1975,7 +1977,7 @@ yyreduce:
       yyval->child[0] = yyvsp[-2];
       yyval->child[1] = yyvsp[0];
     }
-#line 1979 "compilador.tab.c"
+#line 1981 "compilador.tab.c"
     break;
 
   case 64:
@@ -1983,7 +1985,7 @@ yyreduce:
     {
     yyval = yyvsp[0];
   }
-#line 1987 "compilador.tab.c"
+#line 1989 "compilador.tab.c"
     break;
 
   case 65:
@@ -1998,7 +2000,7 @@ yyreduce:
       yyval = yyvsp[0];
     }
   }
-#line 2002 "compilador.tab.c"
+#line 2004 "compilador.tab.c"
     break;
 
   case 66:
@@ -2006,7 +2008,7 @@ yyreduce:
     {
     yyval = NULL;
   }
-#line 2010 "compilador.tab.c"
+#line 2012 "compilador.tab.c"
     break;
 
   case 67:
@@ -2014,7 +2016,7 @@ yyreduce:
     {
         yyval = yyvsp[0];
       }
-#line 2018 "compilador.tab.c"
+#line 2020 "compilador.tab.c"
     break;
 
   case 68:
@@ -2022,7 +2024,7 @@ yyreduce:
     {
         yyval = NULL;
       }
-#line 2026 "compilador.tab.c"
+#line 2028 "compilador.tab.c"
     break;
 
   case 69:
@@ -2037,7 +2039,7 @@ yyreduce:
       yyval = yyvsp[0];
     }
   }
-#line 2041 "compilador.tab.c"
+#line 2043 "compilador.tab.c"
     break;
 
   case 70:
@@ -2045,7 +2047,7 @@ yyreduce:
     {
     yyval = yyvsp[0];
   }
-#line 2049 "compilador.tab.c"
+#line 2051 "compilador.tab.c"
     break;
 
   case 71:
@@ -2061,13 +2063,13 @@ yyreduce:
     yyval->child[0]->name = savedIDs.top();
     savedIDs.pop();
   }
-#line 2065 "compilador.tab.c"
+#line 2067 "compilador.tab.c"
     break;
 
   case 72:
 #line 503 "compilador.y"
     {savedIDs.push(copyString(currentToken));}
-#line 2071 "compilador.tab.c"
+#line 2073 "compilador.tab.c"
     break;
 
   case 73:
@@ -2082,17 +2084,17 @@ yyreduce:
     yyval->child[0]->name = savedIDs.top();
     savedIDs.pop();
   }
-#line 2086 "compilador.tab.c"
+#line 2088 "compilador.tab.c"
     break;
 
   case 74:
 #line 516 "compilador.y"
     {yyerror("lex error"); exit(-1);}
-#line 2092 "compilador.tab.c"
+#line 2094 "compilador.tab.c"
     break;
 
 
-#line 2096 "compilador.tab.c"
+#line 2098 "compilador.tab.c"
 
       default: break;
     }
@@ -2356,7 +2358,7 @@ int main()
     quadCodeFile << quadCode;
     quadCodeFile.close();
 
-    cout << "Parser executado" << endl;
+    cout << endl << "Parser executado" << endl;
     return 0;
   }
 }

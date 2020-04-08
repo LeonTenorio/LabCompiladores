@@ -106,12 +106,12 @@ var_declaration:
           if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, 1)) {
             cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 3"; exit(-1);
           }
-          insertVarInScope(currentFunction);
+          insertVarInScope(currentFunction, savedIDs.top());
         }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno;; exit(-1);}
       }else{
         if(existIdEveryScope(savedIDs.top())) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 4"; exit(-1);}
         insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, 1);
-        insertVarInScope("GLOBAL");
+        insertVarInScope("GLOBAL", savedIDs.top());
       }
       savedIDs.pop();
     }
@@ -127,12 +127,12 @@ var_declaration:
           if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, savedInt)) {
             cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 6"; exit(-1);
           }
-          insertVarInScope(currentFunction);
+          insertVarInScope(currentFunction, savedIDs.top());
         }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 7";; exit(-1);}
       }else{
         if(existIdEveryScope(savedIDs.top())) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 8"; exit(-1);}
         insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, savedInt);
-        insertVarInScope("GLOBAL");
+        insertVarInScope("GLOBAL", savedIDs.top());
       }
       savedIDs.pop();
       $$->child[0]->child[0] = newNode(ConstK);
@@ -361,8 +361,8 @@ adop:
   ;
 
 term:
-  factor mulop term{
-    if(checkVoid($3)) {cout <<"Erro semântico no ID: " << $3->name << " na linha " << yylineno << ": Erro 16"; exit(-1);}
+  term mulop factor{
+    if(checkVoid($1)) {cout <<"Erro semântico no ID: " << $3->name << " na linha " << yylineno << ": Erro 16"; exit(-1);}
     $$ = $2;
     $$->child[0] = $1;
     $$->child[1] = $3;
@@ -548,7 +548,7 @@ int main()
     quadCodeFile << quadCode;
     quadCodeFile.close();
 
-    cout << "Parser executado" << endl;
+    cout << endl << "Parser executado" << endl;
     return 0;
   }
 }

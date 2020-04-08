@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <bits/stdc++.h> 
 
 #define SIZE 523
 #define SHIFT 4
@@ -24,6 +25,11 @@ typedef struct BucketListRec{
   int mem_loc;
   int mem_pos;
   int var_amount;
+  int assembly_line;
+  vector<string> variables; 
+
+  bool value_in_register;
+  string loc_register;
 }*BucketList;
 
 static BucketList hashTable[SIZE];
@@ -50,7 +56,7 @@ void insertAllocMemScope(string scope, int mem_loc){
   l->mem_loc = l->mem_loc + mem_loc;
 }
 
-void insertVarInScope(string scope){
+void insertVarInScope(string scope, string id){
   int pos = hashTab(scope+" ");
   BucketList l = hashTable[pos];
   while(l!=NULL){
@@ -58,6 +64,7 @@ void insertVarInScope(string scope){
     l = l->next;
   }
   l->var_amount = l->var_amount + 1;
+  l->variables.push_back(id);
 }
 
 bool insertSymTab(string id, TypeID type_id, string scope, DataType data_type, int lineno, int mem_loc){
@@ -79,6 +86,9 @@ bool insertSymTab(string id, TypeID type_id, string scope, DataType data_type, i
   newElm->mem_loc = mem_loc;
   newElm->mem_pos = -1;
   newElm->var_amount = 0;
+  newElm->loc_register = " ";
+  newElm->value_in_register = false;
+  newElm->assembly_line = -1;
   if(scope!=" "){
     insertAllocMemScope(scope, mem_loc);
   }
@@ -137,6 +147,17 @@ string stringTypeID(TypeID t){
   else return "func";
 }
 
+string vectorString(vector<string> vectorString){
+  string ret = "";
+  for(int i=0;i<vectorString.size(); i++){
+    if(i==0)
+      ret = vectorString[i];
+    else
+      ret = ret + ", " + vectorString[i];
+  }
+  return ret;
+}
+
 static string symbTabString = "";
 
 void showSymbTab(){
@@ -150,7 +171,16 @@ void showSymbTab(){
       symbTabString = symbTabString + "]";
       symbTabString = symbTabString + " MEMLOC: " + to_string(l->mem_loc);
       symbTabString = symbTabString + " MEMPOS: " + to_string(l->mem_pos);
-      symbTabString = symbTabString + " VARAMOUNT: " + to_string(l->var_amount) + "\n";
+      symbTabString = symbTabString + " VARAMOUNT: " + to_string(l->var_amount);
+      if(l->value_in_register && stringTypeID(l->type_id)=="var")
+        symbTabString = symbTabString + " REG: " + l->loc_register;
+      else if(stringTypeID(l->type_id)=="var")
+        symbTabString = symbTabString + " REG: mem[" + l->loc_register + "]";
+      if(stringTypeID(l->type_id)=="func"){
+        symbTabString = symbTabString + " VARS: [" + vectorString(l->variables) + "]";
+        symbTabString = symbTabString + " ASSEMBLYLINE: " + to_string(l->assembly_line);
+      }
+      symbTabString = symbTabString + "\n";
       l = l->next;
     }
   }
@@ -244,3 +274,4 @@ void insertLineIDGlobal(string id, int lineno){
     l->lines = newLine;
   }
 }
+

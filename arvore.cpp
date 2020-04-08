@@ -147,65 +147,59 @@ string quadCodeGenerator(treeNode *node){
         break;
       }
       case FnK:{
-        int previousTempIndex = tempIndex;
         if(node->name=="input"){
-          quadCode = quadCode + "(label, " + node->name + ", , )\n";
+          quadCode = quadCode + "(fun, " + node->name + ", , )\n";
           quadCode = quadCode + "(system_in, _t"+to_string(tempIndex)+", , )\n";
           quadCode = quadCode + "(return, _t"+to_string(tempIndex) + ", , )\n";
           tempIndex++;
           quadCode = quadCode + "(end_fun, , , )\n";
         }
         else if(node->name=="output"){
-          quadCode = quadCode + "(label, " + node->name + ", , )\n";
+          quadCode = quadCode + "(fun, " + node->name + ", , )\n";
           quadCode = quadCode + "(pop_param, val, , )\n";
           quadCode = quadCode + "(system_out, val, , )\n";
           quadCode = quadCode + "(end_fun, , , )\n";
         }
         else{
-          quadCode = quadCode + "(label, " + node->name + ", , )\n";
+          quadCode = quadCode + "(fun, " + node->name + ", , )\n";
           getParamsFunction(node->child[0]);
           quadCodeGenerator(node->child[1]);
           quadCode = quadCode + "(end_fun, , , )\n";
         }
-        //setTempAmountScope(node->name, tempIndex);
-        tempIndex = previousTempIndex;
         quadCodeGenerator(node->sibling);
         return "";
         break;
       }
       case OpK:{
-        int previousTempIndex = tempIndex;
         string left = quadCodeGenerator(node->child[0]);
-        if(node->child[0]->nodeKind==OpK){
-          tempIndex++;
-        }
-        else if(node->child[0]->nodeKind==CallK){
+        if(node->child[0]->nodeKind==CallK){
           quadCode = quadCode + "(catch_return, _t"+to_string(tempIndex) + ", , )\n";
           left = "_t" + to_string(tempIndex);
           tempIndex++;
         }
         string right = quadCodeGenerator(node->child[1]);
-        if(node->child[1]->nodeKind==OpK){
-          tempIndex++;
-        }
-        else if(node->child[1]->nodeKind==CallK){
+        if(node->child[1]->nodeKind==CallK){
           quadCode = quadCode + "(catch_return, _t"+to_string(tempIndex) + ", , )\n";
           right = "_t" + to_string(tempIndex);
           tempIndex++;
         }
         quadCode = quadCode + "("+node->name+", _t" + to_string(tempIndex) + ", " + left + ", " + right + ")\n";
         tempIndex++;
-        tempIndex = previousTempIndex;
-        return "_t" + to_string(tempIndex);
+        return "_t" + to_string(tempIndex-1);
       }
       case ReturnK:{
-        quadCode = quadCode + "(return, "+quadCodeGenerator(node->child[0]) + ", , )\n";
+        string left = quadCodeGenerator(node->child[0]);
+        if(node->child[0]->nodeKind==CallK){
+          left = "_t"+to_string(tempIndex);
+          quadCode = quadCode + "(catch_return," + left + ", , )\n";
+          tempIndex++;
+        }
+        quadCode = quadCode + "(return, "+ left + ", , )\n";
         string aux = quadCodeGenerator(node->sibling);
         return "";
         break;
       }
       case LoopK:{
-        int previousTempIndex = tempIndex;
         string compareLabel = "_l" + to_string(labelIndex);
         labelIndex++;
         string loopLabel = "_l" + to_string(labelIndex);
@@ -243,12 +237,10 @@ string quadCodeGenerator(treeNode *node){
         quadCode = quadCode + "(label, "+ outLabel + ", , )\n";
 
         aux = quadCodeGenerator(node->sibling);
-        tempIndex = previousTempIndex;
         return "";
         break;
       }
       case CondK:{
-        int previousTempIndex = tempIndex;
         string trueLabel = "_l" + to_string(labelIndex);
         labelIndex++;
         string falseLabel = "_l" + to_string(labelIndex);
@@ -294,7 +286,6 @@ string quadCodeGenerator(treeNode *node){
         }
 
         aux = quadCodeGenerator(node->sibling);
-        tempIndex = previousTempIndex;
         return "";
         break;
       }
@@ -305,7 +296,6 @@ string quadCodeGenerator(treeNode *node){
           if(sibling->nodeKind==CallK){
             quadCode = quadCode + "(catch_return, _t"+to_string(tempIndex)+", , )\n";
             siblingString = "_t"+to_string(tempIndex);
-            cout << tempIndex;
             tempIndex++;
           }
           quadCode = quadCode + "(param, " + siblingString + ", , )\n";
