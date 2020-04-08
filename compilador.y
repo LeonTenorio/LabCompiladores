@@ -124,14 +124,14 @@ var_declaration:
         if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
         if(savedIDs.top().compare(currentFunction) == 0) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 5"; exit(-1);}
         if($$->name=="int"){
-          if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, savedInt)) {
+          if(!insertSymTab(savedIDs.top(),VarType,currentFunction,IntPointer,yylineno, savedInt)) {
             cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 6"; exit(-1);
           }
           insertVarInScope(currentFunction, savedIDs.top());
         }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 7";; exit(-1);}
       }else{
         if(existIdEveryScope(savedIDs.top())) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 8"; exit(-1);}
-        insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, savedInt);
+        insertSymTab(savedIDs.top(),VarType,currentFunction,IntPointer,yylineno, savedInt);
         insertVarInScope("GLOBAL", savedIDs.top());
       }
       savedIDs.pop();
@@ -503,7 +503,7 @@ param:
   |type_specifier erro ID {savedIDs.push(copyString(currentToken));} SBTO SBTC{
     if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 21";; exit(-1);}
     if($$->name=="int"){
-      if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, 1)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 22"; exit(-1);}
+      if(!insertSymTab(savedIDs.top(),VarType,currentFunction,IntPointer,yylineno, 1)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 22"; exit(-1);}
     }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 23";; exit(-1);}
     $$ = $1;
     $$->child[0] = newNode(IdK);

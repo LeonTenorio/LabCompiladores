@@ -8,7 +8,7 @@
 using namespace std;
 
 enum TypeID{VarType, FuncType};
-enum DataType{Int, Void};
+enum DataType{Int, IntPointer, Void};
 
 typedef struct LineListRec{
   int lineno;
@@ -139,6 +139,7 @@ string showLines(LineList l){
 
 string stringDataType(DataType t){
   if(t == Int) return "int";
+  else if(t== IntPointer) return "int*";
   else return "void";
 }
 
