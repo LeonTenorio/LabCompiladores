@@ -220,6 +220,32 @@ TypeID getTypeID(string id, string scope){
   }
 }
 
+bool variableIsArray(string id, string scope){
+  int pos = hashTab(id+scope);
+  BucketList l = hashTable[pos];
+  while(l!=NULL){
+    if(id.compare(l->id) == 0 && scope.compare(l->scope) == 0 ){
+      if(l->data_type==IntPointer)
+        return true;
+      else
+        return false;
+    }
+    l = l->next;
+  }
+  pos = hashTab(id+" ");
+  l = hashTable[pos];
+  while(l!=NULL){
+    if(id.compare(l->id) == 0){
+      if(l->data_type==IntPointer)
+        return true;
+      else 
+        return false;
+    }
+    l = l->next;
+  }
+  return false;
+}
+
 bool checkVoid(treeNode *tree){
   if(tree->nodeKind == CallK){
     if(getDataType(tree->name," ") == Void) return true;

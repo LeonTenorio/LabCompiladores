@@ -301,6 +301,7 @@ var:
   | erro ID {savedIDs.push(copyString(currentToken));} SBTO expression SBTC{
     if(!existID(savedIDs.top(),currentFunction)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 13"; exit(-1);}
     if(getTypeID(savedIDs.top(),currentFunction) != VarType) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 14"; exit(-1);}
+    if(!variableIsArray(savedIDs.top(), currentFunction)){cout << "Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Variável não é um vetor"; exit(-1);}
     if(checkAtr($5)) {cout <<"Erro semântico na atribuicao na linha " << yylineno; exit(-1);}
     $$ = newNode(IdArrayK);
     $$->name = savedIDs.top();
