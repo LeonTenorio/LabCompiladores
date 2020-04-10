@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <bits/stdc++.h> 
+#pragma once
 
 #define SIZE 523
 #define SHIFT 4
@@ -25,7 +26,6 @@ typedef struct BucketListRec{
   int mem_loc;
   int mem_pos;
   int var_amount;
-  int assembly_line;
   vector<string> variables; 
 
   bool value_in_register;
@@ -34,8 +34,7 @@ typedef struct BucketListRec{
 
 static BucketList hashTable[SIZE];
 
-int hashTab(string key)
-{
+int hashTab(string key){
   int temp = 0;
   int i = 0;
   for(i = 0; i < key.length(); i++)
@@ -88,7 +87,6 @@ bool insertSymTab(string id, TypeID type_id, string scope, DataType data_type, i
   newElm->var_amount = 0;
   newElm->loc_register = " ";
   newElm->value_in_register = false;
-  newElm->assembly_line = -1;
   if(scope!=" "){
     insertAllocMemScope(scope, mem_loc);
   }
@@ -179,7 +177,6 @@ void showSymbTab(){
         symbTabString = symbTabString + " REG: mem[" + l->loc_register + "]";
       if(stringTypeID(l->type_id)=="func"){
         symbTabString = symbTabString + " VARS: [" + vectorString(l->variables) + "]";
-        symbTabString = symbTabString + " ASSEMBLYLINE: " + to_string(l->assembly_line);
       }
       symbTabString = symbTabString + "\n";
       l = l->next;
@@ -302,3 +299,52 @@ void insertLineIDGlobal(string id, int lineno){
   }
 }
 
+void setVarRegister(string id, string scope, string loc_register){
+  int pos = hashTab(id+scope);
+  BucketList l = hashTable[pos];
+  while(l!=NULL){
+    if(id.compare(l->id) == 0 && scope.compare(l->scope) == 0 ){
+      break;
+    }
+    l = l->next;
+  }
+  l->value_in_register = true;
+  l->loc_register = loc_register;
+}
+
+void setVarStack(string id, string scope, int mem_pos){
+  int pos = hashTab(id+scope);
+  BucketList l = hashTable[pos];
+  while(l!=NULL){
+    if(id.compare(l->id) == 0 && scope.compare(l->scope) == 0 ){
+      break;
+    }
+    l = l->next;
+  }
+  l->mem_pos = mem_pos;
+  l->value_in_register = false;
+}
+
+string getDataTypeElement(string id, string scope){
+  int pos = hashTab(id+scope);
+  BucketList l = hashTable[pos];
+  while(l!=NULL){
+    if(id.compare(l->id) == 0 && scope.compare(l->scope) == 0 ){
+      break;
+    }
+    l = l->next;
+  }
+  return stringTypeID(l->type_id);
+}
+
+int getMemPosVar(string id, string scope){
+  int pos = hashTab(id+scope);
+  BucketList l = hashTable[pos];
+  while(l!=NULL){
+    if(id.compare(l->id) == 0 && scope.compare(l->scope) == 0 ){
+      break;
+    }
+    l = l->next;
+  }
+  return l->mem_pos;
+}

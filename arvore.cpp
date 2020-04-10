@@ -147,10 +147,11 @@ string quadCodeGenerator(treeNode *node){
         break;
       }
       case FnK:{
+        int previousTempIndex = tempIndex;
         if(node->name=="input"){
           quadCode = quadCode + "(fun, " + node->name + ", , )\n";
           quadCode = quadCode + "(system_in, _t"+to_string(tempIndex)+", , )\n";
-          quadCode = quadCode + "(return, _t"+to_string(tempIndex) + ", , )\n";
+          quadCode = quadCode + "(asn_ret, _t"+to_string(tempIndex) + ", , )\n";
           tempIndex++;
           quadCode = quadCode + "(end_fun, , , )\n";
         }
@@ -166,6 +167,7 @@ string quadCodeGenerator(treeNode *node){
           quadCodeGenerator(node->child[1]);
           quadCode = quadCode + "(end_fun, , , )\n";
         }
+        tempIndex = previousTempIndex;
         quadCodeGenerator(node->sibling);
         return "";
         break;
@@ -194,7 +196,7 @@ string quadCodeGenerator(treeNode *node){
           quadCode = quadCode + "(catch_return," + left + ", , )\n";
           tempIndex++;
         }
-        quadCode = quadCode + "(return, "+ left + ", , )\n";
+        quadCode = quadCode + "(asn_ret, "+ left + ", , )\n";
         string aux = quadCodeGenerator(node->sibling);
         return "";
         break;
@@ -218,7 +220,7 @@ string quadCodeGenerator(treeNode *node){
           compare = "(if_g, "+quadCodeGenerator(node->child[0]->child[0]) + ", " + quadCodeGenerator(node->child[0]->child[1]) + ", " + loopLabel + ")";
         }
         else if(node->child[0]->name==">="){
-          compare = "(if_e, "+quadCodeGenerator(node->child[0]->child[0]) + ", " + quadCodeGenerator(node->child[0]->child[1]) + ", " + loopLabel + ")";
+          compare = "(if_ge, "+quadCodeGenerator(node->child[0]->child[0]) + ", " + quadCodeGenerator(node->child[0]->child[1]) + ", " + loopLabel + ")";
         }
         else if(node->child[0]->name=="=="){
           compare = "(if_e, "+quadCodeGenerator(node->child[0]->child[0]) + ", " + quadCodeGenerator(node->child[0]->child[1]) + ", " + loopLabel + ")";
