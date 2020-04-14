@@ -299,32 +299,6 @@ void insertLineIDGlobal(string id, int lineno){
   }
 }
 
-void setVarRegister(string id, string scope, string loc_register){
-  int pos = hashTab(id+scope);
-  BucketList l = hashTable[pos];
-  while(l!=NULL){
-    if(id.compare(l->id) == 0 && scope.compare(l->scope) == 0 ){
-      break;
-    }
-    l = l->next;
-  }
-  l->value_in_register = true;
-  l->loc_register = loc_register;
-}
-
-void setVarStack(string id, string scope, int mem_pos){
-  int pos = hashTab(id+scope);
-  BucketList l = hashTable[pos];
-  while(l!=NULL){
-    if(id.compare(l->id) == 0 && scope.compare(l->scope) == 0 ){
-      break;
-    }
-    l = l->next;
-  }
-  l->mem_pos = mem_pos;
-  l->value_in_register = false;
-}
-
 string getDataTypeElement(string id, string scope){
   int pos = hashTab(id+scope);
   BucketList l = hashTable[pos];
@@ -337,14 +311,15 @@ string getDataTypeElement(string id, string scope){
   return stringTypeID(l->type_id);
 }
 
-int getMemPosVar(string id, string scope){
+BucketList getBucketElement(string id, string scope){
   int pos = hashTab(id+scope);
   BucketList l = hashTable[pos];
   while(l!=NULL){
     if(id.compare(l->id) == 0 && scope.compare(l->scope) == 0 ){
-      break;
+      return l;
     }
     l = l->next;
   }
-  return l->mem_pos;
+  cout << "elemento não encontrado" << id << scope << endl;
+  return l;
 }

@@ -2362,7 +2362,7 @@ int main()
 
     cout << endl << "Parser executado" << endl;
 
-    parseQuadCode(quadCode);
+    generateAssembly(quadCode);
     return 0;
   }
 }

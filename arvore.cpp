@@ -157,8 +157,8 @@ string quadCodeGenerator(treeNode *node){
         }
         else if(node->name=="output"){
           quadCode = quadCode + "(fun, " + node->name + ", , )\n";
-          quadCode = quadCode + "(pop_param, val, , )\n";
-          quadCode = quadCode + "(system_out, val, , )\n";
+          quadCode = quadCode + "(pop_param, _t0, , )\n";
+          quadCode = quadCode + "(system_out, _t0, , )\n";
           quadCode = quadCode + "(end_fun, , , )\n";
         }
         else{
@@ -293,6 +293,7 @@ string quadCodeGenerator(treeNode *node){
       }
       case CallK:{
         treeNode *sibling = node->child[0];
+        string stackParams = "";
         while(sibling!=NULL){
           string siblingString = quadCodeGenerator(sibling);
           if(sibling->nodeKind==CallK){
@@ -300,9 +301,11 @@ string quadCodeGenerator(treeNode *node){
             siblingString = "_t"+to_string(tempIndex);
             tempIndex++;
           }
-          quadCode = quadCode + "(param, " + siblingString + ", , )\n";
+          //quadCode = quadCode + "(param, " + siblingString + ", , )\n";
+          stackParams = stackParams + "(param, " + siblingString + ", , )\n";
           sibling = sibling->sibling;
         }
+        quadCode = quadCode + stackParams;
         quadCode = quadCode + "(jal, " + node->name + ", , )\n";
 
         string aux = quadCodeGenerator(node->sibling);
