@@ -150,15 +150,15 @@ string quadCodeGenerator(treeNode *node){
         int previousTempIndex = tempIndex;
         if(node->name=="input"){
           quadCode = quadCode + "(fun, " + node->name + ", , )\n";
-          quadCode = quadCode + "(system_in, _t"+to_string(tempIndex)+", , )\n";
-          quadCode = quadCode + "(asn_ret, _t"+to_string(tempIndex) + ", , )\n";
+          quadCode = quadCode + "(system_in, val, , )\n";
+          quadCode = quadCode + "(asn_ret, val, , )\n";
           tempIndex++;
           quadCode = quadCode + "(end_fun, , , )\n";
         }
         else if(node->name=="output"){
           quadCode = quadCode + "(fun, " + node->name + ", , )\n";
-          quadCode = quadCode + "(pop_param, _t0, , )\n";
-          quadCode = quadCode + "(system_out, _t0, , )\n";
+          quadCode = quadCode + "(pop_param, val, , )\n";
+          quadCode = quadCode + "(system_out, val, , )\n";
           quadCode = quadCode + "(end_fun, , , )\n";
         }
         else{

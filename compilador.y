@@ -55,11 +55,15 @@ program:
       savedTree->child[2] = NULL;
       savedTree->child[0]->nodeKind = FnK;
       savedTree->child[0]->name = "input";
+      insertSymTab("val",VarType,"input",Int,yylineno, 0);
+      insertVarInScope("input", "val");
       for(int i = 0; i < 3; i ++)
         savedTree->child[0]->child[i] = NULL;
       savedTree->sibling = (treeNode *) malloc(sizeof(treeNode));
       savedTree->sibling->nodeKind = TypeK;
       savedTree->sibling->name = "output";
+      insertSymTab("val",VarType,"output",Int,yylineno, 0);
+      insertVarInScope("output", "val");
       savedTree->sibling->child[0] = (treeNode *) malloc(sizeof(treeNode));
       savedTree->sibling->child[1] = NULL;
       savedTree->sibling->child[2] = NULL;

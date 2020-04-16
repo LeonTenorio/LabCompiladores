@@ -50,6 +50,8 @@ static vector<string> labels;
 
 static string scope = " ";
 
+static int globalVarScope = 0;
+
 static int static_scope_register = 0;
 static int temp_scope_register = 0;
 static int argument_pos = 0;
@@ -60,7 +62,7 @@ static int params_amount = 0;
 
 static int mem_pos = 0;
 
-void allocVarSpace(string id, string scope){
+void allocVarSpace(string id, string scope, int *scopeRegisterAmount){
     if(id[0]=='_' && id[1]=='t'){
         insertSymTab(id, VarType, scope, Int, -1, 0);
         BucketList bucketElement = getBucketElement(id, scope);
@@ -69,6 +71,7 @@ void allocVarSpace(string id, string scope){
             bucketElement->loc_register = "$t"+temp_scope_register;
             assembly.push_back("MOV $zero "+bucketElement->loc_register);
             temp_scope_register++;
+            *scopeRegisterAmount = *scopeRegisterAmount + 1;
         }
         else{
             bucketElement->value_in_register = false;
@@ -84,14 +87,16 @@ void allocVarSpace(string id, string scope){
                 bucketElement->value_in_register = true;
                 bucketElement->mem_pos = mem_pos;
                 bucketElement->loc_register = "$s"+to_string(static_scope_register);
-                assembly.push_back("MOV $zero "+bucketElement->loc_register);
+                assembly.push_back("ADDI "+bucketElement->loc_register+" $sp "+to_string(bucketElement->mem_pos));
                 assembly.push_back("ADDI $sp $sp "+to_string(bucketElement->mem_loc));
                 mem_pos = mem_pos + bucketElement->mem_loc;
             }
             else{
                 bucketElement->value_in_register = true;
                 bucketElement->loc_register = "$s"+to_string(static_scope_register);
+                assembly.push_back("MOV $zero "+bucketElement->loc_register);
             }
+            *scopeRegisterAmount = *scopeRegisterAmount + 1;
             static_scope_register++;
         }
         else{
@@ -113,19 +118,15 @@ void allocVarSpace(string id, string scope){
 }
 
 string getRegisterLikeWrite(string id, string scope, int *temp_use, bool *in_mem){
-    BucketList bucketElement = getBucketElement(id, scope);
-    if(bucketElement==NULL){
-        if(id.compare(0, 2, "_t")==0){
-            insertSymTab(id, VarType, scope, Int, -1, 0);
-            bucketElement = getBucketElement(id, scope);
-            cout << "Inclusao de temporario ok" << endl;
-        }
-        else{
-            cout << id << scope << endl;
-            cout << "Aconteceu algo mt errado" << endl; exit(-1);
-        }
+    BucketList bucketElement;
+    if(id.compare(0, 2, "_t")==0){
+        insertSymTab(id, VarType, scope, Int, -1, 0);
+        bucketElement = getBucketElement(id, scope);
     }
-    if(bucketElement->value_in_register){
+    bucketElement = getBucketElement(id, scope);
+    if(bucketElement==NULL){
+    }
+    else if(bucketElement->value_in_register){
         *in_mem = false;
         return bucketElement->loc_register;
     }
@@ -167,6 +168,9 @@ void lineToAssembly(vector<string> params){
         assembly.push_back("B ."+params[1]);
     }
     else if(params[0].compare("fun")==0){
+        temp_scope_register = 0;
+        static_scope_register = globalVarScope;
+        assembly.push_back("FUN");
         previous_mem_pos = mem_pos;
         mem_pos = 0;
         params_amount = 0;
@@ -174,14 +178,24 @@ void lineToAssembly(vector<string> params){
         labels.push_back("."+params[1]);
         assembly.push_back("STORE $sp $ra 0");
         assembly.push_back("ADDI $sp $sp 1");
+        mem_pos++;
         argument_pos = -3;//Foi empilhados antes, nesta ordem, $gp e $ra
         scope = params[1];
         BucketList bucketElement = getBucketElement(params[1], " ");
+        int localRegisterAmount = 0;
         for(int i=0;i<bucketElement->variables.size();i++){
-            allocVarSpace(bucketElement->variables[i], scope);
+            allocVarSpace(bucketElement->variables[i], scope, &localRegisterAmount);
         }
     }
-    /*else if(params[0].compare("pop_param")==0){
+    else if(params[0].compare("end_fun")==0){
+        assembly.push_back("ENDFUN");
+        assembly.push_back("ADDI $sp $sp -"+to_string(mem_pos));
+        assembly.push_back("LOAD $t"+to_string(USETEMPREGISTERAMOUNT)+" $sp 0");
+        assembly.push_back("BR $t"+to_string(USETEMPREGISTERAMOUNT));
+        mem_pos = previous_mem_pos;
+    }
+    else if(params[0].compare("pop_param")==0){
+        assembly.push_back("POP_PARAM");
         int temp_use = USETEMPREGISTERAMOUNT;
         bool in_mem;
         string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
@@ -191,7 +205,7 @@ void lineToAssembly(vector<string> params){
         }
         argument_pos--;
     }
-    else if(params[0].compare("param")==0){
+    /*else if(params[0].compare("param")==0){
         int temp_use = USETEMPREGISTERAMOUNT;
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         assembly.push_back("STORE $sp "+rs+" 0");
@@ -226,12 +240,6 @@ void lineToAssembly(vector<string> params){
         mem_pos = mem_pos - params_amount;
         assembly.push_back("MOV $sp $gp");
         params_amount = 0;
-    }
-    else if(params[0].compare("end_fun")==0){
-        assembly.push_back("ADDI $sp $sp "+to_string(mem_pos-previous_mem_pos));
-        assembly.push_back("LOAD $t"+to_string(USETEMPREGISTERAMOUNT)+" $sp 0");
-        assembly.push_back("BR $t"+to_string(USETEMPREGISTERAMOUNT));
-        mem_pos = previous_mem_pos;
     }
     else if(params[0].compare("system_in")==0){
         int temp_use = USETEMPREGISTERAMOUNT;
@@ -297,9 +305,12 @@ void lineToAssembly(vector<string> params){
 void generateAssembly(string quad){
     parseQuadCode(quad);
     cout << lines.size() << " linhas de código intermediário" << endl;
+    assembly.push_back("MOV $zero $sp");
+    assembly.push_back("MOV $zero $gp");
     BucketList bucketElement = getBucketElement("GLOBAL", " ");
+    
     for(int i=0;i<bucketElement->variables.size();i++){
-        allocVarSpace(bucketElement->variables[i], " ");
+        allocVarSpace(bucketElement->variables[i], " ", &globalVarScope);
     }
     for(int i=0;i<lines.size();i++){
         vector<string> params = getLineParams(lines[i]);

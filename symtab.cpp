@@ -160,6 +160,7 @@ string vectorString(vector<string> vectorString){
 static string symbTabString = "";
 
 void showSymbTab(){
+  symbTabString = "";
   bool hasMoreThanOne;
   for(int i = 0; i < SIZE; i++){
     BucketList l = hashTable[i];
@@ -320,6 +321,15 @@ BucketList getBucketElement(string id, string scope){
     }
     l = l->next;
   }
-  cout << "elemento não encontrado" << id << scope << endl;
+  pos = hashTab(id+" ");
+  l = hashTable[pos];
+  string globalScope = " ";
+  while(l!=NULL){
+    if(id.compare(l->id) == 0 && globalScope.compare(l->scope)==0 ){
+      return l;
+    }
+    l = l->next;
+  }
+  cout << "elemento não encontrado" << " "+  id + " " << scope << endl;
   return l;
 }
