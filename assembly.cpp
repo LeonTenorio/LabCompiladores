@@ -62,6 +62,11 @@ static int params_amount = 0;
 
 static int mem_pos = 0;
 
+bool isNumber(const string &line) {
+ if (line[0] == '0') return true;
+ return (atoi(line.c_str()));
+}
+
 void allocVarSpace(string id, string scope, int *scopeRegisterAmount){
     if(id[0]=='_' && id[1]=='t'){
         insertSymTab(id, VarType, scope, Int, -1, 0);
@@ -87,7 +92,7 @@ void allocVarSpace(string id, string scope, int *scopeRegisterAmount){
                 bucketElement->value_in_register = true;
                 bucketElement->mem_pos = mem_pos;
                 bucketElement->loc_register = "$s"+to_string(static_scope_register);
-                assembly.push_back("ADDI "+bucketElement->loc_register+" $sp "+to_string(bucketElement->mem_pos));
+                assembly.push_back("MOV $sp "+bucketElement->loc_register);
                 assembly.push_back("ADDI $sp $sp "+to_string(bucketElement->mem_loc));
                 mem_pos = mem_pos + bucketElement->mem_loc;
             }
@@ -137,24 +142,63 @@ string getRegisterLikeWrite(string id, string scope, int *temp_use, bool *in_mem
     }
 }
 
-string getRegisterLikeRead(string id, string scope, int *temp_use){
-    BucketList bucketElement = getBucketElement(id, scope);
-    if(bucketElement==NULL){
-        if(id[0]=='_' && id[1]=='t'){
-            insertSymTab(id, VarType, scope, Int, -1, 0);
-            bucketElement = getBucketElement(id, scope);
-        }
-        else{
-            cout << "Aconteceu algo mt errado" << endl; exit(-1);
-        }
+vector<string> parseVectorElements(string variable){
+    vector<string> ret;
+    string line_delimiter = "[";
+    string line;
+    size_t pos = 0;
+    while ((pos = variable.find(line_delimiter)) != std::string::npos) {
+        line = variable.substr(0, pos);
+        ret.push_back(line);
+        variable.erase(0, pos + line_delimiter.length());
     }
-    if(bucketElement->value_in_register){
-        return bucketElement->loc_register;
+    line = variable;
+    line.erase(line.length()-1, 1);
+    ret.push_back(line);
+    return ret;
+}
+
+string getRegisterLikeRead(string id, string scope, int *temp_use){
+    if(isNumber(id)){
+        *temp_use = *temp_use + 1;
+        assembly.push_back("LI $t"+to_string(*temp_use)+" "+id);
+        return "$t"+to_string(*temp_use);
     }
     else{
-        *temp_use = *temp_use + 1;
-        assembly.push_back("LOAD $sp $t"+to_string(*temp_use)+" "+to_string(bucketElement->mem_pos));
-        return "$t"+to_string(*temp_use);
+        BucketList bucketElement;
+        vector<string> vector_acess = parseVectorElements(id);
+        if(vector_acess.size()==2){
+            bucketElement = getBucketElement(vector_acess[0], scope);
+        }
+        else{
+            bucketElement = getBucketElement(id, scope);
+        }
+        if(bucketElement==NULL){
+            if(id[0]=='_' && id[1]=='t'){
+                insertSymTab(id, VarType, scope, Int, -1, 0);
+                bucketElement = getBucketElement(id, scope);
+            }
+            else{
+                cout << "Aconteceu algo mt errado" << endl; exit(-1);
+            }
+        }
+        if(vector_acess.size()==2){
+            string index = getRegisterLikeRead(vector_acess[1], scope, temp_use);
+            *temp_use = *temp_use + 1;
+            assembly.push_back("ADD $t"+to_string(*temp_use)+" "+index+" "+getRegisterLikeRead(vector_acess[0], scope, temp_use));
+            assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
+            return "$t"+to_string(*temp_use);
+        }
+        else{
+            if(bucketElement->value_in_register){
+                return bucketElement->loc_register;
+            }
+            else{
+                *temp_use = *temp_use + 1;
+                assembly.push_back("LOAD $sp $t"+to_string(*temp_use)+" "+to_string(bucketElement->mem_pos));
+                return "$t"+to_string(*temp_use);
+            }
+        }
     }
 }
 
@@ -198,6 +242,8 @@ void lineToAssembly(vector<string> params){
         assembly.push_back("POP_PARAM");
         int temp_use = USETEMPREGISTERAMOUNT;
         bool in_mem;
+        int localRegisterAmount = 0;
+        allocVarSpace(params[1], scope, &localRegisterAmount);
         string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
         assembly.push_back("LOAD $sp "+rd+" "+to_string(argument_pos));
         if(in_mem){
@@ -205,14 +251,15 @@ void lineToAssembly(vector<string> params){
         }
         argument_pos--;
     }
-    /*else if(params[0].compare("param")==0){
+    else if(params[0].compare("param")==0){
+        assembly.push_back("PARAM");
         int temp_use = USETEMPREGISTERAMOUNT;
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         assembly.push_back("STORE $sp "+rs+" 0");
         assembly.push_back("ADDI $sp $sp 1");
         params_amount++;
     }
-    else if(params[0].compare("jal")==0){
+    /*else if(params[0].compare("jal")==0){
         for(int i=0;i<static_scope_register;i++){
             assembly.push_back("STORE $sp $s"+to_string(i)+" "+to_string(i));
         }
