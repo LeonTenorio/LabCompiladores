@@ -1,0 +1,128 @@
+MOV $zero $sp
+MOV $zero $gp
+MOV $sp $s0
+ADDI $sp $sp 10
+B .main
+FUN
+.input
+STORE $sp $ra 0
+ADDI $sp $sp 1
+MOV $zero $s1
+ENDFUN
+ADDI $sp $sp -1
+LOAD $t9 $sp 0
+BR $t9
+FUN
+.output
+STORE $sp $ra 0
+ADDI $sp $sp 1
+MOV $zero $s1
+POP_PARAM
+MOV $zero $s2
+LOAD $sp $s2 -3
+ENDFUN
+ADDI $sp $sp -1
+LOAD $t9 $sp 0
+BR $t9
+FUN
+.minloc
+STORE $sp $ra 0
+ADDI $sp $sp 1
+MOV $zero $s1
+MOV $zero $s2
+MOV $zero $s3
+MOV $sp $s4
+ADDI $sp $sp 100
+POP_PARAM
+MOV $zero $s5
+LOAD $sp $s5 -3
+POP_PARAM
+MOV $zero $s6
+LOAD $sp $s6 -4
+POP_PARAM
+MOV $sp $s7
+ADDI $sp $sp 0
+LOAD $sp $s7 -5
+._l0
+B ._l2
+._l1
+B ._l4
+._l3
+._l4
+B ._l0
+._l2
+ENDFUN
+ADDI $sp $sp -101
+LOAD $t9 $sp 0
+BR $t9
+FUN
+.sort
+STORE $sp $ra 0
+ADDI $sp $sp 1
+MOV $zero $s1
+MOV $zero $s2
+MOV $zero $s3
+POP_PARAM
+MOV $zero $s4
+LOAD $sp $s4 -3
+POP_PARAM
+MOV $zero $s5
+LOAD $sp $s5 -4
+POP_PARAM
+MOV $sp $s6
+ADDI $sp $sp 0
+LOAD $sp $s6 -5
+._l5
+B ._l7
+._l6
+PARAM
+STORE $sp $s6 0
+ADDI $sp $sp 1
+PARAM
+STORE $sp $s1 0
+ADDI $sp $sp 1
+PARAM
+STORE $sp $s4 0
+ADDI $sp $sp 1
+B ._l5
+._l7
+ENDFUN
+ADDI $sp $sp -1
+LOAD $t9 $sp 0
+BR $t9
+FUN
+.main
+STORE $sp $ra 0
+ADDI $sp $sp 1
+MOV $zero $s1
+._l8
+B ._l10
+._l9
+B ._l8
+._l10
+PARAM
+STORE $sp $s0 0
+ADDI $sp $sp 1
+PARAM
+LI $t10 0
+STORE $sp $t10 0
+ADDI $sp $sp 1
+PARAM
+LI $t10 10
+STORE $sp $t10 0
+ADDI $sp $sp 1
+._l11
+B ._l13
+._l12
+PARAM
+ADD $t10 $s1 $s0
+LOAD $t10 $t10 0
+STORE $sp $t10 0
+ADDI $sp $sp 1
+B ._l11
+._l13
+ENDFUN
+ADDI $sp $sp -1
+LOAD $t9 $sp 0
+BR $t9
+HALT

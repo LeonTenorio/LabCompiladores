@@ -2346,10 +2346,10 @@ int main()
   if(!checkMain()) {cout <<"Nao foi declarada uma funcao main"; exit(-1);}
   else{
     showSymbTab();
-    ofstream symbTabFile;
-    symbTabFile.open("./outputs/symbTab");
-    symbTabFile << symbTabString;
-    symbTabFile.close();
+    ofstream symbTabFileQuad;
+    symbTabFileQuad.open("./outputs/symbTabQuadCode");
+    symbTabFileQuad << symbTabString;
+    symbTabFileQuad.close();
 
     string treePreOrder = showTree(savedTree, false, 0);
     ofstream treePreOrderFile;
@@ -2366,7 +2366,17 @@ int main()
 
     cout << endl << "Parser executado" << endl;
 
-    generateAssembly(quadCode);
+    ofstream assemblyFile;
+    assemblyFile.open("./outputs/assembly");
+    assemblyFile << generateAssembly(quadCode) + "HALT";
+    assemblyFile.close();
+
+    ofstream symbTabFileAssembly;
+    symbTabFileAssembly.open("./outputs/symbTabAssembly");
+    symbTabFileAssembly << symbTabString;
+    symbTabFileAssembly.close();
+
+    cout << endl << "Assembly gerado" << endl;
     return 0;
   }
 }

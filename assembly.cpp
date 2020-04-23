@@ -174,13 +174,7 @@ string getRegisterLikeRead(string id, string scope, int *temp_use){
             bucketElement = getBucketElement(id, scope);
         }
         if(bucketElement==NULL){
-            if(id[0]=='_' && id[1]=='t'){
-                insertSymTab(id, VarType, scope, Int, -1, 0);
-                bucketElement = getBucketElement(id, scope);
-            }
-            else{
-                cout << "Aconteceu algo mt errado" << endl; exit(-1);
-            }
+            cout << "Aconteceu algo mt errado" << endl; exit(-1);
         }
         if(vector_acess.size()==2){
             string index = getRegisterLikeRead(vector_acess[1], scope, temp_use);
@@ -259,6 +253,10 @@ void lineToAssembly(vector<string> params){
         assembly.push_back("ADDI $sp $sp 1");
         params_amount++;
     }
+    else if(params[0].compare("label")==0){
+        assembly.push_back("."+params[1]);
+        labels.push_back("."+params[1]);
+    }
     /*else if(params[0].compare("jal")==0){
         for(int i=0;i<static_scope_register;i++){
             assembly.push_back("STORE $sp $s"+to_string(i)+" "+to_string(i));
@@ -312,10 +310,6 @@ void lineToAssembly(vector<string> params){
             storeStackElement(params[1], scope, rd);
         }
     }
-    else if(params[0].compare("label")==0){
-        assembly.push_back("."+params[1]);
-        labels.push_back("."+params[1]);
-    }
     else if(params[0].compare("if_le")==0){
 
     }
@@ -349,7 +343,8 @@ void lineToAssembly(vector<string> params){
     }*/
 }
 
-void generateAssembly(string quad){
+string generateAssembly(string quad){
+    string assemblyString = "";
     parseQuadCode(quad);
     cout << lines.size() << " linhas de código intermediário" << endl;
     assembly.push_back("MOV $zero $sp");
@@ -365,6 +360,7 @@ void generateAssembly(string quad){
     }
     cout << assembly.size() << " de linhas assembly" << endl;
     for(int i=0;i<assembly.size();i++){
-        cout << assembly[i] << endl;
+        assemblyString = assemblyString + assembly[i] + "\n";
     }
+    return assemblyString;
 }
