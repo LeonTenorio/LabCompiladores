@@ -8,6 +8,9 @@ FUN
 STORE $sp $ra 0
 ADDI $sp $sp 1
 MOV $zero $s1
+SYSTEM IN
+IN $s1 0
+ASN RET
 MOV $s1 $v0
 ENDFUN
 ADDI $sp $sp -1
@@ -21,6 +24,9 @@ MOV $zero $s1
 POP_PARAM
 MOV $zero $s2
 LOAD $sp $s2 -3
+SYSTEM OUT
+OUT $s2 0
+HALT
 ENDFUN
 ADDI $sp $sp -1
 LOAD $t9 $sp 0
@@ -44,14 +50,32 @@ POP_PARAM
 MOV $sp $s7
 ADDI $sp $sp 0
 LOAD $sp $s7 -5
+ASN
+MOV $s6 $s3
+ASN
+ADD $t10 $s6 $s7
+LOAD $t10 $t10 0
+MOV $t10 $s2
+LABEL
 ._l0
 B ._l2
+LABEL
 ._l1
 B ._l4
+LABEL
 ._l3
+ASN
+ADD $t10 $s1 $s7
+LOAD $t10 $t10 0
+MOV $t10 $s2
+ASN
+MOV $s1 $s3
+LABEL
 ._l4
 B ._l0
+LABEL
 ._l2
+ASN RET
 MOV $s3 $v0
 ENDFUN
 ADDI $sp $sp -101
@@ -74,8 +98,12 @@ POP_PARAM
 MOV $sp $s6
 ADDI $sp $sp 0
 LOAD $sp $s6 -5
+ASN
+MOV $s5 $s1
+LABEL
 ._l5
 B ._l7
+LABEL
 ._l6
 PARAM
 STORE $sp $s6 0
@@ -86,7 +114,30 @@ ADDI $sp $sp 1
 PARAM
 STORE $sp $s4 0
 ADDI $sp $sp 1
+CATCH RETURN
+MOV $v0 $s2
+ASN
+ADD $t10 $s2 $s6
+LOAD $t10 $t10 0
+MOV $t10 $s3
+ASN
+ADD $t10 $s1 $s6
+LOAD $t10 $t10 0
+MOV $t10 $t10
+LI 9 1
+ADD $t9 $gp
+LI $t10 k
+ADD $t9 $t10
+STORE $t9 $t10 0
+ASN
+MOV $s3 $t9
+LI 9 1
+ADD $t9 $gp
+LI $t10 i
+ADD $t9 $t10
+STORE $t9 $t9 0
 B ._l5
+LABEL
 ._l7
 ENDFUN
 ADDI $sp $sp -1
@@ -97,10 +148,23 @@ FUN
 STORE $sp $ra 0
 ADDI $sp $sp 1
 MOV $zero $s1
+ASN
+LI $t9 0
+MOV $t9 $s1
+LABEL
 ._l8
 B ._l10
+LABEL
 ._l9
+CATCH RETURN
+MOV $v0 $t9
+LI 9 0
+ADD $t9 $gp
+LI $t10 i
+ADD $t9 $t10
+STORE $t9 $t9 0
 B ._l8
+LABEL
 ._l10
 PARAM
 STORE $sp $s0 0
@@ -113,8 +177,13 @@ PARAM
 LI $t9 10
 STORE $sp $t9 0
 ADDI $sp $sp 1
+ASN
+LI $t9 0
+MOV $t9 $s1
+LABEL
 ._l11
 B ._l13
+LABEL
 ._l12
 PARAM
 ADD $t10 $s1 $s0
@@ -122,6 +191,7 @@ LOAD $t10 $t10 0
 STORE $sp $t10 0
 ADDI $sp $sp 1
 B ._l11
+LABEL
 ._l13
 ENDFUN
 ADDI $sp $sp -1

@@ -285,13 +285,53 @@ void lineToAssembly(vector<string> params){
         params_amount++;
     }
     else if(params[0].compare("label")==0){
+        assembly.push_back("LABEL");
         assembly.push_back("."+params[1]);
         labels.push_back("."+params[1]);
     }
     else if(params[0].compare("asn_ret")==0){
+        assembly.push_back("ASN RET");
         int temp_use = USETEMPREGISTERAMOUNT;
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         assembly.push_back("MOV "+rs+" $v0");
+    }
+    else if(params[0].compare("system_in")==0){
+        assembly.push_back("SYSTEM IN");
+        int temp_use = USETEMPREGISTERAMOUNT;
+        bool in_mem;
+        string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
+        assembly.push_back("IN "+rd+" 0");
+        if(in_mem){
+            storeStackElement(params[1], scope, rd);
+        }
+    }
+    else if(params[0].compare("system_out")==0){
+        assembly.push_back("SYSTEM OUT");
+        int temp_use = USETEMPREGISTERAMOUNT;
+        string rs = getRegisterLikeRead(params[1], scope, &temp_use);
+        assembly.push_back("OUT "+rs+" 0");
+        assembly.push_back("HALT");
+    }
+    else if(params[0].compare("catch_return")==0){
+        assembly.push_back("CATCH RETURN");
+        int temp_use = USETEMPREGISTERAMOUNT;
+        bool in_mem;
+        string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
+        assembly.push_back("MOV $v0 "+rd);
+        if(in_mem){
+            storeStackElement(params[1], scope, rd);
+        }
+    }
+    else if(params[0].compare("asn")==0){
+        assembly.push_back("ASN");
+        int temp_use = USETEMPREGISTERAMOUNT;
+        bool in_mem;
+        string rs = getRegisterLikeRead(params[2], scope, &temp_use);
+        string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
+        assembly.push_back("MOV "+rs+" "+rd);
+        if(in_mem){
+            storeStackElement(params[1], scope, rd);
+        }
     }
     /*else if(params[0].compare("jal")==0){
         for(int i=0;i<static_scope_register;i++){
@@ -318,25 +358,6 @@ void lineToAssembly(vector<string> params){
         assembly.push_back("MOV $sp $gp");
         params_amount = 0;
     }
-    else if(params[0].compare("system_in")==0){
-        int temp_use = USETEMPREGISTERAMOUNT;
-        bool in_mem;
-        string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
-        assembly.push_back("IN "+rd+" 0");
-        if(in_mem){
-            storeStackElement(params[1], scope, rd);
-        }
-        assembly.push_back("HALT");
-    }
-    else if(params[0].compare("catch_return")==0){
-        int temp_use = USETEMPREGISTERAMOUNT;
-        bool in_mem;
-        string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
-        assembly.push_back("MOV $V0"+rd);
-        if(in_mem){
-            storeStackElement(params[1], scope, rd);
-        }
-    }
     else if(params[0].compare("if_le")==0){
 
     }
@@ -354,16 +375,6 @@ void lineToAssembly(vector<string> params){
     }
     else if(params[0].compare("if_ne")==0){
 
-    }
-    else if(params[0].compare("asn")==0){
-        int temp_use = USETEMPREGISTERAMOUNT;
-        bool in_mem;
-        string rs = getRegisterLikeRead(params[2], scope, &temp_use);
-        string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
-        assembly.push_back("MOV "+rs+" "+rd);
-        if(in_mem){
-            storeStackElement(params[1], scope, rd);
-        }
     }
     else{
         cout << "Quadrupla faltante " << params[0] << endl;
