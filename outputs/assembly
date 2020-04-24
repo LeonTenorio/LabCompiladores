@@ -56,6 +56,9 @@ ASN
 ADD $t10 $s6 $s7
 LOAD $t10 $t10 0
 MOV $t10 $s2
+ADD
+LI $t9 1
+ADD $s6 $t9 $s1
 LABEL
 ._l0
 B ._l2
@@ -72,6 +75,9 @@ ASN
 MOV $s1 $s3
 LABEL
 ._l4
+ADD
+LI $t9 1
+ADD $s1 $t9 $s1
 B ._l0
 LABEL
 ._l2
@@ -140,6 +146,9 @@ ADD $t9 $gp
 LI $t10 i
 ADD $t9 $t10
 STORE $t9 $t9 0
+ADD
+LI $t9 1
+ADD $s1 $t9 $s1
 B ._l5
 LABEL
 ._l7
@@ -167,6 +176,9 @@ ADD $t9 $gp
 LI $t10 i
 ADD $t9 $t10
 STORE $t9 $t9 0
+ADD
+LI $t9 1
+ADD $s1 $t9 $s1
 B ._l8
 LABEL
 ._l10
@@ -194,6 +206,9 @@ ADD $t10 $s1 $s0
 LOAD $t10 $t10 0
 STORE $sp $t10 0
 ADDI $sp $sp 1
+ADD
+LI $t9 1
+ADD $s1 $t9 $s1
 B ._l11
 LABEL
 ._l13

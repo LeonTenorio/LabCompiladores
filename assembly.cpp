@@ -346,6 +346,44 @@ void lineToAssembly(vector<string> params){
             storeStackElement(params[1], scope, rd);
         }
     }
+    else if(params[0].compare("+")==0){
+        assembly.push_back("ADD");
+        int temp_use = USETEMPREGISTERAMOUNT;
+        bool in_mem;
+        string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
+        string rs = getRegisterLikeRead(params[2], scope, &temp_use);
+        string rt = getRegisterLikeRead(params[3], scope, &temp_use);
+        assembly.push_back("ADD "+rs+" "+rt+" "+rd);
+        if(in_mem){
+            storeStackElement(params[1], scope, rd);
+        }
+    }
+    else if(params[0].compare("/")==0){
+        assembly.push_back("DIV");
+        int temp_use = USETEMPREGISTERAMOUNT;
+        bool in_mem;
+        string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
+        string rs = getRegisterLikeRead(params[2], scope, &temp_use);
+        string rt = getRegisterLikeRead(params[3], scope, &temp_use);
+        assembly.push_back("DIV "+rs+" "+rt);
+        assembly.push_back("MFLO "+rd);
+        if(in_mem){
+            storeStackElement(params[1], scope, rd);
+        }
+    }
+    else if(params[0].compare("*")==0){
+        assembly.push_back("MULT");
+        int temp_use = USETEMPREGISTERAMOUNT;
+        bool in_mem;
+        string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
+        string rs = getRegisterLikeRead(params[2], scope, &temp_use);
+        string rt = getRegisterLikeRead(params[3], scope, &temp_use);
+        assembly.push_back("MULT "+rs+" "+rt);
+        assembly.push_back("MFLO "+rd);
+        if(in_mem){
+            storeStackElement(params[1], scope, rd);
+        }
+    }
     /*else if(params[0].compare("jal")==0){
         for(int i=0;i<static_scope_register;i++){
             assembly.push_back("STORE $sp $s"+to_string(i)+" "+to_string(i));
