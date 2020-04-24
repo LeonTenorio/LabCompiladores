@@ -301,11 +301,9 @@ string quadCodeGenerator(treeNode *node){
             siblingString = "_t"+to_string(tempIndex);
             tempIndex++;
           }
-          //quadCode = quadCode + "(param, " + siblingString + ", , )\n";
-          stackParams = stackParams + "(param, " + siblingString + ", , )\n";
+          quadCode = quadCode + "(param, " + siblingString + ", , )\n";
           sibling = sibling->sibling;
         }
-        quadCode = quadCode + stackParams;
         quadCode = quadCode + "(jal, " + node->name + ", , )\n";
 
         string aux = quadCodeGenerator(node->sibling);

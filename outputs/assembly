@@ -8,6 +8,7 @@ FUN
 STORE $sp $ra 0
 ADDI $sp $sp 1
 MOV $zero $s1
+MOV $s1 $v0
 ENDFUN
 ADDI $sp $sp -1
 LOAD $t9 $sp 0
@@ -51,6 +52,7 @@ B ._l4
 ._l4
 B ._l0
 ._l2
+MOV $s3 $v0
 ENDFUN
 ADDI $sp $sp -101
 LOAD $t9 $sp 0
@@ -104,12 +106,12 @@ PARAM
 STORE $sp $s0 0
 ADDI $sp $sp 1
 PARAM
-LI $t10 0
-STORE $sp $t10 0
+LI $t9 0
+STORE $sp $t9 0
 ADDI $sp $sp 1
 PARAM
-LI $t10 10
-STORE $sp $t10 0
+LI $t9 10
+STORE $sp $t9 0
 ADDI $sp $sp 1
 ._l11
 B ._l13
