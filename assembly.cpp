@@ -137,6 +137,7 @@ string allocTempSpace(string id, string scope, int *temp_use, bool *in_mem){
 string getRegisterLikeWrite(string id, string scope, int *temp_use, bool *in_mem){
     BucketList bucketElement;
     if(id.compare(0, 2, "_t")==0){
+        *in_mem = false;
         return allocTempSpace(id, scope, temp_use, in_mem);
     }
     else{
@@ -329,6 +330,18 @@ void lineToAssembly(vector<string> params){
         string rs = getRegisterLikeRead(params[2], scope, &temp_use);
         string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
         assembly.push_back("MOV "+rs+" "+rd);
+        if(in_mem){
+            storeStackElement(params[1], scope, rd);
+        }
+    }
+    else if(params[0].compare("-")==0){
+        assembly.push_back("SUB");
+        int temp_use = USETEMPREGISTERAMOUNT;
+        bool in_mem;
+        string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
+        string rs = getRegisterLikeRead(params[2], scope, &temp_use);
+        string rt = getRegisterLikeRead(params[3], scope, &temp_use);
+        assembly.push_back("SUB "+rs+" "+rt+" "+rd);
         if(in_mem){
             storeStackElement(params[1], scope, rd);
         }

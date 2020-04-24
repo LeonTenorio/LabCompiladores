@@ -102,6 +102,10 @@ ASN
 MOV $s5 $s1
 LABEL
 ._l5
+SUB
+MOV $zero $t0
+LI $t9 1
+SUB $s4 $t9 $t0
 B ._l7
 LABEL
 ._l6
