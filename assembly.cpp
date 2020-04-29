@@ -57,8 +57,6 @@ static int temp_scope_register = 0;
 static int argument_pos = 0;
 vector<int> temp_mem_pos;//Use for all temporary index bigger than USETEMPREGISTERAMOUNT-1
 
-static int previous_mem_pos = 0;
-
 static int params_amount = 0;
 
 static int mem_pos = 0;
@@ -122,7 +120,8 @@ void allocVarSpace(string id, string scope, int *scopeRegisterAmount){
 
 string allocTempSpace(string id, string scope, int *temp_use, bool *in_mem){
     if(temp_scope_register < USETEMPREGISTERAMOUNT){
-        assembly.push_back("MOV $zero $t"+to_string(temp_scope_register));
+        if(id.compare(0, 2, "_t")!=0)
+            assembly.push_back("MOV $zero $t"+to_string(temp_scope_register));
         temp_scope_register++;
         return "$t"+to_string(temp_scope_register-1);
     }
@@ -130,6 +129,7 @@ string allocTempSpace(string id, string scope, int *temp_use, bool *in_mem){
         *in_mem = true;
         temp_mem_pos.push_back(mem_pos);
         *temp_use = *temp_use + 1;
+        mem_pos++;
         return "$t"+to_string(*temp_use-1);
     }
 }
@@ -209,7 +209,7 @@ string getRegisterLikeRead(string id, string scope, int *temp_use){
                 }
                 else{
                     *temp_use = *temp_use + 1;
-                    assembly.push_back("LOAD $sp $t"+to_string(*temp_use)+" "+to_string(bucketElement->mem_pos));
+                    assembly.push_back("LOAD $gp $t"+to_string(*temp_use)+" "+to_string(bucketElement->mem_pos));
                     return "$t"+to_string(*temp_use);
                 }
             }
@@ -241,13 +241,15 @@ void lineToAssembly(vector<string> params){
         temp_scope_register = 0;
         static_scope_register = globalVarScope;
         assembly.push_back("FUN");
-        previous_mem_pos = mem_pos;
         mem_pos = 0;
         params_amount = 0;
         assembly.push_back("."+params[1]);
         labels.push_back("."+params[1]);
-        assembly.push_back("STORE $sp $ra 0");
-        assembly.push_back("ADDI $sp $sp 1");
+        if(params[1].compare("main")!=0){
+            assembly.push_back("MOV $sp $gp");
+            assembly.push_back("STORE $sp $ra 0");
+            assembly.push_back("ADDI $sp $sp 1");
+        }
         mem_pos++;
         argument_pos = -3;//Foi empilhados antes, nesta ordem, $gp e $ra
         scope = params[1];
@@ -262,7 +264,6 @@ void lineToAssembly(vector<string> params){
         assembly.push_back("ADDI $sp $sp -"+to_string(mem_pos));
         assembly.push_back("LOAD $t"+to_string(USETEMPREGISTERAMOUNT)+" $sp 0");
         assembly.push_back("BR $t"+to_string(USETEMPREGISTERAMOUNT));
-        mem_pos = previous_mem_pos;
     }
     else if(params[0].compare("pop_param")==0){
         assembly.push_back("POP_PARAM");
@@ -284,6 +285,7 @@ void lineToAssembly(vector<string> params){
         assembly.push_back("STORE $sp "+rs+" 0");
         assembly.push_back("ADDI $sp $sp 1");
         params_amount++;
+        mem_pos++;
     }
     else if(params[0].compare("label")==0){
         assembly.push_back("LABEL");
@@ -295,6 +297,10 @@ void lineToAssembly(vector<string> params){
         int temp_use = USETEMPREGISTERAMOUNT;
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         assembly.push_back("MOV "+rs+" $v0");
+        assembly.push_back("ENDFUN RETURN");
+        assembly.push_back("ADDI $sp $sp -"+to_string(mem_pos));
+        assembly.push_back("LOAD $t"+to_string(USETEMPREGISTERAMOUNT)+" $sp 0");
+        assembly.push_back("BR $t"+to_string(USETEMPREGISTERAMOUNT));
     }
     else if(params[0].compare("system_in")==0){
         assembly.push_back("SYSTEM IN");
@@ -384,52 +390,68 @@ void lineToAssembly(vector<string> params){
             storeStackElement(params[1], scope, rd);
         }
     }
-    /*else if(params[0].compare("jal")==0){
+    else if(params[0].compare("if_le")==0){
+        assembly.push_back("BLE");
+        int temp_use = USETEMPREGISTERAMOUNT;
+        string rs = getRegisterLikeRead(params[1], scope, &temp_use);
+        string rt = getRegisterLikeRead(params[2], scope, &temp_use);
+        assembly.push_back("BLE "+rs+" "+rt+" ."+params[3]);
+    }
+    else if(params[0].compare("if_l")==0){
+        assembly.push_back("BLT");
+        int temp_use = USETEMPREGISTERAMOUNT;
+        string rs = getRegisterLikeRead(params[1], scope, &temp_use);
+        string rt = getRegisterLikeRead(params[2], scope, &temp_use);
+        assembly.push_back("BLT "+rs+" "+rt+" ."+params[3]);
+    }
+    else if(params[0].compare("if_g")==0){
+        assembly.push_back("BGT");
+        int temp_use = USETEMPREGISTERAMOUNT;
+        string rs = getRegisterLikeRead(params[1], scope, &temp_use);
+        string rt = getRegisterLikeRead(params[2], scope, &temp_use);
+        assembly.push_back("BGT "+rs+" "+rt+" ."+params[3]);
+    }
+    else if(params[0].compare("if_ge")==0){
+        assembly.push_back("BGE");
+        int temp_use = USETEMPREGISTERAMOUNT;
+        string rs = getRegisterLikeRead(params[1], scope, &temp_use);
+        string rt = getRegisterLikeRead(params[2], scope, &temp_use);
+        assembly.push_back("BGE "+rs+" "+rt+" ."+params[3]);
+    }
+    else if(params[0].compare("if_e")==0){
+        assembly.push_back("BEQ");
+        int temp_use = USETEMPREGISTERAMOUNT;
+        string rs = getRegisterLikeRead(params[1], scope, &temp_use);
+        string rt = getRegisterLikeRead(params[2], scope, &temp_use);
+        assembly.push_back("BEQ "+rs+" "+rt+" ."+params[3]);
+    }
+    else if(params[0].compare("if_ne")==0){
+        assembly.push_back("BNE");
+        int temp_use = USETEMPREGISTERAMOUNT;
+        string rs = getRegisterLikeRead(params[1], scope, &temp_use);
+        string rt = getRegisterLikeRead(params[2], scope, &temp_use);
+        assembly.push_back("BNE "+rs+" "+rt+" ."+params[3]);
+    }
+    else if(params[0].compare("jal")==0){
         for(int i=0;i<static_scope_register;i++){
             assembly.push_back("STORE $sp $s"+to_string(i)+" "+to_string(i));
         }
         assembly.push_back("ADDI $sp $sp "+to_string(static_scope_register));
-        for(int i=0;i<temp_scope_register;i++){
-            assembly.push_back("STORE $sp $t"+to_string(i)+" "+to_string(i));
-        }
-        assembly.push_back("ADDI $sp $sp "+to_string(temp_scope_register));
         assembly.push_back("STORE $sp $gp 0");
         assembly.push_back("ADDI $sp $sp 1");
-        assembly.push_back("MOV $sp $gp");
         assembly.push_back("BL ."+params[1]);
         assembly.push_back("ADDI $sp $sp -1");
-        assembly.push_back("LOAD $sp $gp 0");//Pegar de volta o valor de gp
-        //end_fun tem que deixar a pilha como encontrou antes da funcao
+        assembly.push_back("LOAD $sp $gp 0");
         assembly.push_back("ADDI $sp $sp -"+to_string(static_scope_register));
         for(int i=0;i<static_scope_register;i++){
             assembly.push_back("LOAD $sp $s"+to_string(i)+ " "+to_string(i));
         }
-        assembly.push_back("ADDI $sp $sp -"+to_string(params_amount));//Some da pilha os argumentos de chamada de funcao
         mem_pos = mem_pos - params_amount;
-        assembly.push_back("MOV $sp $gp");
         params_amount = 0;
-    }
-    else if(params[0].compare("if_le")==0){
-
-    }
-    else if(params[0].compare("if_l")==0){
-
-    }
-    else if(params[0].compare("if_g")==0){
-
-    }
-    else if(params[0].compare("if_ge")==0){
-
-    }
-    else if(params[0].compare("if_e")==0){
-
-    }
-    else if(params[0].compare("if_ne")==0){
-
     }
     else{
         cout << "Quadrupla faltante " << params[0] << endl;
-    }*/
+    }
 }
 
 string generateAssembly(string quad){
