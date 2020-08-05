@@ -13,7 +13,7 @@ using namespace std;
 static vector<string> lines;
 
 static vector<string> params_args;
-static bool pushing_args = true;
+static bool pushing_args = false;
 
 vector<string> getLineParams(string line){
     vector<string> params;
@@ -255,6 +255,13 @@ void lineToAssembly(vector<string> params){
             assembly.push_back("STORE $RA");
             assembly.push_back("STORE $sp $ra 0");
             assembly.push_back("ADDI $sp $sp 1");
+
+            BucketList bucketElement = getBucketElement(scope, " ");
+            int localRegisterAmount = 0;
+            for(int i=0;i<bucketElement->variables.size();i++){
+                allocVarSpace(bucketElement->variables[i], scope, &localRegisterAmount);
+            }
+
             pushing_args = false;
         }
         if(params[0].compare("goto")==0){
@@ -275,11 +282,6 @@ void lineToAssembly(vector<string> params){
             mem_pos++;
             argument_pos = 0;
             scope = params[1];
-            BucketList bucketElement = getBucketElement(params[1], " ");
-            int localRegisterAmount = 0;
-            for(int i=0;i<bucketElement->variables.size();i++){
-                allocVarSpace(bucketElement->variables[i], scope, &localRegisterAmount);
-            }
             pushing_args = true;
         }
         else if(params[0].compare("end_fun")==0){
@@ -461,6 +463,9 @@ void lineToAssembly(vector<string> params){
             }
             mem_pos = mem_pos - params_amount;
             params_amount = 0;
+        }
+        else if(params[0].compare("end")==0){
+            assembly.push_back("HALT");
         }
         else{
             cout << "Quadrupla faltante " << params[0] << endl;
