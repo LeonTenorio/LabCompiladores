@@ -6,7 +6,6 @@ B .main
 FUN
 .input
 MOV $sp $gp
-STORE $RA
 STORE $sp $ra 0
 ADDI $sp $sp 1
 MOV $zero $s1
@@ -25,13 +24,12 @@ BR $t9
 FUN
 .output
 MOV $sp $gp
-POP_PARAM
-MOV $zero $s1
-LOAD $sp $s1 1
-STORE $RA
 STORE $sp $ra 0
 ADDI $sp $sp 1
+MOV $zero $s1
+POP_PARAM
 MOV $zero $s2
+POP $s2
 SYSTEM OUT
 OUT $s2 0
 HALT
@@ -42,63 +40,62 @@ BR $t9
 FUN
 .minloc
 MOV $sp $gp
-POP_PARAM
-MOV $sp $s1
-ADDI $sp $sp 0
-LOAD $sp $s1 1
-POP_PARAM
-MOV $zero $s2
-LOAD $sp $s2 2
-POP_PARAM
-MOV $zero $s3
-LOAD $sp $s3 3
-STORE $RA
 STORE $sp $ra 0
 ADDI $sp $sp 1
-MOV $zero $s4
-MOV $zero $s5
-MOV $zero $s6
-MOV $sp $s7
+MOV $zero $s1
+MOV $zero $s2
+MOV $zero $s3
+MOV $sp $s4
 ADDI $sp $sp 100
+POP_PARAM
+MOV $zero $s5
+POP $s5
+POP_PARAM
+MOV $zero $s6
+POP $s6
+POP_PARAM
+MOV $sp $s7
+ADDI $sp $sp 0
+POP $s7
 ASN
-MOV $s2 $s6
+MOV $s6 $s3
 ASN
-ADD $t10 $s2 $s1
+ADD $t10 $s6 $s7
 LOAD $t10 $t10 0
-MOV $t10 $s5
+MOV $t10 $s2
 ADD
 LI $t9 1
-ADD $s2 $t9 $s4
+ADD $s6 $t9 $s1
 LABEL
 ._l0
 BLT
-BLT $s4 $s3 ._l1
+BLT $s1 $s5 ._l1
 B ._l2
 LABEL
 ._l1
 BLT
-ADD $t10 $s4 $s1
+ADD $t10 $s1 $s7
 LOAD $t10 $t10 0
-BLT $t10 $s5 ._l3
+BLT $t10 $s2 ._l3
 B ._l4
 LABEL
 ._l3
 ASN
-ADD $t10 $s4 $s1
+ADD $t10 $s1 $s7
 LOAD $t10 $t10 0
-MOV $t10 $s5
+MOV $t10 $s2
 ASN
-MOV $s4 $s6
+MOV $s1 $s3
 LABEL
 ._l4
 ADD
 LI $t9 1
-ADD $s4 $t9 $s4
+ADD $s1 $t9 $s1
 B ._l0
 LABEL
 ._l2
 ASN RET
-MOV $s6 $v0
+MOV $s3 $v0
 ENDFUN RETURN
 ADDI $sp $sp -101
 LOAD $t9 $sp 0
@@ -110,34 +107,39 @@ BR $t9
 FUN
 .sort
 MOV $sp $gp
-POP_PARAM
-MOV $sp $s1
-ADDI $sp $sp 0
-LOAD $sp $s1 1
-POP_PARAM
-MOV $zero $s2
-LOAD $sp $s2 2
-POP_PARAM
-MOV $zero $s3
-LOAD $sp $s3 3
-STORE $RA
 STORE $sp $ra 0
 ADDI $sp $sp 1
+MOV $zero $s1
+MOV $zero $s2
+MOV $zero $s3
+POP_PARAM
 MOV $zero $s4
+POP $s4
+POP_PARAM
 MOV $zero $s5
-MOV $zero $s6
+POP $s5
+POP_PARAM
+MOV $sp $s6
+ADDI $sp $sp 0
+POP $s6
 ASN
-MOV $s2 $s4
+MOV $s5 $s1
 LABEL
 ._l5
 SUB
 LI $t9 1
-SUB $s3 $t9 $t0
+SUB $s4 $t9 $t0
 BLT
-BLT $s4 $t0 ._l6
+BLT $s1 $t0 ._l6
 B ._l7
 LABEL
 ._l6
+PARAM
+PUSH $s6
+PARAM
+PUSH $s1
+PARAM
+PUSH $s4
 STORE $sp $s0 0
 STORE $sp $s1 1
 STORE $sp $s2 2
@@ -148,10 +150,6 @@ STORE $sp $s6 6
 ADDI $sp $sp 7
 STORE $sp $gp 0
 ADDI $sp $sp 1
-PARAMs
-STORE $sp $s1 1
-STORE $sp $s4 2
-STORE $sp $s3 3
 BL .minloc
 ADDI $sp $sp -1
 LOAD $sp $gp 0
@@ -164,13 +162,13 @@ LOAD $sp $s4 4
 LOAD $sp $s5 5
 LOAD $sp $s6 6
 CATCH RETURN
-MOV $v0 $s5
+MOV $v0 $s2
 ASN
-ADD $t10 $s5 $s1
+ADD $t10 $s2 $s6
 LOAD $t10 $t10 0
-MOV $t10 $s6
+MOV $t10 $s3
 ASN
-ADD $t10 $s4 $s1
+ADD $t10 $s1 $s6
 LOAD $t10 $t10 0
 MOV $t10 $t10
 LI 9 1
@@ -179,7 +177,7 @@ LI $t10 k
 ADD $t9 $t10
 STORE $t9 $t10 0
 ASN
-MOV $s6 $t9
+MOV $s3 $t9
 LI 9 1
 ADD $t9 $gp
 LI $t10 i
@@ -187,7 +185,7 @@ ADD $t9 $t10
 STORE $t9 $t9 0
 ADD
 LI $t9 1
-ADD $s4 $t9 $s4
+ADD $s1 $t9 $s1
 B ._l5
 LABEL
 ._l7
@@ -197,29 +195,29 @@ LOAD $t9 $sp 0
 BR $t9
 FUN
 .main
+MOV $zero $s1
 ASN
 LI $t9 0
-MOV $t9 $t11
-STORE $sp $t11 -1 0
+MOV $t9 $s1
 LABEL
 ._l8
 BLT
-LOAD $gp $t10 -1
-LI $t10 10
-BLT $t10 $t10 ._l9
+LI $t9 10
+BLT $s1 $t9 ._l9
 B ._l10
 LABEL
 ._l9
 STORE $sp $s0 0
-ADDI $sp $sp 1
+STORE $sp $s1 1
+ADDI $sp $sp 2
 STORE $sp $gp 0
 ADDI $sp $sp 1
-PARAMs
 BL .input
 ADDI $sp $sp -1
 LOAD $sp $gp 0
-ADDI $sp $sp -1
+ADDI $sp $sp -2
 LOAD $sp $s0 0
+LOAD $sp $s1 1
 CATCH RETURN
 MOV $v0 $t9
 LI 9 0
@@ -228,60 +226,59 @@ LI $t10 i
 ADD $t9 $t10
 STORE $t9 $t9 0
 ADD
-LOAD $gp $t11 -1
-LI $t11 1
-ADD $t11 $t11 $t10
-STORE $sp $t10 -1 0
+LI $t9 1
+ADD $s1 $t9 $s1
 B ._l8
 LABEL
 ._l10
+PARAM
+PUSH $s0
+PARAM
 LI $t9 0
+PUSH $t9
+PARAM
 LI $t9 10
+PUSH $t9
 STORE $sp $s0 0
-ADDI $sp $sp 1
+STORE $sp $s1 1
+ADDI $sp $sp 2
 STORE $sp $gp 0
 ADDI $sp $sp 1
-PARAMs
-STORE $sp $s0 0
-STORE $sp $t9 1
-STORE $sp $t9 2
 BL .sort
 ADDI $sp $sp -1
 LOAD $sp $gp 0
-ADDI $sp $sp -1
+ADDI $sp $sp -2
 LOAD $sp $s0 0
+LOAD $sp $s1 1
 ASN
 LI $t9 0
-MOV $t9 $t11
-STORE $sp $t11 -1 0
+MOV $t9 $s1
 LABEL
 ._l11
 BLT
-LOAD $gp $t10 -1
-LI $t10 10
-BLT $t10 $t10 ._l12
+LI $t9 10
+BLT $s1 $t9 ._l12
 B ._l13
 LABEL
 ._l12
-LOAD $gp $t10 -1
-ADD $t11 $t10 $s0
-LOAD $t11 $t11 0
+PARAM
+ADD $t10 $s1 $s0
+LOAD $t10 $t10 0
+PUSH $t10
 STORE $sp $s0 0
-ADDI $sp $sp 1
+STORE $sp $s1 1
+ADDI $sp $sp 2
 STORE $sp $gp 0
 ADDI $sp $sp 1
-PARAMs
-STORE $sp $t11 0
 BL .output
 ADDI $sp $sp -1
 LOAD $sp $gp 0
-ADDI $sp $sp -1
+ADDI $sp $sp -2
 LOAD $sp $s0 0
+LOAD $sp $s1 1
 ADD
-LOAD $gp $t11 -1
-LI $t11 1
-ADD $t11 $t11 $t10
-STORE $sp $t10 -1 0
+LI $t9 1
+ADD $s1 $t9 $s1
 B ._l11
 LABEL
 ._l13
@@ -289,5 +286,4 @@ ENDFUN
 ADDI $sp $sp -1
 LOAD $t9 $sp 0
 BR $t9
-HALT
 HALT

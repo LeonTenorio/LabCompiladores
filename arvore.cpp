@@ -116,8 +116,8 @@ void getParamsFunction(treeNode *node){
   if(node==NULL)
     return;
   else{
-    quadCode = quadCode + "(pop_param, " + node->child[0]->name + ", , )\n";
     getParamsFunction(node->sibling);
+    quadCode = quadCode + "(pop_param, " + node->child[0]->name + ", , )\n";
   }
 }
 

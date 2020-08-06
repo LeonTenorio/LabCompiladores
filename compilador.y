@@ -558,7 +558,7 @@ int main()
 
     ofstream assemblyFile;
     assemblyFile.open("./outputs/assembly");
-    assemblyFile << generateAssembly(quadCode) + "HALT";
+    assemblyFile << generateAssembly(quadCode);
     assemblyFile.close();
 
     ofstream symbTabFileAssembly;
