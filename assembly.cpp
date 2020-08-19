@@ -4,9 +4,11 @@
 #include "symtab.cpp"
 
 #define TEMPREGISTERSAMOUNT 12
-#define USETEMPREGISTERAMOUNT 9
+#define USETEMPREGISTERAMOUNT 8
 #define STATICREGISTERSAMOUNT 10
 #define USESTATICREGISTERAMOUNT 8
+
+#define STACKSIZE 62209 //Tamanho da memoria RAM utilizada
 
 using namespace std;
 
@@ -47,6 +49,7 @@ void parseQuadCode(string quad){
 
 static vector<string> assembly;
 static vector<string> labels;
+static vector<int> labels_lines;
 
 static string scope = " ";
 
@@ -61,8 +64,8 @@ static int params_amount = 0;
 static int mem_pos = 0;
 
 bool isNumber(const string &line) {
- if (line[0] == '0') return true;
- return (atoi(line.c_str()));
+    if (line[0] == '0') return true;
+    return (atoi(line.c_str()));
 }
 
 vector<string> parseVectorElements(string variable){
@@ -88,9 +91,11 @@ void allocVarSpace(string id, string scope, int *scopeRegisterAmount){
             bucketElement->value_in_register = true;
             bucketElement->mem_pos = mem_pos;
             bucketElement->loc_register = "$s"+to_string(static_scope_register);
-            assembly.push_back("MOV $sp "+bucketElement->loc_register);
-            assembly.push_back("ADDI $sp $sp "+to_string(bucketElement->mem_loc));
-            mem_pos = mem_pos + bucketElement->mem_loc;
+            if(bucketElement->mem_loc>0){
+                assembly.push_back("MOV $sp "+bucketElement->loc_register);
+                assembly.push_back("ADDI $sp $sp "+to_string(bucketElement->mem_loc));
+                mem_pos = mem_pos + bucketElement->mem_loc;
+            }
         }
         else{
             bucketElement->value_in_register = true;
@@ -104,7 +109,9 @@ void allocVarSpace(string id, string scope, int *scopeRegisterAmount){
         if(bucketElement->data_type==IntPointer){
             bucketElement->value_in_register = false;
             bucketElement->mem_pos = mem_pos;
-            assembly.push_back("ADDI $sp $sp "+to_string(bucketElement->mem_loc));
+            if(bucketElement->mem_loc>0){
+                assembly.push_back("ADDI $sp $sp "+to_string(bucketElement->mem_loc));
+            }
             mem_pos = mem_pos + bucketElement->mem_loc;
         }
         else{
@@ -157,7 +164,7 @@ string getRegisterLikeWrite(string id, string scope, int *temp_use, bool *in_mem
             else{
                 *in_mem = true;
                 *temp_use = *temp_use + 1;
-                return "$t"+to_string(*temp_use);
+                return "$t"+to_string(*temp_use-1);
             }
         }
     }
@@ -197,34 +204,42 @@ string getRegisterLikeRead(string id, string scope, int *temp_use){
             }
             if(vector_acess.size()==2){
                 string index = getRegisterLikeRead(vector_acess[1], scope, temp_use);
-                *temp_use = *temp_use + 1;
                 assembly.push_back("ADD $t"+to_string(*temp_use)+" "+index+" "+getRegisterLikeRead(vector_acess[0], scope, temp_use));
                 assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
-                return "$t"+to_string(*temp_use);
+                *temp_use = *temp_use + 1;
+                return "$t"+to_string(*temp_use-1);
             }
             else{
                 if(bucketElement->value_in_register){
                     return bucketElement->loc_register;
                 }
                 else{
-                    *temp_use = *temp_use + 1;
                     assembly.push_back("LOAD $gp $t"+to_string(*temp_use)+" "+to_string(bucketElement->mem_pos));
-                    return "$t"+to_string(*temp_use);
+                    *temp_use = *temp_use + 1;
+                    return "$t"+to_string(*temp_use-1);
                 }
             }
         }
     }
 }
 
-void storeStackElement(string id, string scope, string loc_register){
+void storeStackElement(string id, string scope, string loc_register, int *temp_use){
+    assembly.push_back("STORE STACK ELEMENT");
+    cout << "Store stack element " << id << endl;
     vector<string> vector_acess = parseVectorElements(id);
     if(vector_acess.size()==2){
+        cout << "aqui " << loc_register << endl;
         BucketList bucketElement = getBucketElement(vector_acess[0], scope);
-        assembly.push_back("LI "+to_string(USETEMPREGISTERAMOUNT)+" "+to_string(bucketElement->mem_pos));
-        assembly.push_back("ADD $t"+to_string(USETEMPREGISTERAMOUNT)+" $gp");
-        assembly.push_back("LI $t"+to_string(USETEMPREGISTERAMOUNT+1)+" "+vector_acess[1]);
-        assembly.push_back("ADD $t"+to_string(USETEMPREGISTERAMOUNT)+" $t"+to_string(USETEMPREGISTERAMOUNT+1));
-        assembly.push_back("STORE $t"+to_string(USETEMPREGISTERAMOUNT)+" "+loc_register+" 0");
+        string desloc = getRegisterLikeRead(vector_acess[1], scope, temp_use);
+        if(bucketElement->value_in_register){
+            assembly.push_back("ADD $t"+to_string(*temp_use)+" "+bucketElement->loc_register+" "+desloc);
+            assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
+            *temp_use = *temp_use + 1;
+        }
+        else{
+            assembly.push_back("ADDI $"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
+            assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
+        }
     }
     else{
         BucketList bucketElement = getBucketElement(id, scope);
@@ -244,6 +259,7 @@ void lineToAssembly(vector<string> params){
         params_amount = 0;
         assembly.push_back("."+params[1]);
         labels.push_back("."+params[1]);
+        labels_lines.push_back(labels.size()-1);
         if(params[1].compare("main")!=0){
             assembly.push_back("MOV $sp $gp");
             assembly.push_back("STORE $sp $ra 0");
@@ -270,16 +286,18 @@ void lineToAssembly(vector<string> params){
         int localRegisterAmount = 0;
         allocVarSpace(params[1], scope, &localRegisterAmount);
         string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
-        assembly.push_back("POP "+rd);
+        assembly.push_back("ADDI $sa $sa 1");
+        assembly.push_back("LOAD $sa "+rd+" 0");
         if(in_mem){
-            storeStackElement(params[1], scope, rd);
+            storeStackElement(params[1], scope, rd, &temp_use);
         }
     }
     else if(params[0].compare("param")==0){
         assembly.push_back("PARAM");
         int temp_use = USETEMPREGISTERAMOUNT;
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
-        assembly.push_back("PUSH "+rs);
+        assembly.push_back("STORE $sa "+rs+" 0");
+        assembly.push_back("ADDI $sa $sa -1");
         params_amount++;
         mem_pos++;
     }
@@ -287,6 +305,7 @@ void lineToAssembly(vector<string> params){
         assembly.push_back("LABEL");
         assembly.push_back("."+params[1]);
         labels.push_back("."+params[1]);
+        labels_lines.push_back(labels.size()-1);
     }
     else if(params[0].compare("asn_ret")==0){
         assembly.push_back("ASN RET");
@@ -305,7 +324,7 @@ void lineToAssembly(vector<string> params){
         string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
         assembly.push_back("IN "+rd+" 0");
         if(in_mem){
-            storeStackElement(params[1], scope, rd);
+            storeStackElement(params[1], scope, rd, &temp_use);
         }
     }
     else if(params[0].compare("system_out")==0){
@@ -322,18 +341,19 @@ void lineToAssembly(vector<string> params){
         string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
         assembly.push_back("MOV $v0 "+rd);
         if(in_mem){
-            storeStackElement(params[1], scope, rd);
+            storeStackElement(params[1], scope, rd, &temp_use);
         }
     }
     else if(params[0].compare("asn")==0){
-        assembly.push_back("ASN");
+        assembly.push_back("ASN "+params[1]+" "+params[2]);
         int temp_use = USETEMPREGISTERAMOUNT;
         bool in_mem;
         string rs = getRegisterLikeRead(params[2], scope, &temp_use);
         string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
+        cout << "ASN " << params[1] << " " << rd << " " << rs << " " << assembly.size() -1 << endl;
         assembly.push_back("MOV "+rs+" "+rd);
         if(in_mem){
-            storeStackElement(params[1], scope, rd);
+            storeStackElement(params[1], scope, rd, &temp_use);
         }
     }
     else if(params[0].compare("-")==0){
@@ -343,9 +363,9 @@ void lineToAssembly(vector<string> params){
         string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
         string rs = getRegisterLikeRead(params[2], scope, &temp_use);
         string rt = getRegisterLikeRead(params[3], scope, &temp_use);
-        assembly.push_back("SUB "+rs+" "+rt+" "+rd);
+        assembly.push_back("SUB "+rd+" "+rs+" "+rt);
         if(in_mem){
-            storeStackElement(params[1], scope, rd);
+            storeStackElement(params[1], scope, rd, &temp_use);
         }
     }
     else if(params[0].compare("+")==0){
@@ -355,9 +375,9 @@ void lineToAssembly(vector<string> params){
         string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
         string rs = getRegisterLikeRead(params[2], scope, &temp_use);
         string rt = getRegisterLikeRead(params[3], scope, &temp_use);
-        assembly.push_back("ADD "+rs+" "+rt+" "+rd);
+        assembly.push_back("ADD "+rd+" "+rs+" "+rt);
         if(in_mem){
-            storeStackElement(params[1], scope, rd);
+            storeStackElement(params[1], scope, rd, &temp_use);
         }
     }
     else if(params[0].compare("/")==0){
@@ -370,7 +390,7 @@ void lineToAssembly(vector<string> params){
         assembly.push_back("DIV "+rs+" "+rt);
         assembly.push_back("MFLO "+rd);
         if(in_mem){
-            storeStackElement(params[1], scope, rd);
+            storeStackElement(params[1], scope, rd, &temp_use);
         }
     }
     else if(params[0].compare("*")==0){
@@ -383,7 +403,7 @@ void lineToAssembly(vector<string> params){
         assembly.push_back("MULT "+rs+" "+rt);
         assembly.push_back("MFLO "+rd);
         if(in_mem){
-            storeStackElement(params[1], scope, rd);
+            storeStackElement(params[1], scope, rd, &temp_use);
         }
     }
     else if(params[0].compare("if_le")==0){
@@ -429,17 +449,17 @@ void lineToAssembly(vector<string> params){
         assembly.push_back("BNE "+rs+" "+rt+" ."+params[3]);
     }
     else if(params[0].compare("jal")==0){
-        for(int i=0;i<static_scope_register;i++){
+        for(int i=globalVarScope;i<static_scope_register;i++){
             assembly.push_back("STORE $sp $s"+to_string(i)+" "+to_string(i));
         }
-        assembly.push_back("ADDI $sp $sp "+to_string(static_scope_register));
+        assembly.push_back("ADDI $sp $sp "+to_string(static_scope_register-globalVarScope));
         assembly.push_back("STORE $sp $gp 0");
         assembly.push_back("ADDI $sp $sp 1");
         assembly.push_back("BL ."+params[1]);
         assembly.push_back("ADDI $sp $sp -1");
         assembly.push_back("LOAD $sp $gp 0");
-        assembly.push_back("ADDI $sp $sp -"+to_string(static_scope_register));
-        for(int i=0;i<static_scope_register;i++){
+        assembly.push_back("ADDI $sp $sp -"+to_string(static_scope_register-globalVarScope));
+        for(int i=globalVarScope;i<static_scope_register;i++){
             assembly.push_back("LOAD $sp $s"+to_string(i)+ " "+to_string(i));
         }
         mem_pos = mem_pos - params_amount;
@@ -459,6 +479,7 @@ string generateAssembly(string quad){
     cout << lines.size() << " linhas de código intermediário" << endl;
     assembly.push_back("MOV $zero $sp");
     assembly.push_back("MOV $zero $gp");
+    assembly.push_back("LI $sa "+to_string(STACKSIZE-1));
     BucketList bucketElement = getBucketElement("GLOBAL", " ");
     
     for(int i=0;i<bucketElement->variables.size();i++){
