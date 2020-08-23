@@ -518,7 +518,7 @@ char *yytext;
 #include<string.h>
 #define MAXTOKENLEN 100
 extern YYSTYPE yylval;
-void abrirArq();
+void abrirArq(char *name);
 char currentToken[MAXTOKENLEN+1];
 
 #line 525 "lex.yy.c"
@@ -2004,8 +2004,8 @@ void yyfree (void * ptr )
 #line 54 "compilador.l"
 
 
-void abrirArq()
+void abrirArq(char *name)
 {
-  yyin = fopen("entrada.txt", "r");
+  yyin = fopen(name, "r");
 }
 

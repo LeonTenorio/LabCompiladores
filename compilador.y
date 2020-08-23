@@ -21,7 +21,7 @@ extern BucketList hashTable[SIZE];
 extern "C"
 {
   int yylex(void);
-  void abrirArq();
+  void abrirArq(char *name);
 }
 extern char* yytext;
 extern int yylineno;
@@ -525,10 +525,13 @@ erro:
 
 %%
 
-int main()
+int main(int argc, char **argv)
 {
+  string outSufix = "";
+  if(argv[2]!=NULL)
+    outSufix = string(argv[2]);
   cout << "\nParser em execução...\n";
-  abrirArq();
+  abrirArq(argv[1]);
   insertSymTab("GLOBAL", FuncType, " ", Void, 0, 0);
   insertSymTab("input",FuncType," ",Int,0, 0);
   insertSymTab("output",FuncType," ",Void,0, 0);
@@ -537,19 +540,19 @@ int main()
   else{
     showSymbTab();
     ofstream symbTabFileQuad;
-    symbTabFileQuad.open("./outputs/symbTabQuadCode");
+    symbTabFileQuad.open("./outputs/symbTabQuadCode"+outSufix);
     symbTabFileQuad << symbTabString;
     symbTabFileQuad.close();
 
     string treePreOrder = showTree(savedTree, false, 0);
     ofstream treePreOrderFile;
-    treePreOrderFile.open("./outputs/treePreOrder");
+    treePreOrderFile.open("./outputs/treePreOrder"+outSufix);
     treePreOrderFile << treePreOrder;
     treePreOrderFile.close();
 
     quadCodeGenerator(savedTree);
     ofstream quadCodeFile;
-    quadCodeFile.open("./outputs/quadCode");
+    quadCodeFile.open("./outputs/quadCode"+outSufix);
     quadCode = quadCode + "(end, , , )";
     quadCodeFile << quadCode;
     quadCodeFile.close();
@@ -557,12 +560,12 @@ int main()
     cout << endl << "Parser executado" << endl;
 
     ofstream assemblyFile;
-    assemblyFile.open("./outputs/assembly");
+    assemblyFile.open("./outputs/assembly"+outSufix);
     assemblyFile << generateAssembly(quadCode);
     assemblyFile.close();
 
     ofstream symbTabFileAssembly;
-    symbTabFileAssembly.open("./outputs/symbTabAssembly");
+    symbTabFileAssembly.open("./outputs/symbTabAssembly"+outSufix);
     symbTabFileAssembly << symbTabString;
     symbTabFileAssembly.close();
 

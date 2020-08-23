@@ -3,7 +3,7 @@
 #include<string.h>
 #define MAXTOKENLEN 100
 extern YYSTYPE yylval;
-void abrirArq();
+void abrirArq(char *name);
 char currentToken[MAXTOKENLEN+1];
 
 %}
@@ -53,7 +53,7 @@ COMMC \*\/
 .       {return ERR;}
 %%
 
-void abrirArq()
+void abrirArq(char *name)
 {
-  yyin = fopen("entrada.txt", "r");
+  yyin = fopen(name, "r");
 }
