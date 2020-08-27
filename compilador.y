@@ -525,13 +525,55 @@ erro:
 
 %%
 
+string getArg(string arg, string argv){
+  string intermediate;
+  stringstream check1(argv);
+  while(getline(check1, intermediate, '=')){
+    
+  }
+  return intermediate;
+}
+
+void obterParametros(int argc, char **argv, string *inputName, string *outSufix, bool *debug){
+  *inputName = "entrada.txt";
+  *outSufix = "";
+  *debug = true;
+  if(argc>1){
+    for(int i=1;i<argc;i++){
+      string actualString = string(argv[i]);
+      if(actualString.find("inputName")!=std::string::npos){
+        string ret = getArg("inputName", actualString);
+        if(ret.compare("inputName")!=0 && ret.length()>0){
+          *inputName = ret;
+        }
+      }
+      else if(actualString.find("outSufix")!=std::string::npos){
+        string ret = getArg("outSufix", actualString);
+        if(ret.compare("outSufix")!=0 && ret.length()>0){
+          *outSufix = ret;
+        }
+      }
+      else if(actualString.find("debug")!=std::string::npos){
+        string ret = getArg("debug", actualString);
+        if(ret.compare("false")==0 && ret.length()>0){
+          *debug = false;
+        }
+        else if(ret.compare("true")==0 && ret.length()>0){
+          *debug = true;
+        }
+      }
+    }
+  }
+}
+
 int main(int argc, char **argv)
 {
-  string outSufix = "";
-  if(argv[2]!=NULL)
-    outSufix = string(argv[2]);
+  string inputName;
+  string outSufix;
+  bool debug;
+  obterParametros(argc, argv, &inputName, &outSufix, &debug);
   cout << "\nParser em execução...\n";
-  abrirArq(argv[1]);
+  abrirArq(&inputName[0]);
   insertSymTab("GLOBAL", FuncType, " ", Void, 0, 0);
   insertSymTab("input",FuncType," ",Int,0, 0);
   insertSymTab("output",FuncType," ",Void,0, 0);
@@ -561,7 +603,7 @@ int main(int argc, char **argv)
 
     ofstream assemblyFile;
     assemblyFile.open("./outputs/assembly"+outSufix);
-    assemblyFile << generateAssembly(quadCode);
+    assemblyFile << generateAssembly(quadCode, debug);
     assemblyFile.close();
 
     ofstream symbTabFileAssembly;

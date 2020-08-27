@@ -230,8 +230,14 @@ string getRegisterLikeRead(string id, string scope, int *temp_use){
     }
 }
 
-void storeStackElement(string id, string scope, string loc_register, int *temp_use){
-    assembly.push_back("*STORE STACK ELEMENT");
+void writeDebugAssembly(string writeString, bool debug){
+    if(debug){
+        assembly.push_back("*"+writeString);
+    }
+}
+
+void storeStackElement(string id, string scope, string loc_register, int *temp_use, bool debug){
+    writeDebugAssembly("STORE STACK ELEMENT", debug);
     cout << "Store stack element " << id << endl;
     vector<string> vector_acess = parseVectorElements(id);
     if(vector_acess.size()==2){
@@ -257,14 +263,14 @@ void storeStackElement(string id, string scope, string loc_register, int *temp_u
     }
 }
 
-void lineToAssembly(vector<string> params){
+void lineToAssembly(vector<string> params, bool debug){
     if(params[0].compare("goto")==0){
         assembly.push_back("B ."+params[1]);
     }
     else if(params[0].compare("fun")==0){
         temp_scope_register = 0;
         static_scope_register = globalVarScope;
-        assembly.push_back("*FUN");
+        writeDebugAssembly("FUN", debug);
         mem_pos = 0;
         params_amount = 0;
         assembly.push_back("."+params[1]);
@@ -284,13 +290,13 @@ void lineToAssembly(vector<string> params){
         }
     }
     else if(params[0].compare("end_fun")==0){
-        assembly.push_back("*ENDFUN");
+        writeDebugAssembly("ENDFUN", debug);
         assembly.push_back("ADDI $sp $sp -"+to_string(mem_pos));
         assembly.push_back("LOAD $t"+to_string(USETEMPREGISTERAMOUNT)+" $sp 0");
         assembly.push_back("BR $t"+to_string(USETEMPREGISTERAMOUNT));
     }
     else if(params[0].compare("pop_param")==0){
-        assembly.push_back("*POP_PARAM");
+        writeDebugAssembly("POP_PARAM", debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         bool in_mem;
         int localRegisterAmount = 0;
@@ -299,11 +305,11 @@ void lineToAssembly(vector<string> params){
         assembly.push_back("ADDI $sa $sa 1");
         assembly.push_back("LOAD $sa "+rd+" 0");
         if(in_mem){
-            storeStackElement(params[1], scope, rd, &temp_use);
+            storeStackElement(params[1], scope, rd, &temp_use, debug);
         }
     }
     else if(params[0].compare("param")==0){
-        assembly.push_back("*PARAM");
+        writeDebugAssembly("PARAM", debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         assembly.push_back("STORE $sa "+rs+" 0");
@@ -312,50 +318,50 @@ void lineToAssembly(vector<string> params){
         mem_pos++;
     }
     else if(params[0].compare("label")==0){
-        assembly.push_back("*LABEL");
+        writeDebugAssembly("LABEL", debug);
         assembly.push_back("."+params[1]);
         labels.push_back("."+params[1]);
         labels_lines.push_back(labels.size()-1);
     }
     else if(params[0].compare("asn_ret")==0){
-        assembly.push_back("*ASN RET");
+        writeDebugAssembly("ASN RET", debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         assembly.push_back("MOV "+rs+" $v0");
-        assembly.push_back("*ENDFUN RETURN");
+        writeDebugAssembly("ENDFUN RETURN", debug);
         assembly.push_back("ADDI $sp $sp -"+to_string(mem_pos));
         assembly.push_back("LOAD $t"+to_string(USETEMPREGISTERAMOUNT)+" $sp 0");
         assembly.push_back("BR $t"+to_string(USETEMPREGISTERAMOUNT));
     }
     else if(params[0].compare("system_in")==0){
-        assembly.push_back("*SYSTEM IN");
+        writeDebugAssembly("SYSTEM IN", debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         bool in_mem;
         string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
         assembly.push_back("IN "+rd+" 0");
         if(in_mem){
-            storeStackElement(params[1], scope, rd, &temp_use);
+            storeStackElement(params[1], scope, rd, &temp_use, debug);
         }
     }
     else if(params[0].compare("system_out")==0){
-        assembly.push_back("*SYSTEM OUT");
+        writeDebugAssembly("SYSTEM OUT", debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         assembly.push_back("OUT "+rs+" 0");
         assembly.push_back("HALT");
     }
     else if(params[0].compare("catch_return")==0){
-        assembly.push_back("*CATCH RETURN");
+        writeDebugAssembly("CATCH RETURN", debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         bool in_mem;
         string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
         assembly.push_back("MOV $v0 "+rd);
         if(in_mem){
-            storeStackElement(params[1], scope, rd, &temp_use);
+            storeStackElement(params[1], scope, rd, &temp_use, debug);
         }
     }
     else if(params[0].compare("asn")==0){
-        assembly.push_back("*ASN "+params[1]+" "+params[2]);
+        writeDebugAssembly("ASN "+params[1]+" "+params[2], debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         bool in_mem;
         string rs = getRegisterLikeRead(params[2], scope, &temp_use);
@@ -363,11 +369,11 @@ void lineToAssembly(vector<string> params){
         cout << "ASN " << params[1] << " " << rd << " " << rs << " " << assembly.size() -1 << endl;
         assembly.push_back("MOV "+rs+" "+rd);
         if(in_mem){
-            storeStackElement(params[1], scope, rd, &temp_use);
+            storeStackElement(params[1], scope, rd, &temp_use, debug);
         }
     }
     else if(params[0].compare("-")==0){
-        assembly.push_back("*SUB");
+        writeDebugAssembly("SUB", debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         bool in_mem;
         string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
@@ -375,11 +381,11 @@ void lineToAssembly(vector<string> params){
         string rt = getRegisterLikeRead(params[3], scope, &temp_use);
         assembly.push_back("SUB "+rd+" "+rs+" "+rt);
         if(in_mem){
-            storeStackElement(params[1], scope, rd, &temp_use);
+            storeStackElement(params[1], scope, rd, &temp_use, debug);
         }
     }
     else if(params[0].compare("+")==0){
-        assembly.push_back("*ADD");
+        writeDebugAssembly("ADD", debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         bool in_mem;
         string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
@@ -387,11 +393,11 @@ void lineToAssembly(vector<string> params){
         string rt = getRegisterLikeRead(params[3], scope, &temp_use);
         assembly.push_back("ADD "+rd+" "+rs+" "+rt);
         if(in_mem){
-            storeStackElement(params[1], scope, rd, &temp_use);
+            storeStackElement(params[1], scope, rd, &temp_use, debug);
         }
     }
     else if(params[0].compare("/")==0){
-        assembly.push_back("*DIV");
+        writeDebugAssembly("DIV", debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         bool in_mem;
         string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
@@ -400,11 +406,11 @@ void lineToAssembly(vector<string> params){
         assembly.push_back("DIV "+rs+" "+rt);
         assembly.push_back("MFLO "+rd);
         if(in_mem){
-            storeStackElement(params[1], scope, rd, &temp_use);
+            storeStackElement(params[1], scope, rd, &temp_use, debug);
         }
     }
     else if(params[0].compare("*")==0){
-        assembly.push_back("*MULT");
+        writeDebugAssembly("MULT", debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         bool in_mem;
         string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
@@ -413,53 +419,53 @@ void lineToAssembly(vector<string> params){
         assembly.push_back("MULT "+rs+" "+rt);
         assembly.push_back("MFLO "+rd);
         if(in_mem){
-            storeStackElement(params[1], scope, rd, &temp_use);
+            storeStackElement(params[1], scope, rd, &temp_use, debug);
         }
     }
     else if(params[0].compare("if_le")==0){
-        assembly.push_back("*BLE");
+        writeDebugAssembly("BLE", debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         string rt = getRegisterLikeRead(params[2], scope, &temp_use);
         assembly.push_back("BLE "+rs+" "+rt+" ."+params[3]);
     }
     else if(params[0].compare("if_l")==0){
-        assembly.push_back("*BLT");
+        writeDebugAssembly("BLT", debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         string rt = getRegisterLikeRead(params[2], scope, &temp_use);
         assembly.push_back("BLT "+rs+" "+rt+" ."+params[3]);
     }
     else if(params[0].compare("if_g")==0){
-        assembly.push_back("*BGT");
+        writeDebugAssembly("BGT", debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         string rt = getRegisterLikeRead(params[2], scope, &temp_use);
         assembly.push_back("BGT "+rs+" "+rt+" ."+params[3]);
     }
     else if(params[0].compare("if_ge")==0){
-        assembly.push_back("*BGE");
+        writeDebugAssembly("BGE", debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         string rt = getRegisterLikeRead(params[2], scope, &temp_use);
         assembly.push_back("BGE "+rs+" "+rt+" ."+params[3]);
     }
     else if(params[0].compare("if_e")==0){
-        assembly.push_back("*BEQ");
+        writeDebugAssembly("BEQ", debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         string rt = getRegisterLikeRead(params[2], scope, &temp_use);
         assembly.push_back("BEQ "+rs+" "+rt+" ."+params[3]);
     }
     else if(params[0].compare("if_ne")==0){
-        assembly.push_back("*BNE");
+        writeDebugAssembly("BNE", debug);
         int temp_use = USETEMPREGISTERAMOUNT;
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         string rt = getRegisterLikeRead(params[2], scope, &temp_use);
         assembly.push_back("BNE "+rs+" "+rt+" ."+params[3]);
     }
     else if(params[0].compare("jal")==0){
-        assembly.push_back("*JAL");
+        writeDebugAssembly("JAL", debug);
         for(int i=globalVarScope;i<static_scope_register;i++){
             assembly.push_back("STORE $sp $s"+to_string(i)+" "+to_string(i));
         }
@@ -484,7 +490,7 @@ void lineToAssembly(vector<string> params){
     }
 }
 
-string generateAssembly(string quad){
+string generateAssembly(string quad, bool debug){
     string assemblyString = "";
     parseQuadCode(quad);
     cout << lines.size() << " linhas de código intermediário" << endl;
@@ -498,7 +504,7 @@ string generateAssembly(string quad){
     }
     for(int i=0;i<lines.size();i++){
         vector<string> params = getLineParams(lines[i]);
-        lineToAssembly(params);
+        lineToAssembly(params, debug);
     }
     cout << assembly.size() << " de linhas assembly" << endl;
     for(int i=0;i<assembly.size();i++){

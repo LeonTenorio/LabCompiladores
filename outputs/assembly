@@ -4,42 +4,32 @@ LI $sa 62208
 MOV $sp $s0
 ADDI $sp $sp 10
 B .main
-*FUN
 .input
 MOV $sp $gp
 STORE $sp $ra 0
 ADDI $sp $sp 1
 MOV $zero $s1
-*SYSTEM IN
 IN $s1 0
-*ASN RET
 MOV $s1 $v0
-*ENDFUN RETURN
 ADDI $sp $sp -1
 LOAD $t8 $sp 0
 BR $t8
-*ENDFUN
 ADDI $sp $sp -1
 LOAD $t8 $sp 0
 BR $t8
-*FUN
 .output
 MOV $sp $gp
 STORE $sp $ra 0
 ADDI $sp $sp 1
 MOV $zero $s1
-*POP_PARAM
 MOV $zero $s2
 ADDI $sa $sa 1
 LOAD $sa $s2 0
-*SYSTEM OUT
 OUT $s2 0
 HALT
-*ENDFUN
 ADDI $sp $sp -1
 LOAD $t8 $sp 0
 BR $t8
-*FUN
 .minloc
 MOV $sp $gp
 STORE $sp $ra 0
@@ -49,65 +39,45 @@ MOV $zero $s2
 MOV $zero $s3
 MOV $sp $s4
 ADDI $sp $sp 100
-*POP_PARAM
 MOV $zero $s5
 ADDI $sa $sa 1
 LOAD $sa $s5 0
-*POP_PARAM
 MOV $zero $s6
 ADDI $sa $sa 1
 LOAD $sa $s6 0
-*POP_PARAM
 ADDI $sa $sa 1
 LOAD $sa $s7 0
-*ASN k low
 MOV $s6 $s3
-*ASN x a[low]
 ADD $t8 $s6 $s7
 LOAD $t8 $t8 0
 MOV $t8 $s2
-*ADD
 LI $t8 1
 ADD $s1 $s6 $t8
-*LABEL
 ._l0
-*BLT
 BLT $s1 $s5 ._l1
 B ._l2
-*LABEL
 ._l1
-*BLT
 ADD $t8 $s1 $s7
 LOAD $t8 $t8 0
 BLT $t8 $s2 ._l3
 B ._l4
-*LABEL
 ._l3
-*ASN x a[i]
 ADD $t8 $s1 $s7
 LOAD $t8 $t8 0
 MOV $t8 $s2
-*ASN k i
 MOV $s1 $s3
-*LABEL
 ._l4
-*ADD
 LI $t8 1
 ADD $s1 $s1 $t8
 B ._l0
-*LABEL
 ._l2
-*ASN RET
 MOV $s3 $v0
-*ENDFUN RETURN
 ADDI $sp $sp -101
 LOAD $t8 $sp 0
 BR $t8
-*ENDFUN
 ADDI $sp $sp -101
 LOAD $t8 $sp 0
 BR $t8
-*FUN
 .sort
 MOV $sp $gp
 STORE $sp $ra 0
@@ -115,39 +85,27 @@ ADDI $sp $sp 1
 MOV $zero $s1
 MOV $zero $s2
 MOV $zero $s3
-*POP_PARAM
 MOV $zero $s4
 ADDI $sa $sa 1
 LOAD $sa $s4 0
-*POP_PARAM
 MOV $zero $s5
 ADDI $sa $sa 1
 LOAD $sa $s5 0
-*POP_PARAM
 ADDI $sa $sa 1
 LOAD $sa $s6 0
-*ASN i low
 MOV $s5 $s1
-*LABEL
 ._l5
-*SUB
 LI $t8 1
 SUB $t0 $s4 $t8
-*BLT
 BLT $s1 $t0 ._l6
 B ._l7
-*LABEL
 ._l6
-*PARAM
 STORE $sa $s6 0
 ADDI $sa $sa -1
-*PARAM
 STORE $sa $s1 0
 ADDI $sa $sa -1
-*PARAM
 STORE $sa $s4 0
 ADDI $sa $sa -1
-*JAL
 STORE $sp $s1 1
 STORE $sp $s2 2
 STORE $sp $s3 3
@@ -167,49 +125,34 @@ LOAD $sp $s3 3
 LOAD $sp $s4 4
 LOAD $sp $s5 5
 LOAD $sp $s6 6
-*CATCH RETURN
 MOV $v0 $s2
-*ASN t a[k]
 ADD $t8 $s2 $s6
 LOAD $t8 $t8 0
 MOV $t8 $s3
-*ASN a[k] a[i]
 ADD $t8 $s1 $s6
 LOAD $t8 $t8 0
 MOV $t8 $t9
-*STORE STACK ELEMENT
 ADD $t10 $s6 $s2
 STORE $t10 $t9 0
-*ASN a[i] t
 MOV $s3 $t8
-*STORE STACK ELEMENT
 ADD $t9 $s6 $s1
 STORE $t9 $t8 0
-*ADD
 LI $t8 1
 ADD $s1 $s1 $t8
 B ._l5
-*LABEL
 ._l7
-*ENDFUN
 ADDI $sp $sp -1
 LOAD $t8 $sp 0
 BR $t8
-*FUN
 .main
 MOV $zero $s1
-*ASN i 0
 LI $t8 0
 MOV $t8 $s1
-*LABEL
 ._l8
-*BLT
 LI $t8 10
 BLT $s1 $t8 ._l9
 B ._l10
-*LABEL
 ._l9
-*JAL
 STORE $sp $s1 1
 ADDI $sp $sp 1
 STORE $sp $gp 0
@@ -219,29 +162,21 @@ ADDI $sp $sp -1
 LOAD $sp $gp 0
 ADDI $sp $sp -1
 LOAD $sp $s1 1
-*CATCH RETURN
 MOV $v0 $t8
-*STORE STACK ELEMENT
 ADD $t9 $s0 $s1
 STORE $t9 $t8 0
-*ADD
 LI $t8 1
 ADD $s1 $s1 $t8
 B ._l8
-*LABEL
 ._l10
-*PARAM
 STORE $sa $s0 0
 ADDI $sa $sa -1
-*PARAM
 LI $t8 0
 STORE $sa $t8 0
 ADDI $sa $sa -1
-*PARAM
 LI $t8 10
 STORE $sa $t8 0
 ADDI $sa $sa -1
-*JAL
 STORE $sp $s1 1
 ADDI $sp $sp 1
 STORE $sp $gp 0
@@ -251,23 +186,17 @@ ADDI $sp $sp -1
 LOAD $sp $gp 0
 ADDI $sp $sp -1
 LOAD $sp $s1 1
-*ASN i 0
 LI $t8 0
 MOV $t8 $s1
-*LABEL
 ._l11
-*BLT
 LI $t8 10
 BLT $s1 $t8 ._l12
 B ._l13
-*LABEL
 ._l12
-*PARAM
 ADD $t8 $s1 $s0
 LOAD $t8 $t8 0
 STORE $sa $t8 0
 ADDI $sa $sa -1
-*JAL
 STORE $sp $s1 1
 ADDI $sp $sp 1
 STORE $sp $gp 0
@@ -277,13 +206,10 @@ ADDI $sp $sp -1
 LOAD $sp $gp 0
 ADDI $sp $sp -1
 LOAD $sp $s1 1
-*ADD
 LI $t8 1
 ADD $s1 $s1 $t8
 B ._l11
-*LABEL
 ._l13
-*ENDFUN
 ADDI $sp $sp -1
 LOAD $t8 $sp 0
 BR $t8
