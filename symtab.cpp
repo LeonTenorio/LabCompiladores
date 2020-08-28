@@ -159,13 +159,37 @@ string vectorString(vector<string> vectorString){
 
 static string symbTabString = "";
 
+string formatTabCeil(string info, int index){
+  int sizes[8] = {13, 15, 16, 14, 40, 15, 15, 15};
+  if(index<8){
+    while(info.size()<sizes[index]){
+      info = info + " ";
+    }
+  }
+  return info;
+}
+
 void showSymbTab(){
   symbTabString = "";
   bool hasMoreThanOne;
   for(int i = 0; i < SIZE; i++){
     BucketList l = hashTable[i];
     while(l!=NULL){
-      symbTabString = symbTabString + "ID: " + l->id + ", SCOPE: " + l->scope + ", DATA TYPE: " + stringDataType(l->data_type) + ", TYPE ID: " + stringTypeID(l->type_id) + ", LINES: ";
+      symbTabString = symbTabString + formatTabCeil("ID: "+l->id, 0);
+      symbTabString = symbTabString + formatTabCeil("SCOPE: "+l->scope, 1);
+      symbTabString = symbTabString + formatTabCeil("DATA TYPE: "+stringDataType(l->data_type), 2);
+      symbTabString = symbTabString + formatTabCeil("TYPE ID: "+stringTypeID(l->type_id), 3);
+      symbTabString = symbTabString + formatTabCeil("LINES: "+showLines(l->lines), 4);
+      symbTabString = symbTabString + formatTabCeil("MEMLOC: "+to_string(l->mem_loc), 5);
+      symbTabString = symbTabString + formatTabCeil("MEMPOS: "+to_string(l->mem_pos), 6);
+      symbTabString = symbTabString + formatTabCeil("VARAMOUNT: "+to_string(l->var_amount), 7);
+      if(l->value_in_register && stringTypeID(l->type_id)=="var")
+        symbTabString = symbTabString + formatTabCeil("REG: "+l->loc_register, 8);
+      else if(stringTypeID(l->type_id)=="var")
+        symbTabString = symbTabString + formatTabCeil("REG: mem["+l->loc_register+"]", 8);
+      if(stringTypeID(l->type_id)=="func")
+        symbTabString = symbTabString + formatTabCeil("VARS: ["+vectorString(l->variables)+"]", 8);
+      /*symbTabString = symbTabString + "ID: " + l->id + ", SCOPE: " + l->scope + ", DATA TYPE: " + stringDataType(l->data_type) + ", TYPE ID: " + stringTypeID(l->type_id) + ", LINES: ";
       symbTabString = symbTabString + "[";
       symbTabString = symbTabString + showLines(l->lines);
       symbTabString = symbTabString + "]";
@@ -178,7 +202,7 @@ void showSymbTab(){
         symbTabString = symbTabString + " REG: mem[" + l->loc_register + "]";
       if(stringTypeID(l->type_id)=="func"){
         symbTabString = symbTabString + " VARS: [" + vectorString(l->variables) + "]";
-      }
+      }*/
       symbTabString = symbTabString + "\n";
       l = l->next;
     }

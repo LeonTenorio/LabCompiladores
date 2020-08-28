@@ -2484,7 +2484,7 @@ int main(int argc, char **argv)
   bool debug;
   bool binaryToQuartus;
   obterParametros(argc, argv, &inputName, &outSufix, &debug, &binaryToQuartus);
-  cout << "\nParser em execução...\n";
+  cout << "\Bison em execução...\n";
   abrirArq(&inputName[0]);
   insertSymTab("GLOBAL", FuncType, " ", Void, 0, 0);
   insertSymTab("input",FuncType," ",Int,0, 0);
@@ -2511,19 +2511,20 @@ int main(int argc, char **argv)
     quadCodeFile << quadCode;
     quadCodeFile.close();
 
-    cout << endl << "Parser executado" << endl;
+    cout << endl << "Bison executado" << endl;
 
     ofstream assemblyFile;
     assemblyFile.open("./outputs/assembly"+outSufix);
     assemblyFile << generateAssembly(quadCode, debug);
     assemblyFile.close();
 
+    showSymbTab();
     ofstream symbTabFileAssembly;
     symbTabFileAssembly.open("./outputs/symbTabAssembly"+outSufix);
     symbTabFileAssembly << symbTabString;
     symbTabFileAssembly.close();
 
-    cout << endl << "Assembly gerado" << endl;
+    cout << "Assembly gerado" << endl << endl;
 
     if(debug==false){
       ofstream binaryFile;
@@ -2531,7 +2532,7 @@ int main(int argc, char **argv)
       binaryFile << generateBinary(assembly, labels, labels_lines, binaryToQuartus);
       binaryFile.close();
 
-      cout << endl << "Binário gerado" << endl;
+      cout << "Binário gerado" << endl;
     }
 
     return 0;

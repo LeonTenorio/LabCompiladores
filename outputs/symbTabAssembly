@@ -1,23 +1,23 @@
-ID: i, SCOPE: sort, DATA TYPE: int, TYPE ID: var, LINES: [38 38 37 36 34 32 30 29] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
-ID: input, SCOPE:  , DATA TYPE: int, TYPE ID: func, LINES: [49 0] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 1 VARS: [val]
-ID: val, SCOPE: output, DATA TYPE: int, TYPE ID: var, LINES: [59] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
-ID: a, SCOPE: sort, DATA TYPE: int*, TYPE ID: var, LINES: [37 36 36 35 34 26] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
-ID: low, SCOPE: minloc, DATA TYPE: int, TYPE ID: var, LINES: [14 13 12 7] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
-ID: i, SCOPE: minloc, DATA TYPE: int, TYPE ID: var, LINES: [21 21 19 18 17 16 14 10] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
-ID: t, SCOPE: sort, DATA TYPE: int, TYPE ID: var, LINES: [37 35 33] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
-ID: a, SCOPE: minloc, DATA TYPE: int*, TYPE ID: var, LINES: [18 17 13 7] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
-ID: i, SCOPE: main, DATA TYPE: int, TYPE ID: var, LINES: [57 57 56 55 53 50 50 49 48 46 45] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
-ID: val, SCOPE: input, DATA TYPE: int, TYPE ID: var, LINES: [59] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
-ID: high, SCOPE: minloc, DATA TYPE: int, TYPE ID: var, LINES: [16 7] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
-ID: main, SCOPE:  , DATA TYPE: void, TYPE ID: func, LINES: [42] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 1 VARS: [i]
-ID: high, SCOPE: sort, DATA TYPE: int, TYPE ID: var, LINES: [34 32 26] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
-ID: low, SCOPE: sort, DATA TYPE: int, TYPE ID: var, LINES: [30 26] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
-ID: x, SCOPE: minloc, DATA TYPE: int, TYPE ID: var, LINES: [18 17 13 10] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
-ID: output, SCOPE:  , DATA TYPE: void, TYPE ID: func, LINES: [56 0] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 1 VARS: [val]
-ID: GLOBAL, SCOPE:  , DATA TYPE: void, TYPE ID: func, LINES: [0] MEMLOC: 10 MEMPOS: -1 VARAMOUNT: 1 VARS: [vet]
-ID: vet, SCOPE:  , DATA TYPE: int*, TYPE ID: var, LINES: [5] MEMLOC: 10 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
-ID: sort, SCOPE:  , DATA TYPE: void, TYPE ID: func, LINES: [52 26] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 3 VARS: [i, k, t]
-ID: k, SCOPE: minloc, DATA TYPE: int, TYPE ID: var, LINES: [23 19 12 10] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
-ID: vector, SCOPE: minloc, DATA TYPE: int*, TYPE ID: var, LINES: [11] MEMLOC: 100 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
-ID: minloc, SCOPE:  , DATA TYPE: int, TYPE ID: func, LINES: [34 7] MEMLOC: 100 MEMPOS: -1 VARAMOUNT: 4 VARS: [i, x, k, vector]
-ID: k, SCOPE: sort, DATA TYPE: int, TYPE ID: var, LINES: [36 35 34 29] MEMLOC: 0 MEMPOS: -1 VARAMOUNT: 0 REG: mem[ ]
+ID: i        SCOPE: sort    DATA TYPE: int  TYPE ID: var  LINES: 38 38 37 36 34 32 30 29          MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
+ID: input    SCOPE:         DATA TYPE: int  TYPE ID: func LINES: 49 0                             MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
+ID: val      SCOPE: output  DATA TYPE: int  TYPE ID: var  LINES: 59                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s2
+ID: a        SCOPE: sort    DATA TYPE: int* TYPE ID: var  LINES: 37 36 36 35 34 26                MEMLOC: 0      MEMPOS: 1      VARAMOUNT: 0   REG: $s6
+ID: low      SCOPE: minloc  DATA TYPE: int  TYPE ID: var  LINES: 14 13 12 7                       MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s6
+ID: i        SCOPE: minloc  DATA TYPE: int  TYPE ID: var  LINES: 21 21 19 18 17 16 14 10          MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
+ID: t        SCOPE: sort    DATA TYPE: int  TYPE ID: var  LINES: 37 35 33                         MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s3
+ID: a        SCOPE: minloc  DATA TYPE: int* TYPE ID: var  LINES: 18 17 13 7                       MEMLOC: 0      MEMPOS: 101    VARAMOUNT: 0   REG: $s7
+ID: i        SCOPE: main    DATA TYPE: int  TYPE ID: var  LINES: 57 57 56 55 53 50 50 49 48 46 45 MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
+ID: val      SCOPE: input   DATA TYPE: int  TYPE ID: var  LINES: 59                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
+ID: high     SCOPE: minloc  DATA TYPE: int  TYPE ID: var  LINES: 16 7                             MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s5
+ID: main     SCOPE:         DATA TYPE: void TYPE ID: func LINES: 42                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [i]
+ID: high     SCOPE: sort    DATA TYPE: int  TYPE ID: var  LINES: 34 32 26                         MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s4
+ID: low      SCOPE: sort    DATA TYPE: int  TYPE ID: var  LINES: 30 26                            MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s5
+ID: x        SCOPE: minloc  DATA TYPE: int  TYPE ID: var  LINES: 18 17 13 10                      MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s2
+ID: output   SCOPE:         DATA TYPE: void TYPE ID: func LINES: 56 0                             MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
+ID: GLOBAL   SCOPE:         DATA TYPE: void TYPE ID: func LINES: 0                                MEMLOC: 10     MEMPOS: -1     VARAMOUNT: 1   VARS: [vet]
+ID: vet      SCOPE:         DATA TYPE: int* TYPE ID: var  LINES: 5                                MEMLOC: 10     MEMPOS: 0      VARAMOUNT: 0   REG: $s0
+ID: sort     SCOPE:         DATA TYPE: void TYPE ID: func LINES: 52 26                            MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 3   VARS: [i, k, t]
+ID: k        SCOPE: minloc  DATA TYPE: int  TYPE ID: var  LINES: 23 19 12 10                      MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s3
+ID: vector   SCOPE: minloc  DATA TYPE: int* TYPE ID: var  LINES: 11                               MEMLOC: 100    MEMPOS: 1      VARAMOUNT: 0   REG: $s4
+ID: minloc   SCOPE:         DATA TYPE: int  TYPE ID: func LINES: 34 7                             MEMLOC: 100    MEMPOS: -1     VARAMOUNT: 4   VARS: [i, x, k, vector]
+ID: k        SCOPE: sort    DATA TYPE: int  TYPE ID: var  LINES: 36 35 34 29                      MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s2
