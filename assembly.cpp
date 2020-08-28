@@ -54,7 +54,7 @@ void parseQuadCode(string quad){
 
 static vector<string> assembly;
 static vector<string> labels;
-static vector<int> labels_lines;
+static map<string,int> labels_lines;
 
 static string scope = " ";
 
@@ -275,7 +275,7 @@ void lineToAssembly(vector<string> params, bool debug){
         params_amount = 0;
         assembly.push_back("."+params[1]);
         labels.push_back("."+params[1]);
-        labels_lines.push_back(labels.size()-1);
+        labels_lines["."+params[1]] = labels.size()-1;
         if(params[1].compare("main")!=0){
             assembly.push_back("MOV $sp $gp");
             assembly.push_back("STORE $sp $ra 0");
@@ -321,7 +321,7 @@ void lineToAssembly(vector<string> params, bool debug){
         writeDebugAssembly("LABEL", debug);
         assembly.push_back("."+params[1]);
         labels.push_back("."+params[1]);
-        labels_lines.push_back(labels.size()-1);
+        labels_lines["."+params[1]] = labels.size()-1;
     }
     else if(params[0].compare("asn_ret")==0){
         writeDebugAssembly("ASN RET", debug);

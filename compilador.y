@@ -8,6 +8,7 @@
 #include "symtab.cpp"
 #include "utils.c"
 #include "assembly.cpp"
+#include "binary.cpp"
 #define YYSTYPE treeNode *
 #define SIZE 523
 
@@ -534,10 +535,11 @@ string getArg(string arg, string argv){
   return intermediate;
 }
 
-void obterParametros(int argc, char **argv, string *inputName, string *outSufix, bool *debug){
+void obterParametros(int argc, char **argv, string *inputName, string *outSufix, bool *debug, bool *binaryToQuartus){
   *inputName = "entrada.txt";
   *outSufix = "";
   *debug = true;
+  *binaryToQuartus = false;
   if(argc>1){
     for(int i=1;i<argc;i++){
       string actualString = string(argv[i]);
@@ -562,6 +564,15 @@ void obterParametros(int argc, char **argv, string *inputName, string *outSufix,
           *debug = true;
         }
       }
+      else if(actualString.find("quartus")!=std::string::npos){
+        string ret = getArg("quartus", actualString);
+        if(ret.compare("false")==0 && ret.length()>0){
+          *binaryToQuartus = false;
+        }
+        else if(ret.compare("true")==0 && ret.length()>0){
+          *binaryToQuartus = true;
+        }
+      }
     }
   }
 }
@@ -571,7 +582,8 @@ int main(int argc, char **argv)
   string inputName;
   string outSufix;
   bool debug;
-  obterParametros(argc, argv, &inputName, &outSufix, &debug);
+  bool binaryToQuartus;
+  obterParametros(argc, argv, &inputName, &outSufix, &debug, &binaryToQuartus);
   cout << "\nParser em execução...\n";
   abrirArq(&inputName[0]);
   insertSymTab("GLOBAL", FuncType, " ", Void, 0, 0);
@@ -612,6 +624,16 @@ int main(int argc, char **argv)
     symbTabFileAssembly.close();
 
     cout << endl << "Assembly gerado" << endl;
+
+    if(debug==false){
+      ofstream binaryFile;
+      binaryFile.open("./outputs/binary"+outSufix);
+      binaryFile << generateBinary(assembly, labels, labels_lines, binaryToQuartus);
+      binaryFile.close();
+
+      cout << endl << "Binário gerado" << endl;
+    }
+
     return 0;
   }
 }

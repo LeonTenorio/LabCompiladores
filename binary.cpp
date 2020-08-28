@@ -1,6 +1,9 @@
 #include <string>
 #include <iostream>
 #include <bits/stdc++.h> 
+#include <map>
+
+//Falta o tratamento para as labels
 
 using namespace std;
 
@@ -25,27 +28,27 @@ vector<string> getAssemblyLineParams(string line){
 }
 
 string convertNumberToBinary4Size(int number){
-    std::bitset<4>(number).to_string();
+    return std::bitset<4>(number).to_string();
 }
 
 string convertNumberToBinary5Size(int number){
-    std::bitset<5>(number).to_string();
+    return std::bitset<5>(number).to_string();
 }
 
 string convertNumberToBinary9Size(int number){
-    std::bitset<9>(number).to_string();
+    return std::bitset<9>(number).to_string();
 }
 
 string convertNumberToBinary14Size(int number){
-    std::bitset<14>(number).to_string();
+    return std::bitset<14>(number).to_string();
 }
 
 string convertNumberToBinary23Size(int number){
-    std::bitset<23>(number).to_string();
+    return std::bitset<23>(number).to_string();
 }
 
 string convertNumberToBinary24Size(int number){
-    std::bitset<24>(number).to_string();
+    return std::bitset<24>(number).to_string();
 }
 
 int _getRegister(string loc_register){/*
@@ -94,77 +97,113 @@ string getRegister(string loc_register){
     return convertNumberToBinary5Size(_getRegister(loc_register));
 }
 
-void lineToBinary(vector<string> params, vector<int> labels){
-    if(params[0].compare("HALT")==0){
-        binaryCode.push_back(convertNumberToBinary4Size(0)+convertNumberToBinary4Size(1)+convertNumberToBinary24Size(0));
+string toFullBinaryInst(string instruction){
+    while(instruction.length()<32){
+        instruction = instruction + "X";
+    }
+    return instruction;
+}
+
+string lineToBinary(vector<string> params, vector<string> labels, map<string, int> labels_lines){
+    if(params[0].find(".")==0){//Ignorar essa linha
+        return "";
+    }
+    else if(params[0].compare("HALT")==0){
+        return convertNumberToBinary4Size(0)+convertNumberToBinary4Size(1)+convertNumberToBinary24Size(0);
     }
     else if(params[0].compare("ADD")==0){
-        binaryCode.push_back(convertNumberToBinary4Size(1)+convertNumberToBinary4Size(4)+getRegister(params[2])+getRegister(params[3])+getRegister(params[1]));
+        return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(4)+getRegister(params[2])+getRegister(params[3])+getRegister(params[1]);
     }
     else if(params[0].compare("ADDI")==0){
-        
+        return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(5)+getRegister(params[2])+getRegister(params[1])+convertNumberToBinary14Size(stoi(params[3]));
     }
     else if(params[0].compare("SUB")==0){
-
+        return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(6)+getRegister(params[2])+getRegister(params[3])+getRegister(params[1]);
     }
     else if(params[0].compare("MULT")==0){
-
+        return convertNumberToBinary4Size(2)+"XXXX"+getRegister(params[1])+getRegister(params[2]);
     }
     else if(params[0].compare("DIV")==0){
-
+        return convertNumberToBinary4Size(3)+"XXXX"+getRegister(params[1])+getRegister(params[2]);
     }
     else if(params[0].compare("B")==0){
-
+        return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(0)+convertNumberToBinary24Size(labels_lines[params[1]]);
     }
     else if(params[0].compare("BL")==0){
-
+        return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(1)+convertNumberToBinary24Size(labels_lines[params[1]]);
     }
     else if(params[0].compare("BR")==0){
-
+        return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(2)+getRegister(params[1]);
     }
     else if(params[0].compare("BEQ")==0){
-
+        return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(3)+getRegister(params[1])+getRegister(params[2])+convertNumberToBinary14Size(labels_lines[params[3]]);
     }
     else if(params[0].compare("BNE")==0){
-
+        return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(4)+getRegister(params[1])+getRegister(params[2])+convertNumberToBinary14Size(labels_lines[params[3]]);
     }
     else if(params[0].compare("BLT")==0){
-
+        return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(5)+getRegister(params[1])+getRegister(params[2])+convertNumberToBinary14Size(labels_lines[params[3]]);
     }
     else if(params[0].compare("BLE")==0){
-
+        return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(6)+getRegister(params[1])+getRegister(params[2])+convertNumberToBinary14Size(labels_lines[params[3]]);
     }
     else if(params[0].compare("BGT")==0){
-
+        return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(7)+getRegister(params[1])+getRegister(params[2])+convertNumberToBinary14Size(labels_lines[params[3]]);
     }
     else if(params[0].compare("BGE")==0){
-
+        return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(8)+getRegister(params[1])+getRegister(params[2])+convertNumberToBinary14Size(labels_lines[params[3]]);
     }
     else if(params[0].compare("STORE")==0){
-
+        return convertNumberToBinary4Size(5)+"XXXX"+getRegister(params[1])+getRegister(params[2])+"XXXX"+convertNumberToBinary9Size(stoi(params[3]));
     }
     else if(params[0].compare("LOAD")==0){
-
+        return convertNumberToBinary4Size(6)+"XXXX"+getRegister(params[1])+"XXXXX"+getRegister(params[2])+convertNumberToBinary9Size(stoi(params[3]));
     }
     else if(params[0].compare("LI")==0){
-
+        return convertNumberToBinary4Size(7)+getRegister(params[1])+convertNumberToBinary23Size(stoi(params[2]));
     }
     else if(params[0].compare("MOV")==0){
-
+        return convertNumberToBinary4Size(8)+convertNumberToBinary4Size(0)+getRegister(params[1])+"XXXXX"+getRegister(params[2]);
     }
     else if(params[0].compare("MFHI")==0){
-
+        return convertNumberToBinary4Size(8)+convertNumberToBinary4Size(1)+"XXXXXXXXXX"+getRegister(params[1]);
     }
     else if(params[0].compare("MFLO")==0){
-
+        return convertNumberToBinary4Size(8)+convertNumberToBinary4Size(2)+"XXXXXXXXXX"+getRegister(params[1]);
     }
     else if(params[0].compare("IN")==0){
-
+        return convertNumberToBinary4Size(9)+"XXXX"+getRegister(params[1]);
     }
     else if(params[0].compare("OUT")==0){
-
+        return convertNumberToBinary4Size(10)+"XXXX"+getRegister(params[1]);
     }
     else{
         cout << "Erro, linha de assembly não reconhecida" << endl;
+        return "";
     }
+}
+
+string generateBinary(vector<string> assembly_lines, vector<string> labels, map<string, int> labels_lines, bool binaryToQuartus){
+    string assemblyString = "";
+    for(int i=0;i<assembly_lines.size();i++){
+        vector<string> params = getAssemblyLineParams(assembly_lines[i]);
+        string line = lineToBinary(params, labels, labels_lines);
+        if(line.length()>0){
+            line = toFullBinaryInst(line);
+            binaryCode.push_back(line);
+        }
+        if(line.length()>32){
+            cout << "error " << assembly_lines[i] << " " <<  line << endl;
+        }
+    }
+    cout << binaryCode.size() << " de linhas código binário" << endl;
+    for(int i=0;i<binaryCode.size();i++){
+        if(binaryToQuartus){
+            assemblyString = assemblyString + "registers["+to_string(i)+"] = {" + binaryCode[i] + "}\n";
+        }
+        else{
+            assemblyString = assemblyString + binaryCode[i] + "\n";
+        }
+    }
+    return assemblyString;
 }
