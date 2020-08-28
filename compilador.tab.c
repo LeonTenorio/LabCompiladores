@@ -2542,4 +2542,5 @@ int main(int argc, char **argv)
 void yyerror(char * msg)
 {
   cout << msg << ": erro no token \"" << yytext << "\" na linha " << yylineno << endl;
+  exit(-1);
 }
