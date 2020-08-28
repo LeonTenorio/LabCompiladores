@@ -199,7 +199,7 @@ string generateBinary(vector<string> assembly_lines, vector<string> labels, map<
     cout << binaryCode.size() << " de linhas código binário" << endl;
     for(int i=0;i<binaryCode.size();i++){
         if(binaryToQuartus){
-            assemblyString = assemblyString + "registers["+to_string(i)+"] = {" + binaryCode[i] + "}\n";
+            assemblyString = assemblyString + "registers["+to_string(i)+"] = {32'b" + binaryCode[i] + "}\n";
         }
         else{
             assemblyString = assemblyString + binaryCode[i] + "\n";
