@@ -6,7 +6,7 @@ TABELA DE SÍMBOLOS
 Foi necessário acrescentar informações, posicionamento de memória, alocação de memória, tipo de IntPointer, flag pra verificar se a variável está em registrador, lista de variáveis para uma função, tudo isso para o gerenciamento de memória que será/é (finalizando desenvolvimento) no ASSEMBLY
 **Necessária uma correção na saída dos dados dessa tabela de símbolos na forma com que os registradores estão saindo para cada variável depois do ASSEMBLY
 
-QUADRUPLAS
+QUÁDRUPLAS
 Nenhuma alocação de memória, apenas as operações genéricas feitas e linearizadas da árvore sintática
 
 ASSEMBLY
