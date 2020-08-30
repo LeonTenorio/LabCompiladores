@@ -1,3 +1,4 @@
+LI $zero 0
 MOV $zero $sp
 MOV $zero $gp
 LI $sa 62208
@@ -210,7 +211,4 @@ LI $t8 1
 ADD $s1 $s1 $t8
 B ._l11
 ._l13
-ADDI $sp $sp -1
-LOAD $t8 $sp 0
-BR $t8
 HALT
