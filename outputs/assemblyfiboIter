@@ -1,0 +1,88 @@
+LI $zero 0
+MOV $zero $sp
+MOV $zero $gp
+LI $sa 62208
+B .main
+.input
+STORE $sp $ra 0
+ADDI $sp $sp 1
+MOV $sp $gp
+MOV $zero $s0
+IN $s0 0
+MOV $s0 $v0
+ADDI $sp $sp -1
+LOAD $t8 $sp 0
+BR $t8
+ADDI $sp $sp -1
+LOAD $t8 $sp 0
+BR $t8
+.output
+STORE $sp $ra 0
+ADDI $sp $sp 1
+MOV $sp $gp
+MOV $zero $s0
+MOV $zero $s1
+ADDI $sa $sa 1
+LOAD $sa $s1 0
+OUT $s1 0
+HALT
+ADDI $sp $sp -1
+LOAD $t8 $sp 0
+BR $t8
+.fibonacci
+STORE $sp $ra 0
+ADDI $sp $sp 1
+MOV $sp $gp
+MOV $zero $s0
+MOV $zero $s1
+MOV $zero $s2
+MOV $zero $s3
+MOV $zero $s4
+ADDI $sa $sa 1
+LOAD $sa $s4 0
+LI $t8 1
+MOV $t8 $s0
+LI $t8 1
+MOV $t8 $s1
+LI $t8 0
+MOV $t8 $s2
+._l0
+BLT $s0 $s4 ._l1
+B ._l2
+._l1
+MOV $s2 $s3
+MOV $s1 $s2
+ADD $s1 $s1 $s3
+LI $t8 1
+ADD $s0 $s0 $t8
+B ._l0
+._l2
+MOV $s1 $v0
+ADDI $sp $sp -1
+LOAD $t8 $sp 0
+BR $t8
+ADDI $sp $sp -1
+LOAD $t8 $sp 0
+BR $t8
+.main
+LI $t8 5
+STORE $sa $t8 0
+ADDI $sa $sa -1
+ADDI $sp $sp 0
+STORE $sp $gp 0
+ADDI $sp $sp 1
+BL .fibonacci
+ADDI $sp $sp -1
+LOAD $sp $gp 0
+ADDI $sp $sp -0
+MOV $v0 $t0
+STORE $sa $t0 0
+ADDI $sa $sa -1
+ADDI $sp $sp 0
+STORE $sp $gp 0
+ADDI $sp $sp 1
+BL .output
+ADDI $sp $sp -1
+LOAD $sp $gp 0
+ADDI $sp $sp -0
+HALT

@@ -1,0 +1,55 @@
+int vet[ 10 ];/*$s0 = vet*/
+
+int minloc ( int a[], int low, int high )
+{	
+	/*a = $s7, low = $s6, high = $s5, i = $s1, x = $s2, k = $s3, vector = $s4*/
+	int i; int x; int k;
+	int vector[100];
+	k = low;
+	x = a[low];
+	i = low + 1;
+	/*._l0*/
+	while (i < high){/*._l1*/
+		if (a[i] < x){/*._l3*/
+			x = a[i];
+			k = i;
+		}/*._l4*/
+		i = i + 1;
+	}/*._l2*/
+	return k;
+}
+
+void sort( int a[], int low, int high)
+{	
+	/*i = $s1, k = $s2, t = $s3, high = $s4, low = $s5, a = $s6*/
+	int i; int k;
+	i = low;
+	/*._l5*/
+	while (i < high-1){/*._l6*/
+		int t;
+		k = minloc(a,i,high);
+		t = a[k];
+		a[k] = a[i];/*$t8 = a[i], $t9 = a[k]*/
+		a[i] = t;
+		i = i + 1;
+	}/*._l7*/
+}
+
+void main(void)
+{
+	/*$s1 = i*/
+	int i;
+	i = 0;
+	/*._l8*/
+	while (i < 10){/*._l9*/
+		vet[i] = input();
+		i = i + 1;
+	}/*._l10*/
+	sort(vet,0,10);
+	i = 0;
+	/*._l11*/
+	while (i < 10){/*._l12*/
+		output(vet[i]);
+		i = i + 1;
+	}/*._l13*/
+}

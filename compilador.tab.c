@@ -2484,7 +2484,7 @@ int main(int argc, char **argv)
   bool debug;
   bool binaryToQuartus;
   obterParametros(argc, argv, &inputName, &outSufix, &debug, &binaryToQuartus);
-  cout << "\Bison em execução...\n";
+  cout << "\nBison em execução...\n";
   abrirArq(&inputName[0]);
   insertSymTab("GLOBAL", FuncType, " ", Void, 0, 0);
   insertSymTab("input",FuncType," ",Int,0, 0);

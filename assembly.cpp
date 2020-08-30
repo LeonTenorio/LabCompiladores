@@ -272,19 +272,22 @@ void storeStackElement(string id, string scope, string loc_register, int *temp_u
     }
 }
 
+static string func_name = "";
+
 void lineToAssembly(vector<string> params, bool debug){
     if(params[0].compare("goto")==0){
         assembly.push_back("B ."+params[1]);
     }
     else if(params[0].compare("fun")==0){
+        func_name = params[1];
         temp_scope_register = 0;
         static_scope_register = globalVarScope;
         writeDebugAssembly("FUN", debug);
         mem_pos = 0;
         params_amount = 0;
+        labels_lines["."+params[1]] = assembly.size() - labels.size();
         assembly.push_back("."+params[1]);
         labels.push_back("."+params[1]);
-        labels_lines["."+params[1]] = labels.size()-1;
         if(params[1].compare("main")!=0){
             assembly.push_back("STORE $sp $ra 0");
             assembly.push_back("ADDI $sp $sp 1");
@@ -300,9 +303,11 @@ void lineToAssembly(vector<string> params, bool debug){
     }
     else if(params[0].compare("end_fun")==0){
         writeDebugAssembly("ENDFUN", debug);
-        assembly.push_back("ADDI $sp $sp -"+to_string(mem_pos));
-        assembly.push_back("LOAD $t"+to_string(USETEMPREGISTERAMOUNT)+" $sp 0");
-        assembly.push_back("BR $t"+to_string(USETEMPREGISTERAMOUNT));
+        if(func_name.compare("main")!=0){
+            assembly.push_back("ADDI $sp $sp -"+to_string(mem_pos));
+            assembly.push_back("LOAD $t"+to_string(USETEMPREGISTERAMOUNT)+" $sp 0");
+            assembly.push_back("BR $t"+to_string(USETEMPREGISTERAMOUNT));
+        }
     }
     else if(params[0].compare("pop_param")==0){
         writeDebugAssembly("POP_PARAM", debug);
@@ -328,9 +333,9 @@ void lineToAssembly(vector<string> params, bool debug){
     }
     else if(params[0].compare("label")==0){
         writeDebugAssembly("LABEL", debug);
+        labels_lines["."+params[1]] = assembly.size() - labels.size();
         assembly.push_back("."+params[1]);
         labels.push_back("."+params[1]);
-        labels_lines["."+params[1]] = labels.size()-1;
     }
     else if(params[0].compare("asn_ret")==0){
         writeDebugAssembly("ASN RET", debug);
@@ -503,6 +508,7 @@ string generateAssembly(string quad, bool debug){
     string assemblyString = "";
     parseQuadCode(quad);
     cout << lines.size() << " linhas de código intermediário" << endl << endl;
+    assembly.push_back("LI $zero 0");
     assembly.push_back("MOV $zero $sp");
     assembly.push_back("MOV $zero $gp");
     assembly.push_back("LI $sa "+to_string(STACKSIZE-1));
