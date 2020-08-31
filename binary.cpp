@@ -167,7 +167,8 @@ string lineToBinary(vector<string> params, vector<string> labels, map<string, in
         return convertNumberToBinary4Size(5)+"XXXX"+getRegister(params[1])+getRegister(params[2])+"XXXXX"+convertNumberToBinary9Size(stoi(params[3]));
     }
     else if(params[0].compare("LOAD")==0){
-        return convertNumberToBinary4Size(6)+"XXXX"+getRegister(params[1])+"XXXXX"+getRegister(params[2])+convertNumberToBinary9Size(stoi(params[3]));
+        cout << params[0] +" " + params[1] +" "+params[2] + " "+params[3] << endl;
+        return convertNumberToBinary4Size(6)+"XXXX"+getRegister(params[2])+"XXXXX"+getRegister(params[1])+convertNumberToBinary9Size(stoi(params[3]));
     }
     else if(params[0].compare("LI")==0){
         return convertNumberToBinary4Size(7)+getRegister(params[1])+convertNumberToBinary23Size(stoi(params[2]));

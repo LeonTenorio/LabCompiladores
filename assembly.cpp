@@ -190,7 +190,7 @@ string getRegisterLikeRead(string id, string scope, int *temp_use){
             else{
                 assembly.push_back("LI $t"+to_string(*temp_use)+" "+to_string(temp_mem_pos[indexString-USETEMPREGISTERAMOUNT]));
                 assembly.push_back("ADD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" $gp");
-                assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use));
+                assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
                 *temp_use = *temp_use + 1;
                 return "$t"+to_string(*temp_use-1);
             }
@@ -317,7 +317,7 @@ void lineToAssembly(vector<string> params, bool debug){
         allocVarSpace(params[1], scope, &localRegisterAmount);
         string rd = getRegisterLikeWrite(params[1], scope, &temp_use, &in_mem);
         assembly.push_back("ADDI $sa $sa 1");
-        assembly.push_back("LOAD $sa "+rd+" 0");
+        assembly.push_back("LOAD "+rd+" $sa 0");
         if(in_mem){
             storeStackElement(params[1], scope, rd, &temp_use, debug);
         }
@@ -488,10 +488,10 @@ void lineToAssembly(vector<string> params, bool debug){
         assembly.push_back("ADDI $sp $sp 1");
         assembly.push_back("BL ."+params[1]);
         assembly.push_back("ADDI $sp $sp -1");
-        assembly.push_back("LOAD $sp $gp 0");
+        assembly.push_back("LOAD $gp $sp 0");
         assembly.push_back("ADDI $sp $sp -"+to_string(static_scope_register-globalVarScope));
         for(int i=globalVarScope;i<static_scope_register;i++){
-            assembly.push_back("LOAD $sp $s"+to_string(i)+ " "+to_string(i));
+            assembly.push_back("LOAD $s"+to_string(i)+" $sp "+to_string(i));
         }
         mem_pos = mem_pos - params_amount;
         params_amount = 0;

@@ -23,7 +23,7 @@ MOV $sp $gp
 MOV $zero $s0
 MOV $zero $s1
 ADDI $sa $sa 1
-LOAD $sa $s1 0
+LOAD $s1 $sa 0
 OUT $s1 0
 HALT
 ADDI $sp $sp -1
@@ -39,7 +39,7 @@ MOV $zero $s2
 MOV $zero $s3
 MOV $zero $s4
 ADDI $sa $sa 1
-LOAD $sa $s4 0
+LOAD $s4 $sa 0
 LI $t8 1
 MOV $t8 $s0
 LI $t8 1
@@ -73,7 +73,7 @@ STORE $sp $gp 0
 ADDI $sp $sp 1
 BL .fibonacci
 ADDI $sp $sp -1
-LOAD $sp $gp 0
+LOAD $gp $sp 0
 ADDI $sp $sp -0
 MOV $v0 $t0
 STORE $sa $t0 0
@@ -83,6 +83,6 @@ STORE $sp $gp 0
 ADDI $sp $sp 1
 BL .output
 ADDI $sp $sp -1
-LOAD $sp $gp 0
+LOAD $gp $sp 0
 ADDI $sp $sp -0
 HALT
