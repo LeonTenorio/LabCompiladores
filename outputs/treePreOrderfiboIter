@@ -1,0 +1,199 @@
+{
+'tree:'
+     [
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          }
+     },
+     {
+     'Node': 'output', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          'child[0]': 
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'n', 
+                    }
+               }
+          'child[1]': 
+               [
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'c', 
+                    }
+               },
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'fn', 
+                    }
+               }               ,
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'fmenos', 
+                    }
+               }               ,
+               {
+               'Node': '=', 
+               'child[0]': 
+                    {
+                    'Node': 'c', 
+                    }
+               'child[1]': 
+                    {
+                    'Node': 1
+                    }
+               }               ,
+               {
+               'Node': '=', 
+               'child[0]': 
+                    {
+                    'Node': 'fn', 
+                    }
+               'child[1]': 
+                    {
+                    'Node': 1
+                    }
+               }               ,
+               {
+               'Node': '=', 
+               'child[0]': 
+                    {
+                    'Node': 'fmenos', 
+                    }
+               'child[1]': 
+                    {
+                    'Node': 0
+                    }
+               }               ,
+               {
+               'Node': 'while', 
+               'child[0]': 
+                    {
+                    'Node': '<', 
+                    'child[0]': 
+                         {
+                         'Node': 'c', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': 'n', 
+                         }
+                    }
+               'child[1]': 
+                    [
+                    {
+                    'Node': 'int', 
+                    'child[0]': 
+                         {
+                         'Node': 'aux', 
+                         }
+                    },
+                    {
+                    'Node': '=', 
+                    'child[0]': 
+                         {
+                         'Node': 'aux', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': 'fmenos', 
+                         }
+                    }                    ,
+                    {
+                    'Node': '=', 
+                    'child[0]': 
+                         {
+                         'Node': 'fmenos', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': 'fn', 
+                         }
+                    }                    ,
+                    {
+                    'Node': '=', 
+                    'child[0]': 
+                         {
+                         'Node': 'fn', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': '+', 
+                         'child[0]': 
+                              {
+                              'Node': 'fn', 
+                              }
+                         'child[1]': 
+                              {
+                              'Node': 'aux', 
+                              }
+                         }
+                    }                    ,
+                    {
+                    'Node': '=', 
+                    'child[0]': 
+                         {
+                         'Node': 'c', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': '+', 
+                         'child[0]': 
+                              {
+                              'Node': 'c', 
+                              }
+                         'child[1]': 
+                              {
+                              'Node': 1
+                              }
+                         }
+                    }
+               }               ,
+               {
+               'Node': 'return', 
+               'child[0]': 
+                    {
+                    'Node': 'fn', 
+                    }
+               }
+          }
+     }     ,
+     {
+     'Node': 'void', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          'child[1]': 
+               {
+               'Node': 'CALL - output',
+               'child[0]': 
+                    {
+                    'Node': 'CALL - fibonacci',
+                    'child[0]': 
+                         {
+                         'Node': 5
+                         }
+                    }
+               }
+          }
+     }
+}

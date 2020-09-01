@@ -113,13 +113,13 @@ string lineToBinary(vector<string> params, vector<string> labels, map<string, in
         return convertNumberToBinary4Size(0)+convertNumberToBinary4Size(1)+convertNumberToBinary24Size(0);
     }
     else if(params[0].compare("ADD")==0){
-        return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(4)+getRegister(params[2])+getRegister(params[3])+getRegister(params[1]);
+        return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(4)+getRegister(params[1])+getRegister(params[2])+getRegister(params[3]);
     }
     else if(params[0].compare("ADDI")==0){
-        return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(5)+getRegister(params[2])+getRegister(params[1])+convertNumberToBinary14Size(stoi(params[3]));
+        return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(5)+getRegister(params[1])+getRegister(params[2])+convertNumberToBinary14Size(stoi(params[3]));
     }
     else if(params[0].compare("SUB")==0){
-        return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(6)+getRegister(params[2])+getRegister(params[3])+getRegister(params[1]);
+        return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(6)+getRegister(params[1])+getRegister(params[2])+getRegister(params[3]);
     }
     else if(params[0].compare("MULT")==0){
         return convertNumberToBinary4Size(2)+"XXXX"+getRegister(params[1])+getRegister(params[2]);

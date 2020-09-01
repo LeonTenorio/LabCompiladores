@@ -64,8 +64,6 @@ static int static_scope_register = 0;
 static int temp_scope_register = 0;
 vector<int> temp_mem_pos;//Use for all temporary index bigger than USETEMPREGISTERAMOUNT-1
 
-static int params_amount = 0;
-
 static int mem_pos = 0;
 
 bool isNumber(const string &line) {
@@ -284,16 +282,15 @@ void lineToAssembly(vector<string> params, bool debug){
         static_scope_register = globalVarScope;
         writeDebugAssembly("FUN", debug);
         mem_pos = 0;
-        params_amount = 0;
         labels_lines["."+params[1]] = assembly.size() - labels.size();
         assembly.push_back("."+params[1]);
         labels.push_back("."+params[1]);
         if(params[1].compare("main")!=0){
             assembly.push_back("STORE $sp $ra 0");
             assembly.push_back("ADDI $sp $sp 1");
+            mem_pos++;
             assembly.push_back("MOV $sp $gp");
         }
-        mem_pos++;
         scope = params[1];
         BucketList bucketElement = getBucketElement(params[1], " ");
         int localRegisterAmount = 0;
@@ -328,7 +325,6 @@ void lineToAssembly(vector<string> params, bool debug){
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         assembly.push_back("STORE $sa "+rs+" 0");
         assembly.push_back("ADDI $sa $sa -1");
-        params_amount++;
         mem_pos++;
     }
     else if(params[0].compare("label")==0){
@@ -484,17 +480,23 @@ void lineToAssembly(vector<string> params, bool debug){
             assembly.push_back("STORE $sp $s"+to_string(i)+" "+to_string(i));
         }
         assembly.push_back("ADDI $sp $sp "+to_string(static_scope_register-globalVarScope));
+        for(int i=0;i<temp_scope_register;i++){
+            assembly.push_back("STORE $sp $t"+to_string(i)+" "+to_string(i));
+        }
+        assembly.push_back("ADDI $sp $sp "+to_string(temp_scope_register));
         assembly.push_back("STORE $sp $gp 0");
         assembly.push_back("ADDI $sp $sp 1");
         assembly.push_back("BL ."+params[1]);
         assembly.push_back("ADDI $sp $sp -1");
         assembly.push_back("LOAD $gp $sp 0");
+        assembly.push_back("ADDI $sp $sp -"+to_string(temp_scope_register));
+        for(int i=0;i<temp_scope_register;i++){
+            assembly.push_back("LOAD $t"+to_string(i)+" $sp "+to_string(i));
+        }
         assembly.push_back("ADDI $sp $sp -"+to_string(static_scope_register-globalVarScope));
         for(int i=globalVarScope;i<static_scope_register;i++){
             assembly.push_back("LOAD $s"+to_string(i)+" $sp "+to_string(i));
         }
-        mem_pos = mem_pos - params_amount;
-        params_amount = 0;
     }
     else if(params[0].compare("end")==0){
         assembly.push_back("HALT");
