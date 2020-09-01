@@ -1,0 +1,165 @@
+{
+'tree:'
+     [
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          }
+     },
+     {
+     'Node': 'output', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          'child[0]': 
+               [
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'u', 
+                    }
+               },
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'v', 
+                    }
+               }
+          'child[1]': 
+               {
+               'Node': 'if', 
+               'child[0]': 
+                    {
+                    'Node': '==', 
+                    'child[0]': 
+                         {
+                         'Node': 'v', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': 0
+                         }
+                    }
+               'child[1]': 
+                    {
+                    'Node': 'return', 
+                    'child[0]': 
+                         {
+                         'Node': 'u', 
+                         }
+                    }
+               'child[2]': 
+                    {
+                    'Node': 'return', 
+                    'child[0]': 
+                         {
+                         'Node': 'CALL - gcd',
+                         'child[0]': 
+                              [
+                              {
+                              'Node': 'v', 
+                              },
+                              {
+                              'Node': '-', 
+                              'child[0]': 
+                                   {
+                                   'Node': 'u', 
+                                   }
+                              'child[1]': 
+                                   {
+                                   'Node': '*', 
+                                   'child[0]': 
+                                        {
+                                        'Node': '/', 
+                                        'child[0]': 
+                                             {
+                                             'Node': 'u', 
+                                             }
+                                        'child[1]': 
+                                             {
+                                             'Node': 'v', 
+                                             }
+                                        }
+                                   'child[1]': 
+                                        {
+                                        'Node': 'v', 
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          }
+     }     ,
+     {
+     'Node': 'void', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          'child[1]': 
+               [
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'x', 
+                    }
+               },
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'y', 
+                    }
+               }               ,
+               {
+               'Node': '=', 
+               'child[0]': 
+                    {
+                    'Node': 'x', 
+                    }
+               'child[1]': 
+                    {
+                    'Node': 'CALL - input',
+                    }
+               }               ,
+               {
+               'Node': '=', 
+               'child[0]': 
+                    {
+                    'Node': 'y', 
+                    }
+               'child[1]': 
+                    {
+                    'Node': 'CALL - input',
+                    }
+               }               ,
+               {
+               'Node': 'CALL - output',
+               'child[0]': 
+                    {
+                    'Node': 'CALL - gcd',
+                    'child[0]': 
+                         [
+                         {
+                         'Node': 'x', 
+                         },
+                         {
+                         'Node': 'y', 
+                         }
+                    }
+               }
+          }
+     }
+}

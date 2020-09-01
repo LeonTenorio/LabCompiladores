@@ -15,13 +15,13 @@ string gerarTracos(int quantidade){
 int main(){
     cout << gerarTracos(120) << endl;
     cout << endl << "Autor: Leon Tenório da Silva" << endl;
-    cout << "Contribuição: Vlademir Celso dos Santos Júnior, base desenvolvida na disciplina de Compiladores 2S2019 UNIFESP" << endl;
-    cout << "Compilador desenvolvido na disciplina de Laboratório de Compiladores 1S2020 UNIFESP" << endl << endl;
+    cout << "Compilador desenvolvido na disciplina de Laboratório de Compiladores 1S2020 ICT UNIFESP" << endl << endl;
     cout << gerarTracos(120) << endl;
     cout << "Precisando de ajuda para executar o compilador?" << endl;
     cout << "OK, aqui vão algumas informações para te ajudar" << endl;
     cout << gerarTracos(120) << endl;
-    cout << "Execute $sh script.sh$ para compilar o compilador" << endl;
+    cout << "Execute para compilar o compilador:" << endl;
+    cout << "$sh script.sh$" << endl << endl;
     cout << "Depois de compilado você pode executar ele com: " << endl;
     cout << "$./exec$" << endl << endl;
     cout << "No comando anterior você pode acrescentar parâmetros: " << endl;

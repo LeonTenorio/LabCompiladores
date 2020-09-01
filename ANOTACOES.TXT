@@ -11,14 +11,15 @@ Nenhuma alocação de memória, apenas as operações genéricas feitas e linear
 
 ASSEMBLY
 Manter a memória do mesmo jeito antes e depois da chamada de função
-Os argumentos de função são passados na memória principal do fim para o começo, utilizando o registrador $ra 
-Na chamada de função são empilhados os registradores $sN usados
-É empilhado também o registrador $sp
+Os argumentos de função são passados na memória principal do fim para o começo, utilizando o registrador $sa 
+Na chamada de função são empilhados os registradores $sN usados a partir de $sp
+É empilhado também o valor de $gp
 
 No início de função é empilhado o registrador $ra para no final da função dar um BR para ele
 Logo depois, é atribuido a $gp o valor de $sp 
 $sp serve como ponteiro de topo de pilha para alocacao apenas de memória
 Para acesso na memória principal é utilizado $gp com o deslocamento necessário
+Falta alguma forma de manter $sp o mesmo valor apos uma chamada de BL, acho que no inicio de função, a partir de $gp, terá que ser empilhado $sp, e no final da função desempilhado
 
 62209 - Tamanho da memoria RAM utilizada
 

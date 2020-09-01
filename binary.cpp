@@ -106,7 +106,7 @@ string toFullBinaryInst(string instruction){
 
 string lineToBinary(vector<string> params, vector<string> labels, map<string, int> labels_lines){
     if(params[0].find(".")==0){//Ignorar essa linha
-        cout << params[0] << " virou linha " << labels_lines[params[0]] << endl;
+        //cout << params[0] << " virou linha " << labels_lines[params[0]] << endl;
         return "";
     }
     else if(params[0].compare("HALT")==0){
@@ -128,46 +128,46 @@ string lineToBinary(vector<string> params, vector<string> labels, map<string, in
         return convertNumberToBinary4Size(3)+"XXXX"+getRegister(params[1])+getRegister(params[2]);
     }
     else if(params[0].compare("B")==0){
-        cout << params[1] << " indo para a linha " << labels_lines[params[1]] << endl;
+        // << params[1] << " indo para a linha " << labels_lines[params[1]] << endl;
         return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(0)+convertNumberToBinary24Size(labels_lines[params[1]]);
     }
     else if(params[0].compare("BL")==0){
-        cout << params[1] << " indo para a linha " << labels_lines[params[1]] << endl;
+        //cout << params[1] << " indo para a linha " << labels_lines[params[1]] << endl;
         return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(1)+convertNumberToBinary24Size(labels_lines[params[1]]);
     }
     else if(params[0].compare("BR")==0){
-        cout << "BR linha: " << binaryCode.size() << endl;
+        //cout << "BR linha: " << binaryCode.size() << endl;
         return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(2)+getRegister(params[1]);
     }
     else if(params[0].compare("BEQ")==0){
-        cout << params[3] << " salto condicional para " << labels_lines[params[3]] << endl;
+        //cout << params[3] << " salto condicional para " << labels_lines[params[3]] << endl;
         return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(3)+getRegister(params[1])+getRegister(params[2])+convertNumberToBinary14Size(labels_lines[params[3]]);
     }
     else if(params[0].compare("BNE")==0){
-        cout << params[3] << " salto condicional para " << labels_lines[params[3]] << endl;
+        //cout << params[3] << " salto condicional para " << labels_lines[params[3]] << endl;
         return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(4)+getRegister(params[1])+getRegister(params[2])+convertNumberToBinary14Size(labels_lines[params[3]]);
     }
     else if(params[0].compare("BLT")==0){
-        cout << params[3] << " salto condicional para " << labels_lines[params[3]] << endl;
+        //cout << params[3] << " salto condicional para " << labels_lines[params[3]] << endl;
         return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(5)+getRegister(params[1])+getRegister(params[2])+convertNumberToBinary14Size(labels_lines[params[3]]);
     }
     else if(params[0].compare("BLE")==0){
-        cout << params[3] << " salto condicional para " << labels_lines[params[3]] << endl;
+        //cout << params[3] << " salto condicional para " << labels_lines[params[3]] << endl;
         return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(6)+getRegister(params[1])+getRegister(params[2])+convertNumberToBinary14Size(labels_lines[params[3]]);
     }
     else if(params[0].compare("BGT")==0){
-        cout << params[3] << " salto condicional para " << labels_lines[params[3]] << endl;
+        //cout << params[3] << " salto condicional para " << labels_lines[params[3]] << endl;
         return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(7)+getRegister(params[1])+getRegister(params[2])+convertNumberToBinary14Size(labels_lines[params[3]]);
     }
     else if(params[0].compare("BGE")==0){
-        cout << params[3] << " salto condicional para " << labels_lines[params[3]] << endl;
+        //cout << params[3] << " salto condicional para " << labels_lines[params[3]] << endl;
         return convertNumberToBinary4Size(4)+convertNumberToBinary4Size(8)+getRegister(params[1])+getRegister(params[2])+convertNumberToBinary14Size(labels_lines[params[3]]);
     }
     else if(params[0].compare("STORE")==0){
         return convertNumberToBinary4Size(5)+"XXXX"+getRegister(params[1])+getRegister(params[2])+"XXXXX"+convertNumberToBinary9Size(stoi(params[3]));
     }
     else if(params[0].compare("LOAD")==0){
-        cout << params[0] +" " + params[1] +" "+params[2] + " "+params[3] << endl;
+        //cout << params[0] +" " + params[1] +" "+params[2] + " "+params[3] << endl;
         return convertNumberToBinary4Size(6)+"XXXX"+getRegister(params[2])+"XXXXX"+getRegister(params[1])+convertNumberToBinary9Size(stoi(params[3]));
     }
     else if(params[0].compare("LI")==0){
