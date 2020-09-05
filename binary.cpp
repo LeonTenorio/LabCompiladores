@@ -106,6 +106,7 @@ string toFullBinaryInst(string instruction){
 
 string lineToBinary(vector<string> params, vector<string> labels, map<string, int> labels_lines){
     if(params[0].find(".")==0){//Ignorar essa linha
+        cout << params[0] << endl;
         //cout << params[0] << " virou linha " << labels_lines[params[0]] << endl;
         return "";
     }
@@ -201,6 +202,15 @@ string generateBinary(vector<string> assembly_lines, vector<string> labels, map<
         string line = lineToBinary(params, labels, labels_lines);
         if(line.length()>0){
             line = toFullBinaryInst(line);
+            string lineParams = "";
+            for(int i=0;i<params.size();i++){
+                lineParams = lineParams + params[i] + " ";
+            }
+            while(lineParams.length()<20){
+                lineParams = lineParams + " ";
+            }
+            cout << lineParams << " ";
+            cout << " - "<< line << " - " << binaryCode.size() << endl;
             binaryCode.push_back(line);
         }
         if(line.length()>32){

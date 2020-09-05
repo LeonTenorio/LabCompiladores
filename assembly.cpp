@@ -273,7 +273,7 @@ void storeStackElement(string id, string scope, string loc_register, int *temp_u
 static string func_name = "";
 
 void lineToAssembly(vector<string> params, bool debug){
-    if(params[0].compare("goto")==0){
+    if(params[0].compare("goto")==0 && params[1].compare("main")!=0){
         assembly.push_back("B ."+params[1]);
     }
     else if(params[0].compare("fun")==0){
@@ -286,9 +286,9 @@ void lineToAssembly(vector<string> params, bool debug){
         assembly.push_back("."+params[1]);
         labels.push_back("."+params[1]);
         if(params[1].compare("main")!=0){
-            assembly.push_back("STORE $sp $ra 0");
-            assembly.push_back("ADDI $sp $sp 1");
-            mem_pos++;
+            assembly.push_back("STORE $sp $sp 0");
+            assembly.push_back("STORE $sp $ra 1");
+            assembly.push_back("ADDI $sp $sp 2");
             assembly.push_back("MOV $sp $gp");
         }
         scope = params[1];
@@ -301,9 +301,11 @@ void lineToAssembly(vector<string> params, bool debug){
     else if(params[0].compare("end_fun")==0){
         writeDebugAssembly("ENDFUN", debug);
         if(func_name.compare("main")!=0){
-            assembly.push_back("ADDI $sp $sp -"+to_string(mem_pos));
-            assembly.push_back("LOAD $t"+to_string(USETEMPREGISTERAMOUNT)+" $sp 0");
-            assembly.push_back("BR $t"+to_string(USETEMPREGISTERAMOUNT));
+            assembly.push_back("B .ENDFUN");
+            /*
+            assembly.push_back("LOAD $sp $gp -2");
+            assembly.push_back("LOAD $t"+to_string(USETEMPREGISTERAMOUNT)+" $gp -1");
+            assembly.push_back("BR $t"+to_string(USETEMPREGISTERAMOUNT));*/
         }
     }
     else if(params[0].compare("pop_param")==0){
@@ -325,7 +327,6 @@ void lineToAssembly(vector<string> params, bool debug){
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         assembly.push_back("STORE $sa "+rs+" 0");
         assembly.push_back("ADDI $sa $sa -1");
-        mem_pos++;
     }
     else if(params[0].compare("label")==0){
         writeDebugAssembly("LABEL", debug);
@@ -339,9 +340,12 @@ void lineToAssembly(vector<string> params, bool debug){
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         assembly.push_back("MOV "+rs+" $v0");
         writeDebugAssembly("ENDFUN RETURN", debug);
+        assembly.push_back("B .ENDFUN");
+        /*
         assembly.push_back("ADDI $sp $sp -"+to_string(mem_pos));
         assembly.push_back("LOAD $t"+to_string(USETEMPREGISTERAMOUNT)+" $sp 0");
         assembly.push_back("BR $t"+to_string(USETEMPREGISTERAMOUNT));
+        */
     }
     else if(params[0].compare("system_in")==0){
         writeDebugAssembly("SYSTEM IN", debug);
@@ -514,6 +518,13 @@ string generateAssembly(string quad, bool debug){
     assembly.push_back("MOV $zero $sp");
     assembly.push_back("MOV $zero $gp");
     assembly.push_back("LI $sa "+to_string(STACKSIZE-1));
+    assembly.push_back("B .main");
+    labels_lines[".ENDFUN"] = assembly.size() - labels.size();
+    assembly.push_back(".ENDFUN");
+    labels.push_back(".ENDFUN");
+    assembly.push_back("LOAD $sp $gp -2");
+    assembly.push_back("LOAD $t8 $gp -1");
+    assembly.push_back("BR $t8");
     BucketList bucketElement = getBucketElement("GLOBAL", " ");
     
     for(int i=0;i<bucketElement->variables.size();i++){
