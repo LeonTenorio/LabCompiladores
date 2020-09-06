@@ -64,8 +64,6 @@ static int static_scope_register = 0;
 static int temp_scope_register = 0;
 vector<int> temp_mem_pos;//Use for all temporary index bigger than USETEMPREGISTERAMOUNT-1
 
-static int params_amount = 0;
-
 static int mem_pos = 0;
 
 bool isNumber(const string &line) {
@@ -275,7 +273,7 @@ void storeStackElement(string id, string scope, string loc_register, int *temp_u
 static string func_name = "";
 
 void lineToAssembly(vector<string> params, bool debug){
-    if(params[0].compare("goto")==0){
+    if(params[0].compare("goto")==0 && params[1].compare("main")!=0){
         assembly.push_back("B ."+params[1]);
     }
     else if(params[0].compare("fun")==0){
@@ -284,16 +282,15 @@ void lineToAssembly(vector<string> params, bool debug){
         static_scope_register = globalVarScope;
         writeDebugAssembly("FUN", debug);
         mem_pos = 0;
-        params_amount = 0;
         labels_lines["."+params[1]] = assembly.size() - labels.size();
         assembly.push_back("."+params[1]);
         labels.push_back("."+params[1]);
         if(params[1].compare("main")!=0){
-            assembly.push_back("STORE $sp $ra 0");
-            assembly.push_back("ADDI $sp $sp 1");
+            assembly.push_back("STORE $sp $sp 0");
+            assembly.push_back("STORE $sp $ra 1");
+            assembly.push_back("ADDI $sp $sp 2");
             assembly.push_back("MOV $sp $gp");
         }
-        mem_pos++;
         scope = params[1];
         BucketList bucketElement = getBucketElement(params[1], " ");
         int localRegisterAmount = 0;
@@ -304,9 +301,11 @@ void lineToAssembly(vector<string> params, bool debug){
     else if(params[0].compare("end_fun")==0){
         writeDebugAssembly("ENDFUN", debug);
         if(func_name.compare("main")!=0){
-            assembly.push_back("ADDI $sp $sp -"+to_string(mem_pos));
-            assembly.push_back("LOAD $t"+to_string(USETEMPREGISTERAMOUNT)+" $sp 0");
-            assembly.push_back("BR $t"+to_string(USETEMPREGISTERAMOUNT));
+            assembly.push_back("B .ENDFUN");
+            /*
+            assembly.push_back("LOAD $sp $gp -2");
+            assembly.push_back("LOAD $t"+to_string(USETEMPREGISTERAMOUNT)+" $gp -1");
+            assembly.push_back("BR $t"+to_string(USETEMPREGISTERAMOUNT));*/
         }
     }
     else if(params[0].compare("pop_param")==0){
@@ -328,8 +327,6 @@ void lineToAssembly(vector<string> params, bool debug){
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         assembly.push_back("STORE $sa "+rs+" 0");
         assembly.push_back("ADDI $sa $sa -1");
-        params_amount++;
-        mem_pos++;
     }
     else if(params[0].compare("label")==0){
         writeDebugAssembly("LABEL", debug);
@@ -343,9 +340,12 @@ void lineToAssembly(vector<string> params, bool debug){
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         assembly.push_back("MOV "+rs+" $v0");
         writeDebugAssembly("ENDFUN RETURN", debug);
+        assembly.push_back("B .ENDFUN");
+        /*
         assembly.push_back("ADDI $sp $sp -"+to_string(mem_pos));
         assembly.push_back("LOAD $t"+to_string(USETEMPREGISTERAMOUNT)+" $sp 0");
         assembly.push_back("BR $t"+to_string(USETEMPREGISTERAMOUNT));
+        */
     }
     else if(params[0].compare("system_in")==0){
         writeDebugAssembly("SYSTEM IN", debug);
@@ -484,17 +484,23 @@ void lineToAssembly(vector<string> params, bool debug){
             assembly.push_back("STORE $sp $s"+to_string(i)+" "+to_string(i));
         }
         assembly.push_back("ADDI $sp $sp "+to_string(static_scope_register-globalVarScope));
+        for(int i=0;i<temp_scope_register;i++){
+            assembly.push_back("STORE $sp $t"+to_string(i)+" "+to_string(i));
+        }
+        assembly.push_back("ADDI $sp $sp "+to_string(temp_scope_register));
         assembly.push_back("STORE $sp $gp 0");
         assembly.push_back("ADDI $sp $sp 1");
         assembly.push_back("BL ."+params[1]);
         assembly.push_back("ADDI $sp $sp -1");
         assembly.push_back("LOAD $gp $sp 0");
+        assembly.push_back("ADDI $sp $sp -"+to_string(temp_scope_register));
+        for(int i=0;i<temp_scope_register;i++){
+            assembly.push_back("LOAD $t"+to_string(i)+" $sp "+to_string(i));
+        }
         assembly.push_back("ADDI $sp $sp -"+to_string(static_scope_register-globalVarScope));
         for(int i=globalVarScope;i<static_scope_register;i++){
             assembly.push_back("LOAD $s"+to_string(i)+" $sp "+to_string(i));
         }
-        mem_pos = mem_pos - params_amount;
-        params_amount = 0;
     }
     else if(params[0].compare("end")==0){
         assembly.push_back("HALT");
@@ -512,6 +518,13 @@ string generateAssembly(string quad, bool debug){
     assembly.push_back("MOV $zero $sp");
     assembly.push_back("MOV $zero $gp");
     assembly.push_back("LI $sa "+to_string(STACKSIZE-1));
+    assembly.push_back("B .main");
+    labels_lines[".ENDFUN"] = assembly.size() - labels.size();
+    assembly.push_back(".ENDFUN");
+    labels.push_back(".ENDFUN");
+    assembly.push_back("LOAD $sp $gp -2");
+    assembly.push_back("LOAD $t8 $gp -1");
+    assembly.push_back("BR $t8");
     BucketList bucketElement = getBucketElement("GLOBAL", " ");
     
     for(int i=0;i<bucketElement->variables.size();i++){

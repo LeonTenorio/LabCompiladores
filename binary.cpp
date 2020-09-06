@@ -106,6 +106,7 @@ string toFullBinaryInst(string instruction){
 
 string lineToBinary(vector<string> params, vector<string> labels, map<string, int> labels_lines){
     if(params[0].find(".")==0){//Ignorar essa linha
+        cout << params[0] << endl;
         //cout << params[0] << " virou linha " << labels_lines[params[0]] << endl;
         return "";
     }
@@ -116,7 +117,7 @@ string lineToBinary(vector<string> params, vector<string> labels, map<string, in
         return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(4)+getRegister(params[2])+getRegister(params[3])+getRegister(params[1]);
     }
     else if(params[0].compare("ADDI")==0){
-        return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(5)+getRegister(params[2])+getRegister(params[1])+convertNumberToBinary14Size(stoi(params[3]));
+        return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(5)+getRegister(params[1])+getRegister(params[2])+convertNumberToBinary14Size(stoi(params[3]));
     }
     else if(params[0].compare("SUB")==0){
         return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(6)+getRegister(params[2])+getRegister(params[3])+getRegister(params[1]);
@@ -201,6 +202,15 @@ string generateBinary(vector<string> assembly_lines, vector<string> labels, map<
         string line = lineToBinary(params, labels, labels_lines);
         if(line.length()>0){
             line = toFullBinaryInst(line);
+            string lineParams = "";
+            for(int i=0;i<params.size();i++){
+                lineParams = lineParams + params[i] + " ";
+            }
+            while(lineParams.length()<20){
+                lineParams = lineParams + " ";
+            }
+            cout << lineParams << " ";
+            cout << " - "<< line << " - " << binaryCode.size() << endl;
             binaryCode.push_back(line);
         }
         if(line.length()>32){
