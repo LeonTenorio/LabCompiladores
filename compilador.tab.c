@@ -2435,11 +2435,12 @@ string getArg(string arg, string argv){
   return intermediate;
 }
 
-void obterParametros(int argc, char **argv, string *inputName, string *outSufix, bool *debug, bool *binaryToQuartus){
+void obterParametros(int argc, char **argv, string *inputName, string *outSufix, bool *debug, bool *binaryToQuartus, bool *showBinary){
   *inputName = "entrada.txt";
   *outSufix = "";
   *debug = true;
   *binaryToQuartus = false;
+  *showBinary = false;
   if(argc>1){
     for(int i=1;i<argc;i++){
       string actualString = string(argv[i]);
@@ -2473,6 +2474,15 @@ void obterParametros(int argc, char **argv, string *inputName, string *outSufix,
           *binaryToQuartus = true;
         }
       }
+      else if(actualString.find("showBinary")!=std::string::npos){
+        string ret = getArg("showBinary", actualString);
+        if(ret.compare("false")==0 && ret.length()>0){
+          *showBinary = false;
+        }
+        else if(ret.compare("true")==0 && ret.length()>0){
+          *showBinary = true;
+        }
+      }
     }
   }
 }
@@ -2482,10 +2492,10 @@ int main(int argc, char **argv)
   string inputName;
   string outSufix;
   bool debug;
+  bool showBinary;
   bool binaryToQuartus;
-  obterParametros(argc, argv, &inputName, &outSufix, &debug, &binaryToQuartus);
+  obterParametros(argc, argv, &inputName, &outSufix, &debug, &binaryToQuartus, &showBinary);
   cout << "\nBison em execução...\n";
-  cout << inputName << endl;
   abrirArq(&inputName[0]);
   insertSymTab("GLOBAL", FuncType, " ", Void, 0, 0);
   insertSymTab("input",FuncType," ",Int,0, 0);
@@ -2530,7 +2540,7 @@ int main(int argc, char **argv)
     if(debug==false){
       ofstream binaryFile;
       binaryFile.open("./outputs/binary"+outSufix);
-      binaryFile << generateBinary(assembly, labels, labels_lines, binaryToQuartus);
+      binaryFile << generateBinary(assembly, labels, labels_lines, binaryToQuartus, showBinary);
       binaryFile.close();
 
       cout << "Binário gerado" << endl;

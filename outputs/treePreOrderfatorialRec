@@ -1,0 +1,104 @@
+{
+'tree:'
+     [
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          }
+     },
+     {
+     'Node': 'output', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          'child[0]': 
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'n', 
+                    }
+               }
+          'child[1]': 
+               {
+               'Node': 'if', 
+               'child[0]': 
+                    {
+                    'Node': '<', 
+                    'child[0]': 
+                         {
+                         'Node': 'n', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': 2
+                         }
+                    }
+               'child[1]': 
+                    {
+                    'Node': 'return', 
+                    'child[0]': 
+                         {
+                         'Node': 1
+                         }
+                    }
+               'child[2]': 
+                    {
+                    'Node': 'return', 
+                    'child[0]': 
+                         {
+                         'Node': '*', 
+                         'child[0]': 
+                              {
+                              'Node': 'CALL - fatorial',
+                              'child[0]': 
+                                   {
+                                   'Node': '-', 
+                                   'child[0]': 
+                                        {
+                                        'Node': 'n', 
+                                        }
+                                   'child[1]': 
+                                        {
+                                        'Node': 1
+                                        }
+                                   }
+                              }
+                         'child[1]': 
+                              {
+                              'Node': 'n', 
+                              }
+                         }
+                    }
+               }
+          }
+     }     ,
+     {
+     'Node': 'void', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          'child[1]': 
+               {
+               'Node': 'CALL - output',
+               'child[0]': 
+                    {
+                    'Node': 'CALL - fatorial',
+                    'child[0]': 
+                         {
+                         'Node': 5
+                         }
+                    }
+               }
+          }
+     }
+}

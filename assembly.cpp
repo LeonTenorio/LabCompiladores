@@ -208,7 +208,6 @@ string getRegisterLikeRead(string id, string scope, int *temp_use){
             if(vector_acess.size()==2){
                 int tempPreviousIndex = *temp_use;
                 string desloc = getRegisterLikeRead(vector_acess[1], scope, temp_use);
-                *temp_use = tempPreviousIndex;
                 string base = getRegisterLikeRead(vector_acess[0], scope, temp_use);
                 *temp_use = tempPreviousIndex;
                 assembly.push_back("ADD $t"+to_string(*temp_use)+" "+base+" "+desloc);
@@ -221,7 +220,12 @@ string getRegisterLikeRead(string id, string scope, int *temp_use){
                     return bucketElement->loc_register;
                 }
                 else{
-                    assembly.push_back("ADDI $t"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
+                    if(bucketElement->scope.compare("GLOBAL")==0){
+                        assembly.push_back("ADDI $t"+to_string(*temp_use)+" $zero "+to_string(bucketElement->mem_pos));
+                    }
+                    else{
+                        assembly.push_back("ADDI $t"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
+                    }
                     assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
                     *temp_use = *temp_use + 1;
                     return "$t"+to_string(*temp_use-1);
@@ -258,7 +262,12 @@ void storeStackElement(string id, string scope, string loc_register, int *temp_u
             *temp_use = *temp_use + 1;
         }
         else{
-            assembly.push_back("ADDI $"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
+            if(bucketElement->scope.compare("GLOBAL")==0){
+                assembly.push_back("ADDI $"+to_string(*temp_use)+" $zero "+to_string(bucketElement->mem_pos));
+            }
+            else{
+                assembly.push_back("ADDI $"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
+            }
             assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
         }
     }
@@ -341,11 +350,6 @@ void lineToAssembly(vector<string> params, bool debug){
         assembly.push_back("MOV "+rs+" $v0");
         writeDebugAssembly("ENDFUN RETURN", debug);
         assembly.push_back("B .ENDFUN");
-        /*
-        assembly.push_back("ADDI $sp $sp -"+to_string(mem_pos));
-        assembly.push_back("LOAD $t"+to_string(USETEMPREGISTERAMOUNT)+" $sp 0");
-        assembly.push_back("BR $t"+to_string(USETEMPREGISTERAMOUNT));
-        */
     }
     else if(params[0].compare("system_in")==0){
         writeDebugAssembly("SYSTEM IN", debug);
@@ -506,7 +510,8 @@ void lineToAssembly(vector<string> params, bool debug){
         assembly.push_back("HALT");
     }
     else{
-        cout << "Quadrupla faltante " << params[0] << endl;
+        if(params[1].compare("main")!=0)
+            cout << "Quadrupla faltante " << params[0] << endl;
     }
 }
 

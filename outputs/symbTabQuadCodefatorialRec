@@ -1,0 +1,8 @@
+ID: input    SCOPE:         DATA TYPE: int  TYPE ID: func LINES: 0                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
+ID: val      SCOPE: output  DATA TYPE: int  TYPE ID: var  LINES: 12                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: mem[ ]
+ID: n        SCOPE: fatorialDATA TYPE: int  TYPE ID: var  LINES: 6 6 2 1                          MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: mem[ ]
+ID: val      SCOPE: input   DATA TYPE: int  TYPE ID: var  LINES: 12                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: mem[ ]
+ID: main     SCOPE:         DATA TYPE: void TYPE ID: func LINES: 10                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   VARS: []
+ID: fatorial SCOPE:         DATA TYPE: int  TYPE ID: func LINES: 11 6 1                           MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   VARS: []
+ID: output   SCOPE:         DATA TYPE: void TYPE ID: func LINES: 11 0                             MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
+ID: GLOBAL   SCOPE:         DATA TYPE: void TYPE ID: func LINES: 0                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   VARS: []
