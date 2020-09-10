@@ -225,7 +225,9 @@ string getRegisterLikeRead(string id, string scope, int *temp_use){
                     else{
                         assembly.push_back("ADDI $t"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
                     }
-                    assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
+                    if(bucketElement->data_type!=IntPointer){
+                        assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
+                    }
                     *temp_use = *temp_use + 1;
                     return "$t"+to_string(*temp_use-1);
                 }
