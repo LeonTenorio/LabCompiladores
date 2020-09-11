@@ -1,4 +1,4 @@
-ID: input    SCOPE:         DATA TYPE: int  TYPE ID: func LINES: 14 13 0                          MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
+ID: input    SCOPE:         DATA TYPE: int  TYPE ID: func LINES: 0                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
 ID: val      SCOPE: output  DATA TYPE: int  TYPE ID: var  LINES: 16                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
 ID: gcd      SCOPE:         DATA TYPE: int  TYPE ID: func LINES: 15 6 1                           MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   VARS: []
 ID: y        SCOPE: main    DATA TYPE: int  TYPE ID: var  LINES: 15 14 12                         MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1

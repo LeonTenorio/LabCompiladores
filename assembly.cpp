@@ -283,7 +283,7 @@ void storeStackElement(string id, string scope, string loc_register, int *temp_u
 static string func_name = "";
 
 void lineToAssembly(vector<string> params, bool debug){
-    if(params[0].compare("goto")==0 && params[1].compare("main")!=0){
+    if(params[0].compare("goto")==0){
         assembly.push_back("B ."+params[1]);
     }
     else if(params[0].compare("fun")==0){
@@ -367,7 +367,7 @@ void lineToAssembly(vector<string> params, bool debug){
         int temp_use = USETEMPREGISTERAMOUNT;
         string rs = getRegisterLikeRead(params[1], scope, &temp_use);
         assembly.push_back("OUT "+rs+" 0");
-        assembly.push_back("HALT");
+        //assembly.push_back("HALT");
     }
     else if(params[0].compare("catch_return")==0){
         writeDebugAssembly("CATCH RETURN", debug);
@@ -524,13 +524,6 @@ string generateAssembly(string quad, bool debug){
     assembly.push_back("MOV $zero $sp");
     assembly.push_back("MOV $zero $gp");
     assembly.push_back("LI $sa "+to_string(STACKSIZE-1));
-    assembly.push_back("B .main");
-    labels_lines[".ENDFUN"] = assembly.size() - labels.size();
-    assembly.push_back(".ENDFUN");
-    labels.push_back(".ENDFUN");
-    assembly.push_back("LOAD $sp $gp -2");
-    assembly.push_back("LOAD $t8 $gp -1");
-    assembly.push_back("BR $t8");
     BucketList bucketElement = getBucketElement("GLOBAL", " ");
     
     for(int i=0;i<bucketElement->variables.size();i++){
@@ -539,6 +532,14 @@ string generateAssembly(string quad, bool debug){
     for(int i=0;i<lines.size();i++){
         vector<string> params = getLineParams(lines[i]);
         lineToAssembly(params, debug);
+        if(params[0].compare("goto")==0 && params[1].compare("main")==0){
+            labels_lines[".ENDFUN"] = assembly.size() - labels.size();
+            assembly.push_back(".ENDFUN");
+            labels.push_back(".ENDFUN");
+            assembly.push_back("LOAD $sp $gp -2");
+            assembly.push_back("LOAD $t8 $gp -1");
+            assembly.push_back("BR $t8");
+        }
     }
     cout << assembly.size() << " de linhas assembly" << endl;
     for(int i=0;i<assembly.size();i++){
