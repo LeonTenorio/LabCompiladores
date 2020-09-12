@@ -32,30 +32,28 @@ STORE $sp $sp 0
 STORE $sp $ra 1
 ADDI $sp $sp 2
 MOV $sp $gp
-MOV $sp $s4
-ADDI $sp $sp 100
+ADDI $sa $sa 1
+LOAD $s4 $sa 0
 ADDI $sa $sa 1
 LOAD $s5 $sa 0
 ADDI $sa $sa 1
 LOAD $s6 $sa 0
-ADDI $sa $sa 1
-LOAD $s7 $sa 0
-MOV $s6 $s3
-ADD $t8 $s7 $s6
+MOV $s5 $s3
+ADD $t8 $s6 $s5
 LOAD $t8 $t8 0
 MOV $t8 $s2
 LI $t8 1
-ADD $s1 $s6 $t8
+ADD $s1 $s5 $t8
 ._l0
-BLT $s1 $s5 ._l1
+BLT $s1 $s4 ._l1
 B ._l2
 ._l1
-ADD $t8 $s7 $s1
+ADD $t8 $s6 $s1
 LOAD $t8 $t8 0
 BLT $t8 $s2 ._l3
 B ._l4
 ._l3
-ADD $t8 $s7 $s1
+ADD $t8 $s6 $s1
 LOAD $t8 $t8 0
 MOV $t8 $s2
 MOV $s1 $s3

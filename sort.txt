@@ -2,9 +2,8 @@ int vet[ 10 ];/*$s0 = vet*/
 
 int minloc ( int a[], int low, int high )
 {	
-	/*a = $s7, low = $s6, high = $s5, i = $s1, x = $s2, k = $s3, vector = $s4*/
+	/*a = $s6, low = $s5, high = $s4, i = $s1, x = $s2, k = $s3*/
 	int i; int x; int k;
-	int vector[100];
 	k = low;
 	x = a[low];
 	i = low + 1;

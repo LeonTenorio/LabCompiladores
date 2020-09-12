@@ -78,17 +78,6 @@
                     }
                }               ,
                {
-               'Node': 'int', 
-               'child[0]': 
-                    {
-                    'Node': 'vector', 
-                    'child[0]': 
-                         {
-                         'Node': 100
-                         }
-                    }
-               }               ,
-               {
                'Node': '=', 
                'child[0]': 
                     {
