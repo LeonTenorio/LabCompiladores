@@ -102,7 +102,7 @@ void allocVarSpace(string id, string scope, int *scopeRegisterAmount){
         else{
             bucketElement->value_in_register = true;
             bucketElement->loc_register = "$s"+to_string(static_scope_register);
-            assembly.push_back("MOV $zero "+bucketElement->loc_register);
+            //assembly.push_back("MOV $zero "+bucketElement->loc_register);
         }
         *scopeRegisterAmount = *scopeRegisterAmount + 1;
         static_scope_register++;
@@ -485,26 +485,34 @@ void lineToAssembly(vector<string> params, bool debug){
     }
     else if(params[0].compare("jal")==0){
         writeDebugAssembly("JAL", debug);
-        for(int i=globalVarScope;i<static_scope_register;i++){
-            assembly.push_back("STORE $sp $s"+to_string(i)+" "+to_string(i));
+        if(static_scope_register>globalVarScope){
+            for(int i=globalVarScope;i<static_scope_register;i++){
+                assembly.push_back("STORE $sp $s"+to_string(i)+" "+to_string(i-globalVarScope));
+            }
+            assembly.push_back("ADDI $sp $sp "+to_string(static_scope_register-globalVarScope));
         }
-        assembly.push_back("ADDI $sp $sp "+to_string(static_scope_register-globalVarScope));
-        for(int i=0;i<temp_scope_register;i++){
-            assembly.push_back("STORE $sp $t"+to_string(i)+" "+to_string(i));
+        if(temp_scope_register>0){
+            for(int i=0;i<temp_scope_register;i++){
+                assembly.push_back("STORE $sp $t"+to_string(i)+" "+to_string(i));
+            }
+            assembly.push_back("ADDI $sp $sp "+to_string(temp_scope_register));
         }
-        assembly.push_back("ADDI $sp $sp "+to_string(temp_scope_register));
         assembly.push_back("STORE $sp $gp 0");
         assembly.push_back("ADDI $sp $sp 1");
         assembly.push_back("BL ."+params[1]);
         assembly.push_back("ADDI $sp $sp -1");
         assembly.push_back("LOAD $gp $sp 0");
-        assembly.push_back("ADDI $sp $sp -"+to_string(temp_scope_register));
-        for(int i=0;i<temp_scope_register;i++){
-            assembly.push_back("LOAD $t"+to_string(i)+" $sp "+to_string(i));
+        if(temp_scope_register>0){
+            assembly.push_back("ADDI $sp $sp -"+to_string(temp_scope_register));
+            for(int i=0;i<temp_scope_register;i++){
+                assembly.push_back("LOAD $t"+to_string(i)+" $sp "+to_string(i));
+            }
         }
-        assembly.push_back("ADDI $sp $sp -"+to_string(static_scope_register-globalVarScope));
-        for(int i=globalVarScope;i<static_scope_register;i++){
-            assembly.push_back("LOAD $s"+to_string(i)+" $sp "+to_string(i));
+        if(static_scope_register>globalVarScope){
+            assembly.push_back("ADDI $sp $sp -"+to_string(static_scope_register-globalVarScope));
+            for(int i=globalVarScope;i<static_scope_register;i++){
+                assembly.push_back("LOAD $s"+to_string(i)+" $sp "+to_string(i-globalVarScope));
+            }
         }
     }
     else if(params[0].compare("end")==0){

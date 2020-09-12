@@ -14,7 +14,6 @@ STORE $sp $sp 0
 STORE $sp $ra 1
 ADDI $sp $sp 2
 MOV $sp $gp
-MOV $zero $s1
 IN $s1 0
 MOV $s1 $v0
 B .ENDFUN
@@ -24,8 +23,6 @@ STORE $sp $sp 0
 STORE $sp $ra 1
 ADDI $sp $sp 2
 MOV $sp $gp
-MOV $zero $s1
-MOV $zero $s2
 ADDI $sa $sa 1
 LOAD $s2 $sa 0
 OUT $s2 0
@@ -35,15 +32,10 @@ STORE $sp $sp 0
 STORE $sp $ra 1
 ADDI $sp $sp 2
 MOV $sp $gp
-MOV $zero $s1
-MOV $zero $s2
-MOV $zero $s3
 MOV $sp $s4
 ADDI $sp $sp 100
-MOV $zero $s5
 ADDI $sa $sa 1
 LOAD $s5 $sa 0
-MOV $zero $s6
 ADDI $sa $sa 1
 LOAD $s6 $sa 0
 ADDI $sa $sa 1
@@ -80,13 +72,8 @@ STORE $sp $sp 0
 STORE $sp $ra 1
 ADDI $sp $sp 2
 MOV $sp $gp
-MOV $zero $s1
-MOV $zero $s2
-MOV $zero $s3
-MOV $zero $s4
 ADDI $sa $sa 1
 LOAD $s4 $sa 0
-MOV $zero $s5
 ADDI $sa $sa 1
 LOAD $s5 $sa 0
 ADDI $sa $sa 1
@@ -104,12 +91,12 @@ STORE $sa $s1 0
 ADDI $sa $sa -1
 STORE $sa $s4 0
 ADDI $sa $sa -1
-STORE $sp $s1 1
-STORE $sp $s2 2
-STORE $sp $s3 3
-STORE $sp $s4 4
-STORE $sp $s5 5
-STORE $sp $s6 6
+STORE $sp $s1 0
+STORE $sp $s2 1
+STORE $sp $s3 2
+STORE $sp $s4 3
+STORE $sp $s5 4
+STORE $sp $s6 5
 ADDI $sp $sp 6
 STORE $sp $t0 0
 ADDI $sp $sp 1
@@ -121,12 +108,12 @@ LOAD $gp $sp 0
 ADDI $sp $sp -1
 LOAD $t0 $sp 0
 ADDI $sp $sp -6
-LOAD $s1 $sp 1
-LOAD $s2 $sp 2
-LOAD $s3 $sp 3
-LOAD $s4 $sp 4
-LOAD $s5 $sp 5
-LOAD $s6 $sp 6
+LOAD $s1 $sp 0
+LOAD $s2 $sp 1
+LOAD $s3 $sp 2
+LOAD $s4 $sp 3
+LOAD $s5 $sp 4
+LOAD $s6 $sp 5
 MOV $v0 $s2
 ADD $t8 $s6 $s2
 LOAD $t8 $t8 0
@@ -145,7 +132,6 @@ B ._l5
 ._l7
 B .ENDFUN
 .main
-MOV $zero $s1
 LI $t8 0
 MOV $t8 $s1
 ._l8
@@ -169,17 +155,15 @@ ADDI $sa $sa -1
 LI $t8 10
 STORE $sa $t8 0
 ADDI $sa $sa -1
-STORE $sp $s1 1
+STORE $sp $s1 0
 ADDI $sp $sp 1
-ADDI $sp $sp 0
 STORE $sp $gp 0
 ADDI $sp $sp 1
 BL .sort
 ADDI $sp $sp -1
 LOAD $gp $sp 0
-ADDI $sp $sp -0
 ADDI $sp $sp -1
-LOAD $s1 $sp 1
+LOAD $s1 $sp 0
 LI $t8 0
 MOV $t8 $s1
 ._l11
@@ -191,17 +175,15 @@ ADD $t8 $s0 $s1
 LOAD $t8 $t8 0
 STORE $sa $t8 0
 ADDI $sa $sa -1
-STORE $sp $s1 1
+STORE $sp $s1 0
 ADDI $sp $sp 1
-ADDI $sp $sp 0
 STORE $sp $gp 0
 ADDI $sp $sp 1
 BL .output
 ADDI $sp $sp -1
 LOAD $gp $sp 0
-ADDI $sp $sp -0
 ADDI $sp $sp -1
-LOAD $s1 $sp 1
+LOAD $s1 $sp 0
 LI $t8 1
 ADD $s1 $s1 $t8
 B ._l11
