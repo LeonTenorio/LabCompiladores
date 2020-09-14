@@ -3,41 +3,33 @@ MOV $zero $sp
 MOV $zero $gp
 LI $sa 62208
 B .main
+.ENDFUN
+LOAD $sp $gp -2
+LOAD $t8 $gp -1
+BR $t8
 .input
-STORE $sp $ra 0
-ADDI $sp $sp 1
+STORE $sp $sp 0
+STORE $sp $ra 1
+ADDI $sp $sp 2
 MOV $sp $gp
-MOV $zero $s0
 IN $s0 0
 MOV $s0 $v0
-ADDI $sp $sp -1
-LOAD $t8 $sp 0
-BR $t8
-ADDI $sp $sp -1
-LOAD $t8 $sp 0
-BR $t8
+B .ENDFUN
+B .ENDFUN
 .output
-STORE $sp $ra 0
-ADDI $sp $sp 1
+STORE $sp $sp 0
+STORE $sp $ra 1
+ADDI $sp $sp 2
 MOV $sp $gp
-MOV $zero $s0
-MOV $zero $s1
 ADDI $sa $sa 1
 LOAD $s1 $sa 0
 OUT $s1 0
-HALT
-ADDI $sp $sp -1
-LOAD $t8 $sp 0
-BR $t8
+B .ENDFUN
 .fibonacci
-STORE $sp $ra 0
-ADDI $sp $sp 1
+STORE $sp $sp 0
+STORE $sp $ra 1
+ADDI $sp $sp 2
 MOV $sp $gp
-MOV $zero $s0
-MOV $zero $s1
-MOV $zero $s2
-MOV $zero $s3
-MOV $zero $s4
 ADDI $sa $sa 1
 LOAD $s4 $sa 0
 LI $t8 1
@@ -58,31 +50,27 @@ ADD $s0 $s0 $t8
 B ._l0
 ._l2
 MOV $s1 $v0
-ADDI $sp $sp -1
-LOAD $t8 $sp 0
-BR $t8
-ADDI $sp $sp -1
-LOAD $t8 $sp 0
-BR $t8
+B .ENDFUN
+B .ENDFUN
 .main
 LI $t8 5
 STORE $sa $t8 0
 ADDI $sa $sa -1
-ADDI $sp $sp 0
 STORE $sp $gp 0
 ADDI $sp $sp 1
 BL .fibonacci
 ADDI $sp $sp -1
 LOAD $gp $sp 0
-ADDI $sp $sp -0
 MOV $v0 $t0
 STORE $sa $t0 0
 ADDI $sa $sa -1
-ADDI $sp $sp 0
+STORE $sp $t0 0
+ADDI $sp $sp 1
 STORE $sp $gp 0
 ADDI $sp $sp 1
 BL .output
 ADDI $sp $sp -1
 LOAD $gp $sp 0
-ADDI $sp $sp -0
+ADDI $sp $sp -1
+LOAD $t0 $sp 0
 HALT

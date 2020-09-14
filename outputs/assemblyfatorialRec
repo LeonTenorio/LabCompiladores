@@ -12,7 +12,6 @@ STORE $sp $sp 0
 STORE $sp $ra 1
 ADDI $sp $sp 2
 MOV $sp $gp
-MOV $zero $s0
 IN $s0 0
 MOV $s0 $v0
 B .ENDFUN
@@ -22,19 +21,15 @@ STORE $sp $sp 0
 STORE $sp $ra 1
 ADDI $sp $sp 2
 MOV $sp $gp
-MOV $zero $s0
-MOV $zero $s1
 ADDI $sa $sa 1
 LOAD $s1 $sa 0
 OUT $s1 0
-HALT
 B .ENDFUN
 .fatorial
 STORE $sp $sp 0
 STORE $sp $ra 1
 ADDI $sp $sp 2
 MOV $sp $gp
-MOV $zero $s0
 ADDI $sa $sa 1
 LOAD $s0 $sa 0
 LI $t8 2
@@ -74,19 +69,14 @@ B .ENDFUN
 LI $t8 5
 STORE $sa $t8 0
 ADDI $sa $sa -1
-ADDI $sp $sp 0
-ADDI $sp $sp 0
 STORE $sp $gp 0
 ADDI $sp $sp 1
 BL .fatorial
 ADDI $sp $sp -1
 LOAD $gp $sp 0
-ADDI $sp $sp -0
-ADDI $sp $sp -0
 MOV $v0 $t0
 STORE $sa $t0 0
 ADDI $sa $sa -1
-ADDI $sp $sp 0
 STORE $sp $t0 0
 ADDI $sp $sp 1
 STORE $sp $gp 0
@@ -96,5 +86,4 @@ ADDI $sp $sp -1
 LOAD $gp $sp 0
 ADDI $sp $sp -1
 LOAD $t0 $sp 0
-ADDI $sp $sp -0
 HALT
