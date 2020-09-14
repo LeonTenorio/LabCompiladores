@@ -158,6 +158,8 @@ string getRegisterLikeWrite(string id, string scope, int *temp_use, bool *in_mem
         else{
             bucketElement = getBucketElement(id, scope);
             if(bucketElement==NULL){
+                cout << "Erro, simbolo nao esta na tabela" << endl;
+                exit(-1);
             }
             else if(bucketElement->value_in_register){
                 *in_mem = false;
@@ -202,7 +204,7 @@ string getRegisterLikeRead(string id, string scope, int *temp_use){
                 bucketElement = getBucketElement(id, scope);
             }
             if(bucketElement==NULL){
-                cout << "Aconteceu algo mt errado" << endl; exit(-1);
+                cout << "Elemento nao encontrado na tabela de simbolos" << endl; exit(-1);
             }
             if(vector_acess.size()==2){
                 int tempPreviousIndex = *temp_use;
@@ -219,14 +221,20 @@ string getRegisterLikeRead(string id, string scope, int *temp_use){
                     return bucketElement->loc_register;
                 }
                 else{
-                    if(bucketElement->scope.compare("GLOBAL")==0){
-                        assembly.push_back("ADDI $t"+to_string(*temp_use)+" $zero "+to_string(bucketElement->mem_pos));
+                    if(bucketElement->is_parameter && bucketElement->data_type==IntPointer){
+                        assembly.push_back("ADDI $t"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
+                        assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
                     }
                     else{
-                        assembly.push_back("ADDI $t"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
-                    }
-                    if(bucketElement->data_type!=IntPointer){
-                        assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
+                        if(bucketElement->scope.compare("GLOBAL")==0){
+                            assembly.push_back("ADDI $t"+to_string(*temp_use)+" $zero "+to_string(bucketElement->mem_pos));
+                        }
+                        else{
+                            assembly.push_back("ADDI $t"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
+                        }
+                        if(bucketElement->data_type!=IntPointer){
+                            assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
+                        }
                     }
                     *temp_use = *temp_use + 1;
                     return "$t"+to_string(*temp_use-1);
@@ -263,20 +271,39 @@ void storeStackElement(string id, string scope, string loc_register, int *temp_u
             *temp_use = *temp_use + 1;
         }
         else{
-            if(bucketElement->scope.compare("GLOBAL")==0){
-                assembly.push_back("ADDI $"+to_string(*temp_use)+" $zero "+to_string(bucketElement->mem_pos));
+            if(bucketElement->is_parameter && bucketElement->data_type==IntPointer){
+                assembly.push_back("ADDI $t"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
+                assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
+                assembly.push_back("ADD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" "+desloc);
+                assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
+                *temp_use = *temp_use + 1;
             }
             else{
-                assembly.push_back("ADDI $"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
+                if(bucketElement->scope.compare("GLOBAL")==0){
+                    assembly.push_back("ADDI $"+to_string(*temp_use)+" $zero "+to_string(bucketElement->mem_pos));
+                }
+                else{
+                    assembly.push_back("ADDI $"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
+                }
+                assembly.push_back("ADD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" "+desloc);
+                assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
+                *temp_use = *temp_use + 1;
             }
-            assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
         }
     }
     else{
         BucketList bucketElement = getBucketElement(id, scope);
-        assembly.push_back("ADDI $t"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
-        assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
-        *temp_use = *temp_use + 1;
+        if(bucketElement->is_parameter && bucketElement->data_type==IntPointer){
+            assembly.push_back("ADDI $t"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
+            assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
+            assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
+            *temp_use = *temp_use + 1;
+        }
+        else{
+            assembly.push_back("ADDI $t"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
+            assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
+            *temp_use = *temp_use + 1;
+        }
     }
 }
 
