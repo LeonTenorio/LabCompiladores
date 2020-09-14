@@ -25,82 +25,58 @@ ADDI $sa $sa 1
 LOAD $s1 $sa 0
 OUT $s1 0
 B .ENDFUN
-.gcd
+.fatorial
 STORE $sp $sp 0
 STORE $sp $ra 1
 ADDI $sp $sp 2
 MOV $sp $gp
 ADDI $sa $sa 1
 LOAD $s0 $sa 0
-ADDI $sa $sa 1
-LOAD $s1 $sa 0
-LI $t8 0
-BEQ $s0 $t8 ._l0
+LI $t8 2
+BLT $s0 $t8 ._l0
 B ._l1
 ._l0
-MOV $s1 $v0
+LI $t8 1
+MOV $t8 $v0
 B .ENDFUN
 B ._l2
 ._l1
-STORE $sa $s0 0
-ADDI $sa $sa -1
-DIV $s1 $s0
-MFLO $t0
-MULT $t0 $s0
-MFLO $t1
-SUB $t2 $s1 $t1
-STORE $sa $t2 0
+LI $t8 1
+SUB $t0 $s0 $t8
+STORE $sa $t0 0
 ADDI $sa $sa -1
 STORE $sp $s0 0
-STORE $sp $s1 1
-ADDI $sp $sp 2
+ADDI $sp $sp 1
 STORE $sp $t0 0
-STORE $sp $t1 1
-STORE $sp $t2 2
-ADDI $sp $sp 3
+ADDI $sp $sp 1
 STORE $sp $gp 0
 ADDI $sp $sp 1
-BL .gcd
+BL .fatorial
 ADDI $sp $sp -1
 LOAD $gp $sp 0
-ADDI $sp $sp -3
+ADDI $sp $sp -1
 LOAD $t0 $sp 0
-LOAD $t1 $sp 1
-LOAD $t2 $sp 2
-ADDI $sp $sp -2
+ADDI $sp $sp -1
 LOAD $s0 $sp 0
-LOAD $s1 $sp 1
-MOV $v0 $t3
-MOV $t3 $v0
+MOV $v0 $t1
+MULT $t1 $s0
+MFLO $t2
+MOV $t2 $v0
 B .ENDFUN
 ._l2
 B .ENDFUN
 .main
-LI $t8 30
-MOV $t8 $s0
-LI $t8 24
-MOV $t8 $s1
-STORE $sa $s0 0
+LI $t8 5
+STORE $sa $t8 0
 ADDI $sa $sa -1
-STORE $sa $s1 0
-ADDI $sa $sa -1
-STORE $sp $s0 0
-STORE $sp $s1 1
-ADDI $sp $sp 2
 STORE $sp $gp 0
 ADDI $sp $sp 1
-BL .gcd
+BL .fatorial
 ADDI $sp $sp -1
 LOAD $gp $sp 0
-ADDI $sp $sp -2
-LOAD $s0 $sp 0
-LOAD $s1 $sp 1
 MOV $v0 $t0
 STORE $sa $t0 0
 ADDI $sa $sa -1
-STORE $sp $s0 0
-STORE $sp $s1 1
-ADDI $sp $sp 2
 STORE $sp $t0 0
 ADDI $sp $sp 1
 STORE $sp $gp 0
@@ -110,7 +86,4 @@ ADDI $sp $sp -1
 LOAD $gp $sp 0
 ADDI $sp $sp -1
 LOAD $t0 $sp 0
-ADDI $sp $sp -2
-LOAD $s0 $sp 0
-LOAD $s1 $sp 1
 HALT

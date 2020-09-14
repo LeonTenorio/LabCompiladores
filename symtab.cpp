@@ -29,6 +29,7 @@ typedef struct BucketListRec{
   vector<string> variables; 
 
   bool value_in_register;
+  bool is_parameter;
   string loc_register;
 }*BucketList;
 
@@ -66,7 +67,7 @@ void insertVarInScope(string scope, string id){
   l->variables.push_back(id);
 }
 
-bool insertSymTab(string id, TypeID type_id, string scope, DataType data_type, int lineno, int mem_loc){
+bool insertSymTab(string id, TypeID type_id, string scope, DataType data_type, int lineno, int mem_loc, bool is_param){
   int pos = hashTab(id+scope);
   BucketList l = hashTable[pos];
   while(l!=NULL){
@@ -87,6 +88,7 @@ bool insertSymTab(string id, TypeID type_id, string scope, DataType data_type, i
   newElm->var_amount = 0;
   newElm->loc_register = " ";
   newElm->value_in_register = false;
+  newElm->is_parameter = is_param;
   if(scope!=" "){
     insertAllocMemScope(scope, mem_loc);
   }
@@ -160,8 +162,8 @@ string vectorString(vector<string> vectorString){
 static string symbTabString = "";
 
 string formatTabCeil(string info, int index){
-  int sizes[8] = {13, 15, 16, 14, 40, 15, 15, 15};
-  if(index<8){
+  int sizes[9] = {13, 15, 13, 16, 14, 40, 15, 15, 15};
+  if(index<9){
     while(info.size()<sizes[index]){
       info = info + " ";
     }
@@ -177,32 +179,24 @@ void showSymbTab(){
     while(l!=NULL){
       symbTabString = symbTabString + formatTabCeil("ID: "+l->id, 0);
       symbTabString = symbTabString + formatTabCeil("SCOPE: "+l->scope, 1);
-      symbTabString = symbTabString + formatTabCeil("DATA TYPE: "+stringDataType(l->data_type), 2);
-      symbTabString = symbTabString + formatTabCeil("TYPE ID: "+stringTypeID(l->type_id), 3);
-      symbTabString = symbTabString + formatTabCeil("LINES: "+showLines(l->lines), 4);
-      symbTabString = symbTabString + formatTabCeil("MEMLOC: "+to_string(l->mem_loc), 5);
-      symbTabString = symbTabString + formatTabCeil("MEMPOS: "+to_string(l->mem_pos), 6);
-      symbTabString = symbTabString + formatTabCeil("VARAMOUNT: "+to_string(l->var_amount), 7);
+      if(l->is_parameter){
+        symbTabString = symbTabString + formatTabCeil("PARAM: true", 2);
+      }
+      else{
+        symbTabString = symbTabString + formatTabCeil("PARAM: false", 2);
+      }
+      symbTabString = symbTabString + formatTabCeil("DATA TYPE: "+stringDataType(l->data_type), 3);
+      symbTabString = symbTabString + formatTabCeil("TYPE ID: "+stringTypeID(l->type_id), 4);
+      symbTabString = symbTabString + formatTabCeil("LINES: "+showLines(l->lines), 5);
+      symbTabString = symbTabString + formatTabCeil("MEMLOC: "+to_string(l->mem_loc), 6);
+      symbTabString = symbTabString + formatTabCeil("MEMPOS: "+to_string(l->mem_pos), 7);
+      symbTabString = symbTabString + formatTabCeil("VARAMOUNT: "+to_string(l->var_amount), 8);
       if(l->value_in_register && stringTypeID(l->type_id)=="var")
-        symbTabString = symbTabString + formatTabCeil("REG: "+l->loc_register, 8);
+        symbTabString = symbTabString + formatTabCeil("REG: "+l->loc_register, 9);
       else if(stringTypeID(l->type_id)=="var")
-        symbTabString = symbTabString + formatTabCeil("REG: mem["+l->loc_register+"]", 8);
+        symbTabString = symbTabString + formatTabCeil("REG: mem["+l->loc_register+"]", 9);
       if(stringTypeID(l->type_id)=="func")
-        symbTabString = symbTabString + formatTabCeil("VARS: ["+vectorString(l->variables)+"]", 8);
-      /*symbTabString = symbTabString + "ID: " + l->id + ", SCOPE: " + l->scope + ", DATA TYPE: " + stringDataType(l->data_type) + ", TYPE ID: " + stringTypeID(l->type_id) + ", LINES: ";
-      symbTabString = symbTabString + "[";
-      symbTabString = symbTabString + showLines(l->lines);
-      symbTabString = symbTabString + "]";
-      symbTabString = symbTabString + " MEMLOC: " + to_string(l->mem_loc);
-      symbTabString = symbTabString + " MEMPOS: " + to_string(l->mem_pos);
-      symbTabString = symbTabString + " VARAMOUNT: " + to_string(l->var_amount);
-      if(l->value_in_register && stringTypeID(l->type_id)=="var")
-        symbTabString = symbTabString + " REG: " + l->loc_register;
-      else if(stringTypeID(l->type_id)=="var")
-        symbTabString = symbTabString + " REG: mem[" + l->loc_register + "]";
-      if(stringTypeID(l->type_id)=="func"){
-        symbTabString = symbTabString + " VARS: [" + vectorString(l->variables) + "]";
-      }*/
+        symbTabString = symbTabString + formatTabCeil("VARS: ["+vectorString(l->variables)+"]", 9);
       symbTabString = symbTabString + "\n";
       l = l->next;
     }

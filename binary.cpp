@@ -104,9 +104,10 @@ string toFullBinaryInst(string instruction){
     return instruction;
 }
 
-string lineToBinary(vector<string> params, vector<string> labels, map<string, int> labels_lines){
+string lineToBinary(vector<string> params, vector<string> labels, map<string, int> labels_lines, bool showBinary){
     if(params[0].find(".")==0){//Ignorar essa linha
-        cout << params[0] << endl;
+        if(showBinary)
+            cout << params[0] << endl;
         //cout << params[0] << " virou linha " << labels_lines[params[0]] << endl;
         return "";
     }
@@ -195,11 +196,11 @@ string lineToBinary(vector<string> params, vector<string> labels, map<string, in
     }
 }
 
-string generateBinary(vector<string> assembly_lines, vector<string> labels, map<string, int> labels_lines, bool binaryToQuartus){
+string generateBinary(vector<string> assembly_lines, vector<string> labels, map<string, int> labels_lines, bool binaryToQuartus, bool showBinary){
     string assemblyString = "";
     for(int i=0;i<assembly_lines.size();i++){
         vector<string> params = getAssemblyLineParams(assembly_lines[i]);
-        string line = lineToBinary(params, labels, labels_lines);
+        string line = lineToBinary(params, labels, labels_lines, showBinary);
         if(line.length()>0){
             line = toFullBinaryInst(line);
             string lineParams = "";
@@ -209,8 +210,10 @@ string generateBinary(vector<string> assembly_lines, vector<string> labels, map<
             while(lineParams.length()<20){
                 lineParams = lineParams + " ";
             }
-            cout << lineParams << " ";
-            cout << " - "<< line << " - " << binaryCode.size() << endl;
+            if(showBinary){
+                cout << lineParams << " ";
+                cout << " - "<< line << " - " << binaryCode.size() << endl;
+            }
             binaryCode.push_back(line);
         }
         if(line.length()>32){

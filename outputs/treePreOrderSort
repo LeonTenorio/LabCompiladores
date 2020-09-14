@@ -78,17 +78,6 @@
                     }
                }               ,
                {
-               'Node': 'int', 
-               'child[0]': 
-                    {
-                    'Node': 'vector', 
-                    'child[0]': 
-                         {
-                         'Node': 100
-                         }
-                    }
-               }               ,
-               {
                'Node': '=', 
                'child[0]': 
                     {
@@ -457,7 +446,15 @@
                          }
                     'child[1]': 
                          {
-                         'Node': 'CALL - input',
+                         'Node': '-', 
+                         'child[0]': 
+                              {
+                              'Node': 25
+                              }
+                         'child[1]': 
+                              {
+                              'Node': 'i', 
+                              }
                          }
                     },
                     {

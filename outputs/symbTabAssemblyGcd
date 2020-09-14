@@ -1,11 +1,11 @@
-ID: input    SCOPE:         DATA TYPE: int  TYPE ID: func LINES: 14 13 0                          MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
-ID: val      SCOPE: output  DATA TYPE: int  TYPE ID: var  LINES: 16                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
-ID: gcd      SCOPE:         DATA TYPE: int  TYPE ID: func LINES: 15 6 1                           MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   VARS: []
-ID: y        SCOPE: main    DATA TYPE: int  TYPE ID: var  LINES: 15 14 12                         MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
-ID: val      SCOPE: input   DATA TYPE: int  TYPE ID: var  LINES: 16                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s0
-ID: main     SCOPE:         DATA TYPE: void TYPE ID: func LINES: 10                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 2   VARS: [x, y]
-ID: output   SCOPE:         DATA TYPE: void TYPE ID: func LINES: 15 0                             MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
-ID: u        SCOPE: gcd     DATA TYPE: int  TYPE ID: var  LINES: 6 6 3 1                          MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
-ID: GLOBAL   SCOPE:         DATA TYPE: void TYPE ID: func LINES: 0                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   VARS: []
-ID: v        SCOPE: gcd     DATA TYPE: int  TYPE ID: var  LINES: 6 6 6 2 1                        MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s0
-ID: x        SCOPE: main    DATA TYPE: int  TYPE ID: var  LINES: 15 13 11                         MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s0
+ID: input    SCOPE:         PARAM: false DATA TYPE: int  TYPE ID: func LINES: 0                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
+ID: val      SCOPE: output  PARAM: true  DATA TYPE: int  TYPE ID: var  LINES: 16                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
+ID: gcd      SCOPE:         PARAM: false DATA TYPE: int  TYPE ID: func LINES: 15 6 1                           MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   VARS: []
+ID: y        SCOPE: main    PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 15 14 12                         MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
+ID: val      SCOPE: input   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 16                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s0
+ID: main     SCOPE:         PARAM: false DATA TYPE: void TYPE ID: func LINES: 10                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 2   VARS: [x, y]
+ID: output   SCOPE:         PARAM: false DATA TYPE: void TYPE ID: func LINES: 15 0                             MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
+ID: u        SCOPE: gcd     PARAM: true  DATA TYPE: int  TYPE ID: var  LINES: 6 6 3 1                          MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
+ID: GLOBAL   SCOPE:         PARAM: false DATA TYPE: void TYPE ID: func LINES: 0                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   VARS: []
+ID: v        SCOPE: gcd     PARAM: true  DATA TYPE: int  TYPE ID: var  LINES: 6 6 6 2 1                        MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s0
+ID: x        SCOPE: main    PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 15 13 11                         MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s0

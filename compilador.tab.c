@@ -1452,14 +1452,14 @@ yyreduce:
       savedTree->child[2] = NULL;
       savedTree->child[0]->nodeKind = FnK;
       savedTree->child[0]->name = "input";
-      insertSymTab("val",VarType,"input",Int,yylineno, 0);
+      insertSymTab("val",VarType,"input",Int,yylineno, 0, false);
       insertVarInScope("input", "val");
       for(int i = 0; i < 3; i ++)
         savedTree->child[0]->child[i] = NULL;
       savedTree->sibling = (treeNode *) malloc(sizeof(treeNode));
       savedTree->sibling->nodeKind = TypeK;
       savedTree->sibling->name = "output";
-      insertSymTab("val",VarType,"output",Int,yylineno, 0);
+      insertSymTab("val",VarType,"output",Int,yylineno, 0, true);
       insertVarInScope("output", "val");
       savedTree->sibling->child[0] = (treeNode *) malloc(sizeof(treeNode));
       savedTree->sibling->child[1] = NULL;
@@ -1522,14 +1522,14 @@ yyreduce:
         if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 1"; exit(-1);}
         if(savedIDs.top().compare(currentFunction) == 0) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 2"; exit(-1);}
         if(yyval->name=="int"){
-          if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, 0)) {
+          if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, 0, false)) {
             cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 3"; exit(-1);
           }
           insertVarInScope(currentFunction, savedIDs.top());
         }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno;; exit(-1);}
       }else{
         if(existIdEveryScope(savedIDs.top())) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 4"; exit(-1);}
-        insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, 0);
+        insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, 0, false);
         insertVarInScope("GLOBAL", savedIDs.top());
       }
       savedIDs.pop();
@@ -1559,14 +1559,14 @@ yyreduce:
         if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno; exit(-1);}
         if(savedIDs.top().compare(currentFunction) == 0) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 5"; exit(-1);}
         if(yyval->name=="int"){
-          if(!insertSymTab(savedIDs.top(),VarType,currentFunction,IntPointer,yylineno, savedInt)) {
+          if(!insertSymTab(savedIDs.top(),VarType,currentFunction,IntPointer,yylineno, savedInt, false)) {
             cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 6"; exit(-1);
           }
           insertVarInScope(currentFunction, savedIDs.top());
         }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 7";; exit(-1);}
       }else{
         if(existIdEveryScope(savedIDs.top())) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 8"; exit(-1);}
-        insertSymTab(savedIDs.top(),VarType,currentFunction,IntPointer,yylineno, savedInt);
+        insertSymTab(savedIDs.top(),VarType,currentFunction,IntPointer,yylineno, savedInt, false);
         insertVarInScope("GLOBAL", savedIDs.top());
       }
       savedIDs.pop();
@@ -1600,9 +1600,9 @@ yyreduce:
       savedIDs.push(copyString(currentToken)); currentFunction = copyString(currentToken);
       yyval = yyvsp[-2];
       if(yyval->name=="int"){
-        insertSymTab(savedIDs.top(),FuncType," ",Int,yylineno, 0);
+        insertSymTab(savedIDs.top(),FuncType," ",Int,yylineno, 0, false);
       }else {
-        !insertSymTab(savedIDs.top(),FuncType," ",Void,yylineno, 0);
+        !insertSymTab(savedIDs.top(),FuncType," ",Void,yylineno, 0, false);
       }
     }
 #line 1609 "compilador.tab.c"
@@ -2153,7 +2153,7 @@ yyreduce:
     savedIDs.push(copyString(currentToken));
     if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 18";; exit(-1);}
     if(yyval->name=="int"){
-      if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, 0)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 19"; exit(-1);}
+      if(!insertSymTab(savedIDs.top(),VarType,currentFunction,Int,yylineno, 0, true)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 19"; exit(-1);}
     }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 20";; exit(-1);}
     yyval = yyvsp[-2];
     yyval->child[0] = newNode(IdK);
@@ -2174,7 +2174,7 @@ yyreduce:
                                                                               {
     if(existID(savedIDs.top()," ")) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 21";; exit(-1);}
     if(yyval->name=="int"){
-      if(!insertSymTab(savedIDs.top(),VarType,currentFunction,IntPointer,yylineno, 0)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 22"; exit(-1);}
+      if(!insertSymTab(savedIDs.top(),VarType,currentFunction,IntPointer,yylineno, 0, true)) {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 22"; exit(-1);}
     }else {cout <<"Erro semântico no ID: " << savedIDs.top() << " na linha " << yylineno << ": Erro 23";; exit(-1);}
     yyval = yyvsp[-5];
     yyval->child[0] = newNode(IdK);
@@ -2435,11 +2435,12 @@ string getArg(string arg, string argv){
   return intermediate;
 }
 
-void obterParametros(int argc, char **argv, string *inputName, string *outSufix, bool *debug, bool *binaryToQuartus){
+void obterParametros(int argc, char **argv, string *inputName, string *outSufix, bool *debug, bool *binaryToQuartus, bool *showBinary){
   *inputName = "entrada.txt";
   *outSufix = "";
   *debug = true;
   *binaryToQuartus = false;
+  *showBinary = false;
   if(argc>1){
     for(int i=1;i<argc;i++){
       string actualString = string(argv[i]);
@@ -2473,6 +2474,15 @@ void obterParametros(int argc, char **argv, string *inputName, string *outSufix,
           *binaryToQuartus = true;
         }
       }
+      else if(actualString.find("showBinary")!=std::string::npos){
+        string ret = getArg("showBinary", actualString);
+        if(ret.compare("false")==0 && ret.length()>0){
+          *showBinary = false;
+        }
+        else if(ret.compare("true")==0 && ret.length()>0){
+          *showBinary = true;
+        }
+      }
     }
   }
 }
@@ -2482,14 +2492,14 @@ int main(int argc, char **argv)
   string inputName;
   string outSufix;
   bool debug;
+  bool showBinary;
   bool binaryToQuartus;
-  obterParametros(argc, argv, &inputName, &outSufix, &debug, &binaryToQuartus);
+  obterParametros(argc, argv, &inputName, &outSufix, &debug, &binaryToQuartus, &showBinary);
   cout << "\nBison em execução...\n";
-  cout << inputName << endl;
   abrirArq(&inputName[0]);
-  insertSymTab("GLOBAL", FuncType, " ", Void, 0, 0);
-  insertSymTab("input",FuncType," ",Int,0, 0);
-  insertSymTab("output",FuncType," ",Void,0, 0);
+  insertSymTab("GLOBAL", FuncType, " ", Void, 0, 0, false);
+  insertSymTab("input",FuncType," ",Int,0, 0, false);
+  insertSymTab("output",FuncType," ",Void,0, 0, false);
   yyparse();
   if(!checkMain()) {cout <<"Nao foi declarada uma funcao main"; exit(-1);}
   else{
@@ -2530,7 +2540,7 @@ int main(int argc, char **argv)
     if(debug==false){
       ofstream binaryFile;
       binaryFile.open("./outputs/binary"+outSufix);
-      binaryFile << generateBinary(assembly, labels, labels_lines, binaryToQuartus);
+      binaryFile << generateBinary(assembly, labels, labels_lines, binaryToQuartus, showBinary);
       binaryFile.close();
 
       cout << "Binário gerado" << endl;
