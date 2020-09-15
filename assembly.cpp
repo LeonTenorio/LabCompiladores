@@ -128,8 +128,6 @@ void allocVarSpace(string id, string scope, int *scopeRegisterAmount){
 
 string allocTempSpace(string id, string scope, int *temp_use, bool *in_mem){
     if(temp_scope_register < USETEMPREGISTERAMOUNT){
-        if(id.compare(0, 2, "_t")!=0)
-            assembly.push_back("MOV $zero $t"+to_string(temp_scope_register));
         temp_scope_register++;
         return "$t"+to_string(temp_scope_register-1);
     }
@@ -138,6 +136,7 @@ string allocTempSpace(string id, string scope, int *temp_use, bool *in_mem){
         temp_mem_pos.push_back(mem_pos);
         *temp_use = *temp_use + 1;
         mem_pos++;
+        assembly.push_back("ADDI $sp $sp 1");
         return "$t"+to_string(*temp_use-1);
     }
 }
@@ -260,7 +259,19 @@ void storeStackElement(string id, string scope, string loc_register, int *temp_u
     writeDebugAssembly("STORE STACK ELEMENT", debug);
     debugMessages("Store stack element " + id, debug);
     vector<string> vector_acess = parseVectorElements(id);
-    if(vector_acess.size()==2){
+    if(id.compare(0,2, "_t")==0){
+        int indexString = stoi(id.substr(2, id.length()-2));
+            if(indexString<USETEMPREGISTERAMOUNT){
+                cout << "aconteceu algo de errado, temporario nao era pra estar na memoria principal" << endl; exit(-1);
+            }
+            else{
+                assembly.push_back("LI $t"+to_string(*temp_use)+" "+to_string(temp_mem_pos[indexString-USETEMPREGISTERAMOUNT]));
+                assembly.push_back("ADD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" $gp");
+                assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
+                *temp_use = *temp_use + 1;
+            }
+    }
+    else if(vector_acess.size()==2){
         BucketList bucketElement = getBucketElement(vector_acess[0], scope);
         int tempPreviousIndex = *temp_use;
         string desloc = getRegisterLikeRead(vector_acess[1], scope, temp_use);
