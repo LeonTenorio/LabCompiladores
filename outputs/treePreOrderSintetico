@@ -1,0 +1,200 @@
+{
+'tree:'
+     [
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          }
+     },
+     {
+     'Node': 'output', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          'child[0]': 
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'n', 
+                    }
+               }
+          'child[1]': 
+               {
+               'Node': 'if', 
+               'child[0]': 
+                    {
+                    'Node': '>', 
+                    'child[0]': 
+                         {
+                         'Node': 'n', 
+                         }
+                    'child[1]': 
+                         {
+                         'Node': 15
+                         }
+                    }
+               'child[1]': 
+                    {
+                    'Node': 'return', 
+                    'child[0]': 
+                         {
+                         'Node': '+', 
+                         'child[0]': 
+                              {
+                              'Node': '+', 
+                              'child[0]': 
+                                   {
+                                   'Node': '+', 
+                                   'child[0]': 
+                                        {
+                                        'Node': '+', 
+                                        'child[0]': 
+                                             {
+                                             'Node': '+', 
+                                             'child[0]': 
+                                                  {
+                                                  'Node': '+', 
+                                                  'child[0]': 
+                                                       {
+                                                       'Node': '+', 
+                                                       'child[0]': 
+                                                            {
+                                                            'Node': '-', 
+                                                            'child[0]': 
+                                                                 {
+                                                                 'Node': 'n', 
+                                                                 }
+                                                            'child[1]': 
+                                                                 {
+                                                                 'Node': 1
+                                                                 }
+                                                            }
+                                                       'child[1]': 
+                                                            {
+                                                            'Node': '-', 
+                                                            'child[0]': 
+                                                                 {
+                                                                 'Node': 'n', 
+                                                                 }
+                                                            'child[1]': 
+                                                                 {
+                                                                 'Node': 2
+                                                                 }
+                                                            }
+                                                       }
+                                                  'child[1]': 
+                                                       {
+                                                       'Node': '-', 
+                                                       'child[0]': 
+                                                            {
+                                                            'Node': 'n', 
+                                                            }
+                                                       'child[1]': 
+                                                            {
+                                                            'Node': 3
+                                                            }
+                                                       }
+                                                  }
+                                             'child[1]': 
+                                                  {
+                                                  'Node': '-', 
+                                                  'child[0]': 
+                                                       {
+                                                       'Node': 'n', 
+                                                       }
+                                                  'child[1]': 
+                                                       {
+                                                       'Node': 4
+                                                       }
+                                                  }
+                                             }
+                                        'child[1]': 
+                                             {
+                                             'Node': '-', 
+                                             'child[0]': 
+                                                  {
+                                                  'Node': 'n', 
+                                                  }
+                                             'child[1]': 
+                                                  {
+                                                  'Node': 5
+                                                  }
+                                             }
+                                        }
+                                   'child[1]': 
+                                        {
+                                        'Node': '-', 
+                                        'child[0]': 
+                                             {
+                                             'Node': 'n', 
+                                             }
+                                        'child[1]': 
+                                             {
+                                             'Node': 6
+                                             }
+                                        }
+                                   }
+                              'child[1]': 
+                                   {
+                                   'Node': '-', 
+                                   'child[0]': 
+                                        {
+                                        'Node': 'n', 
+                                        }
+                                   'child[1]': 
+                                        {
+                                        'Node': 7
+                                        }
+                                   }
+                              }
+                         'child[1]': 
+                              {
+                              'Node': 'CALL - valor',
+                              'child[0]': 
+                                   {
+                                   'Node': 0
+                                   }
+                              }
+                         }
+                    }
+               'child[2]': 
+                    {
+                    'Node': 'return', 
+                    'child[0]': 
+                         {
+                         'Node': 0
+                         }
+                    }
+               }
+          }
+     }     ,
+     {
+     'Node': 'void', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          'child[1]': 
+               {
+               'Node': 'CALL - output',
+               'child[0]': 
+                    {
+                    'Node': 'CALL - valor',
+                    'child[0]': 
+                         {
+                         'Node': 30
+                         }
+                    }
+               }
+          }
+     }
+}
