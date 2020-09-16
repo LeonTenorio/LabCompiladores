@@ -1,4 +1,4 @@
-ID: n        SCOPE: valor   PARAM: true  DATA TYPE: int  TYPE ID: var  LINES: 3 3 3 3 3 3 3 3 3 3 2 1          MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s0
+ID: n        SCOPE: valor   PARAM: true  DATA TYPE: int  TYPE ID: var  LINES: 3 3 3 3 3 3 3 2 1                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s0
 ID: input    SCOPE:         PARAM: false DATA TYPE: int  TYPE ID: func LINES: 0                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
 ID: val      SCOPE: output  PARAM: true  DATA TYPE: int  TYPE ID: var  LINES: 13                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
 ID: valor    SCOPE:         PARAM: false DATA TYPE: int  TYPE ID: func LINES: 12 3 1                           MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   VARS: []

@@ -88,57 +88,6 @@ ADD $t8 $t9 $t10
 LI $t11 4
 ADD $t11 $t11 $gp
 STORE $t11 $t8 0
-ADDI $sp $sp 1
-LI $t9 8
-SUB $t8 $s0 $t9
-LI $t10 5
-ADD $t10 $t10 $gp
-STORE $t10 $t8 0
-ADDI $sp $sp 1
-LI $t9 4
-ADD $t9 $t9 $gp
-LOAD $t9 $t9 0
-LI $t10 5
-ADD $t10 $t10 $gp
-LOAD $t10 $t10 0
-ADD $t8 $t9 $t10
-LI $t11 6
-ADD $t11 $t11 $gp
-STORE $t11 $t8 0
-ADDI $sp $sp 1
-LI $t9 9
-SUB $t8 $s0 $t9
-LI $t10 7
-ADD $t10 $t10 $gp
-STORE $t10 $t8 0
-ADDI $sp $sp 1
-LI $t9 6
-ADD $t9 $t9 $gp
-LOAD $t9 $t9 0
-LI $t10 7
-ADD $t10 $t10 $gp
-LOAD $t10 $t10 0
-ADD $t8 $t9 $t10
-LI $t11 8
-ADD $t11 $t11 $gp
-STORE $t11 $t8 0
-ADDI $sp $sp 1
-LI $t9 10
-SUB $t8 $s0 $t9
-LI $t10 9
-ADD $t10 $t10 $gp
-STORE $t10 $t8 0
-ADDI $sp $sp 1
-LI $t9 8
-ADD $t9 $t9 $gp
-LOAD $t9 $t9 0
-LI $t10 9
-ADD $t10 $t10 $gp
-LOAD $t10 $t10 0
-ADD $t8 $t9 $t10
-LI $t11 10
-ADD $t11 $t11 $gp
-STORE $t11 $t8 0
 LI $t8 0
 STORE $sa $t8 0
 ADDI $sa $sa -1
@@ -171,21 +120,21 @@ ADDI $sp $sp -1
 LOAD $s0 $sp 0
 ADDI $sp $sp 1
 MOV $v0 $t8
-LI $t9 11
+LI $t9 5
 ADD $t9 $t9 $gp
 STORE $t9 $t8 0
 ADDI $sp $sp 1
-LI $t9 10
+LI $t9 4
 ADD $t9 $t9 $gp
 LOAD $t9 $t9 0
-LI $t10 11
+LI $t10 5
 ADD $t10 $t10 $gp
 LOAD $t10 $t10 0
 ADD $t8 $t9 $t10
-LI $t11 12
+LI $t11 6
 ADD $t11 $t11 $gp
 STORE $t11 $t8 0
-LI $t8 12
+LI $t8 6
 ADD $t8 $t8 $gp
 LOAD $t8 $t8 0
 MOV $t8 $v0
