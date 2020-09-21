@@ -102,7 +102,6 @@ void allocVarSpace(string id, string scope, int *scopeRegisterAmount){
         else{
             bucketElement->value_in_register = true;
             bucketElement->loc_register = "$s"+to_string(static_scope_register);
-            //assembly.push_back("MOV $zero "+bucketElement->loc_register);
         }
         *scopeRegisterAmount = *scopeRegisterAmount + 1;
         static_scope_register++;
@@ -291,10 +290,10 @@ void storeStackElement(string id, string scope, string loc_register, int *temp_u
             }
             else{
                 if(bucketElement->scope.compare("GLOBAL")==0){
-                    assembly.push_back("ADDI $"+to_string(*temp_use)+" $zero "+to_string(bucketElement->mem_pos));
+                    assembly.push_back("ADDI $t"+to_string(*temp_use)+" $zero "+to_string(bucketElement->mem_pos));
                 }
                 else{
-                    assembly.push_back("ADDI $"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
+                    assembly.push_back("ADDI $t"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
                 }
                 assembly.push_back("ADD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" "+desloc);
                 assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
@@ -337,8 +336,8 @@ void lineToAssembly(vector<string> params, bool debug){
             assembly.push_back("STORE $sp $sp 0");
             assembly.push_back("STORE $sp $ra 1");
             assembly.push_back("ADDI $sp $sp 2");
-            assembly.push_back("MOV $sp $gp");
         }
+        assembly.push_back("MOV $sp $gp");
         scope = params[1];
         BucketList bucketElement = getBucketElement(params[1], " ");
         int localRegisterAmount = 0;
@@ -350,10 +349,6 @@ void lineToAssembly(vector<string> params, bool debug){
         writeDebugAssembly("ENDFUN", debug);
         if(func_name.compare("main")!=0){
             assembly.push_back("B .ENDFUN");
-            /*
-            assembly.push_back("LOAD $sp $gp -2");
-            assembly.push_back("LOAD $t"+to_string(USETEMPREGISTERAMOUNT)+" $gp -1");
-            assembly.push_back("BR $t"+to_string(USETEMPREGISTERAMOUNT));*/
         }
     }
     else if(params[0].compare("pop_param")==0){
