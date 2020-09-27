@@ -89,6 +89,7 @@ int _getRegister(string loc_register){/*
     else if(loc_register.compare("$ra")==0)     return 31;
     else{
         cout << "Erro, registrador nao especificado " << loc_register << endl;
+        exit (-1);
         return (-1);
     }
 }

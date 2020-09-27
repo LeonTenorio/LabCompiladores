@@ -14,7 +14,7 @@ ID: w        SCOPE:         PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 7 
 ID: x        SCOPE:         PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 8                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s7
 ID: y        SCOPE:         PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 9                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s8
 ID: z        SCOPE:         PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 10                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s9
-ID: vector   SCOPE: valor   PARAM: true  DATA TYPE: int* TYPE ID: var  LINES: 15 13                            MEMLOC: 0      MEMPOS: 11     VARAMOUNT: 0   REG: mem[ ]
+ID: vector   SCOPE: valor   PARAM: true  DATA TYPE: int* TYPE ID: var  LINES: 15 13                            MEMLOC: 1      MEMPOS: 11     VARAMOUNT: 0   REG: mem[ ]
 ID: valor    SCOPE:         PARAM: false DATA TYPE: int  TYPE ID: func LINES: 23 13                            MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 10  VARS: [a, b, c, d, e, f, g, h, i, k]
 ID: index    SCOPE: valor   PARAM: true  DATA TYPE: int  TYPE ID: var  LINES: 15 13                            MEMLOC: 1      MEMPOS: 10     VARAMOUNT: 0   REG: mem[ ]
 ID: k        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 14                               MEMLOC: 1      MEMPOS: 9      VARAMOUNT: 0   REG: mem[ ]

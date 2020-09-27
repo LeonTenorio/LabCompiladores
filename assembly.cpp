@@ -241,6 +241,10 @@ string getRegisterLikeRead(string id, string scope, int *temp_use){
                 }
                 else{
                     assembly.push_back("LI $t"+to_string(*temp_use)+" "+to_string(bucketElement->mem_pos));
+                    if(bucketElement->scope.compare(" ")!=0 && bucketElement->scope.compare("GLOBAL")!=0){
+                        assembly.push_back("ADD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" $gp");
+                    }
+                    assembly.push_back("ADD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" "+desloc);
                     *temp_use = *temp_use + 1;
                     return "$t"+to_string(*temp_use-1);
                 }
@@ -251,11 +255,13 @@ string getRegisterLikeRead(string id, string scope, int *temp_use){
                     return bucketElement->loc_register;
                 }
                 else{
-                    assembly.push_back("LI $t"+to_string(*temp_use)+" "+bucketElement->mem_pos);
-                    if(bucketElement->scope.compare("GLOBAL")!=0){
+                    assembly.push_back("LI $t"+to_string(*temp_use)+" "+to_string(bucketElement->mem_pos));
+                    if(bucketElement->scope.compare(" ")!=0 && bucketElement->scope.compare("GLOBAL")!=0){
                         assembly.push_back("ADD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" $gp");
                     }
-                    assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
+                    if((bucketElement->data_type!=IntPointer) || (bucketElement->data_type==IntPointer && bucketElement->is_parameter)){
+                        assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
+                    }
                     *temp_use = *temp_use + 1;
                     return "$t"+to_string(*temp_use-1);
                 }
@@ -355,86 +361,31 @@ void storeStackElement(string id, string scope, string loc_register, int *temp_u
             }
     }
     else{
-        string base;
         if(vector_acess.size()==2){
             bucketElement = getBucketElement(vector_acess[0], scope);
+            int previousTempUse = *temp_use;
+            string base = getRegisterLikeRead(vector_acess[0], scope, temp_use);
+            if(base.compare("$t"+to_string(previousTempUse))==0){
+                *temp_use = previousTempUse + 1;
+            }
+            else{
+                *temp_use = previousTempUse;
+            }
+            previousTempUse = *temp_use;
+            string desloc = getRegisterLikeRead(vector_acess[1], scope, temp_use);
+            *temp_use = previousTempUse;
+            assembly.push_back("ADD $t"+to_string(*temp_use)+" "+base+" "+desloc);
+            assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
         }
         else{
             bucketElement = getBucketElement(id, scope);
-        }
-        if(bucketElement->value_in_register){//Entra se for um vetor
-            base = bucketElement->loc_register;
-            if(bucketElement->data_type!=IntPointer){
-                cout << "Erro, isso não deveria acontecer para não vetores" << endl;
-                exit(-1);
-            }
-        }
-        else{
             assembly.push_back("LI $t"+to_string(*temp_use)+" "+to_string(bucketElement->mem_pos));
-            base = "$t"+to_string(*temp_use);
-            if(bucketElement->data_type==IntPointer && bucketElement->is_parameter){
-                assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
+            if(bucketElement->scope.compare(" ")!=0 && bucketElement->scope.compare("GLOBAL")!=0){
+                assembly.push_back("ADD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" $gp");
             }
-        }
-        if(bucketElement->scope.compare("GLOBAL")!=0){
-            assembly.push_back("ADD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" $gp");
-        }
-        if(vector_acess.size()==2){
-            int previousTempUse = *temp_use;
-            *temp_use = *temp_use + 1;
-            string desloc = getRegisterLikeRead(vector_acess[1], scope, temp_use);
-            *temp_use = previousTempUse;
-            assembly.push_back("ADD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" "+desloc);
-        }
-        assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
-        *temp_use = *temp_use + 1;
-    }
-    /*
-    else if(vector_acess.size()==2){
-        BucketList bucketElement = getBucketElement(vector_acess[0], scope);
-        int tempPreviousIndex = *temp_use;
-        string desloc = getRegisterLikeRead(vector_acess[1], scope, temp_use);
-        *temp_use = tempPreviousIndex;
-        /*if(bucketElement->value_in_register){
-            assembly.push_back("ADD $t"+to_string(*temp_use)+" "+bucketElement->loc_register+" "+desloc);
             assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
-            *temp_use = *temp_use + 1;
-        }
-        else{
-            if(bucketElement->is_parameter && bucketElement->data_type==IntPointer){
-                assembly.push_back("ADDI $t"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
-                assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
-                assembly.push_back("ADD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" "+desloc);
-                assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
-                *temp_use = *temp_use + 1;
-            }
-            else{
-                if(bucketElement->scope.compare("GLOBAL")==0){
-                    assembly.push_back("ADDI $t"+to_string(*temp_use)+" $zero "+to_string(bucketElement->mem_pos));
-                }
-                else{
-                    assembly.push_back("ADDI $t"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
-                }
-                assembly.push_back("ADD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" "+desloc);
-                assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
-                *temp_use = *temp_use + 1;
-            }
         }
     }
-    else{
-        BucketList bucketElement = getBucketElement(id, scope);
-        if(bucketElement->is_parameter && bucketElement->data_type==IntPointer){
-            assembly.push_back("ADDI $t"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
-            assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
-            assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
-            *temp_use = *temp_use + 1;
-        }
-        else{
-            assembly.push_back("ADDI $t"+to_string(*temp_use)+" $gp "+to_string(bucketElement->mem_pos));
-            assembly.push_back("STORE $t"+to_string(*temp_use)+" "+loc_register+" 0");
-            *temp_use = *temp_use + 1;
-        }
-    }*/
 }
 
 static string func_name = "";
