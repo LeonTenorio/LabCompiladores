@@ -173,6 +173,7 @@ B ._l13
 ._l12
 LI $t8 0
 ADD $t8 $t8 $s0
+LOAD $t8 $t8 0
 STORE $sa $t8 0
 ADDI $sa $sa -1
 STORE $sp $s0 0

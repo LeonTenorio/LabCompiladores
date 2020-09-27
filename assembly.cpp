@@ -244,6 +244,7 @@ string getRegisterLikeRead(string id, string scope, int *temp_use){
                         assembly.push_back("ADD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" $gp");
                     }
                     assembly.push_back("ADD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" "+desloc);
+                    assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");
                     *temp_use = *temp_use + 1;
                     return "$t"+to_string(*temp_use-1);
                 }
