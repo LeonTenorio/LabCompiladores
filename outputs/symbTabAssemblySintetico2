@@ -1,21 +1,21 @@
 ID: input    SCOPE:         PARAM: false DATA TYPE: int  TYPE ID: func LINES: 0                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
-ID: val      SCOPE: output  PARAM: true  DATA TYPE: int  TYPE ID: var  LINES: 14                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s2
-ID: h        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s8
-ID: f        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s6
-ID: d        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s4
-ID: b        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s2
-ID: vector   SCOPE: valor   PARAM: true  DATA TYPE: int* TYPE ID: var  LINES: 5 3                              MEMLOC: 0      MEMPOS: 2      VARAMOUNT: 0   REG: mem[ ]
+ID: val      SCOPE: output  PARAM: true  DATA TYPE: int  TYPE ID: var  LINES: 14                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
+ID: h        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s7
+ID: f        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s5
+ID: d        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s3
+ID: b        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
+ID: vector   SCOPE: valor   PARAM: true  DATA TYPE: int* TYPE ID: var  LINES: 5 3                              MEMLOC: 1      MEMPOS: 1      VARAMOUNT: 0   REG: mem[ ]
 ID: valor    SCOPE:         PARAM: false DATA TYPE: int  TYPE ID: func LINES: 13 3                             MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 10  VARS: [a, b, c, d, e, f, g, h, i, k]
-ID: index    SCOPE: valor   PARAM: true  DATA TYPE: int  TYPE ID: var  LINES: 5 3                              MEMLOC: 1      MEMPOS: 1      VARAMOUNT: 0   REG: mem[ ]
-ID: k        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 1      MEMPOS: 0      VARAMOUNT: 0   REG: mem[ ]
-ID: i        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s9
-ID: g        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s7
-ID: val      SCOPE: input   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 14                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
-ID: e        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s5
+ID: index    SCOPE: valor   PARAM: true  DATA TYPE: int  TYPE ID: var  LINES: 5 3                              MEMLOC: 1      MEMPOS: 0      VARAMOUNT: 0   REG: mem[ ]
+ID: k        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s9
+ID: i        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s8
+ID: g        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s6
+ID: val      SCOPE: input   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 14                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s0
+ID: e        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s4
 ID: main     SCOPE:         PARAM: false DATA TYPE: void TYPE ID: func LINES: 8                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [a]
-ID: c        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s3
-ID: a        SCOPE: main    PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 12 11 10                         MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
-ID: a        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
+ID: c        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s2
+ID: a        SCOPE: main    PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 12 11 10                         MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s0
+ID: a        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s0
 ID: output   SCOPE:         PARAM: false DATA TYPE: void TYPE ID: func LINES: 0                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
 ID: GLOBAL   SCOPE:         PARAM: false DATA TYPE: void TYPE ID: func LINES: 0                                MEMLOC: 10     MEMPOS: -1     VARAMOUNT: 1   VARS: [vet]
-ID: vet      SCOPE:         PARAM: false DATA TYPE: int* TYPE ID: var  LINES: 1                                MEMLOC: 10     MEMPOS: 0      VARAMOUNT: 0   REG: $s0
+ID: vet      SCOPE:         PARAM: false DATA TYPE: int* TYPE ID: var  LINES: 1                                MEMLOC: 10     MEMPOS: 0      VARAMOUNT: 0   REG: mem[ ]

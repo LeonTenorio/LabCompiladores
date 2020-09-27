@@ -53,6 +53,7 @@ MOV $s1 $v0
 B .ENDFUN
 B .ENDFUN
 .main
+MOV $sp $gp
 LI $t8 5
 STORE $sa $t8 0
 ADDI $sa $sa -1

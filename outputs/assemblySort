@@ -2,7 +2,6 @@ LI $zero 0
 MOV $zero $sp
 MOV $zero $gp
 LI $sa 62208
-MOV $sp $s0
 ADDI $sp $sp 10
 B .main
 .ENDFUN
@@ -14,8 +13,8 @@ STORE $sp $sp 0
 STORE $sp $ra 1
 ADDI $sp $sp 2
 MOV $sp $gp
-IN $s1 0
-MOV $s1 $v0
+IN $s0 0
+MOV $s0 $v0
 B .ENDFUN
 B .ENDFUN
 .output
@@ -24,8 +23,8 @@ STORE $sp $ra 1
 ADDI $sp $sp 2
 MOV $sp $gp
 ADDI $sa $sa 1
-LOAD $s2 $sa 0
-OUT $s2 0
+LOAD $s1 $sa 0
+OUT $s1 0
 B .ENDFUN
 .minloc
 STORE $sp $sp 0
@@ -33,36 +32,36 @@ STORE $sp $ra 1
 ADDI $sp $sp 2
 MOV $sp $gp
 ADDI $sa $sa 1
+LOAD $s3 $sa 0
+ADDI $sa $sa 1
 LOAD $s4 $sa 0
 ADDI $sa $sa 1
 LOAD $s5 $sa 0
-ADDI $sa $sa 1
-LOAD $s6 $sa 0
-MOV $s5 $s3
-ADD $t8 $s6 $s5
+MOV $s4 $s2
+ADD $t8 $s5 $s4
 LOAD $t8 $t8 0
-MOV $t8 $s2
+MOV $t8 $s1
 LI $t8 1
-ADD $s1 $s5 $t8
+ADD $s0 $s4 $t8
 ._l0
-BLT $s1 $s4 ._l1
+BLT $s0 $s3 ._l1
 B ._l2
 ._l1
-ADD $t8 $s6 $s1
+ADD $t8 $s5 $s0
 LOAD $t8 $t8 0
-BLT $t8 $s2 ._l3
+BLT $t8 $s1 ._l3
 B ._l4
 ._l3
-ADD $t8 $s6 $s1
+ADD $t8 $s5 $s0
 LOAD $t8 $t8 0
-MOV $t8 $s2
-MOV $s1 $s3
+MOV $t8 $s1
+MOV $s0 $s2
 ._l4
 LI $t8 1
-ADD $s1 $s1 $t8
+ADD $s0 $s0 $t8
 B ._l0
 ._l2
-MOV $s3 $v0
+MOV $s2 $v0
 B .ENDFUN
 B .ENDFUN
 .sort
@@ -71,30 +70,30 @@ STORE $sp $ra 1
 ADDI $sp $sp 2
 MOV $sp $gp
 ADDI $sa $sa 1
+LOAD $s3 $sa 0
+ADDI $sa $sa 1
 LOAD $s4 $sa 0
 ADDI $sa $sa 1
 LOAD $s5 $sa 0
-ADDI $sa $sa 1
-LOAD $s6 $sa 0
-MOV $s5 $s1
+MOV $s4 $s0
 ._l5
 LI $t8 1
-SUB $t0 $s4 $t8
-BLT $s1 $t0 ._l6
+SUB $t0 $s3 $t8
+BLT $s0 $t0 ._l6
 B ._l7
 ._l6
-STORE $sa $s6 0
+STORE $sa $s5 0
 ADDI $sa $sa -1
-STORE $sa $s1 0
+STORE $sa $s0 0
 ADDI $sa $sa -1
-STORE $sa $s4 0
+STORE $sa $s3 0
 ADDI $sa $sa -1
-STORE $sp $s1 0
-STORE $sp $s2 1
-STORE $sp $s3 2
-STORE $sp $s4 3
-STORE $sp $s5 4
-STORE $sp $s6 5
+STORE $sp $s0 0
+STORE $sp $s1 1
+STORE $sp $s2 2
+STORE $sp $s3 3
+STORE $sp $s4 4
+STORE $sp $s5 5
 ADDI $sp $sp 6
 STORE $sp $t0 0
 ADDI $sp $sp 1
@@ -106,46 +105,49 @@ LOAD $gp $sp 0
 ADDI $sp $sp -1
 LOAD $t0 $sp 0
 ADDI $sp $sp -6
-LOAD $s1 $sp 0
-LOAD $s2 $sp 1
-LOAD $s3 $sp 2
-LOAD $s4 $sp 3
-LOAD $s5 $sp 4
-LOAD $s6 $sp 5
-MOV $v0 $s2
-ADD $t8 $s6 $s2
+LOAD $s0 $sp 0
+LOAD $s1 $sp 1
+LOAD $s2 $sp 2
+LOAD $s3 $sp 3
+LOAD $s4 $sp 4
+LOAD $s5 $sp 5
+MOV $v0 $s1
+ADD $t8 $s5 $s1
 LOAD $t8 $t8 0
-MOV $t8 $s3
-ADD $t8 $s6 $s1
+MOV $t8 $s2
+ADD $t8 $s5 $s0
 LOAD $t8 $t8 0
 MOV $t8 $t9
-ADD $t10 $s6 $s2
+ADD $t10 $s5 $s1
 STORE $t10 $t9 0
-MOV $s3 $t8
-ADD $t9 $s6 $s1
+MOV $s2 $t8
+ADD $t9 $s5 $s0
 STORE $t9 $t8 0
 LI $t8 1
-ADD $s1 $s1 $t8
+ADD $s0 $s0 $t8
 B ._l5
 ._l7
 B .ENDFUN
 .main
+MOV $sp $gp
 LI $t8 0
-MOV $t8 $s1
+MOV $t8 $s0
 ._l8
 LI $t8 10
-BLT $s1 $t8 ._l9
+BLT $s0 $t8 ._l9
 B ._l10
 ._l9
 LI $t9 25
-SUB $t8 $t9 $s1
-ADD $t10 $s0 $s1
-STORE $t10 $t8 0
+SUB $t8 $t9 $s0
+LI $t10 0
+ADD $t11 $t10 $s0
+STORE $t11 $t8 0
 LI $t8 1
-ADD $s1 $s1 $t8
+ADD $s0 $s0 $t8
 B ._l8
 ._l10
-STORE $sa $s0 0
+LI $t8 0
+STORE $sa $t8 0
 ADDI $sa $sa -1
 LI $t8 0
 STORE $sa $t8 0
@@ -153,7 +155,7 @@ ADDI $sa $sa -1
 LI $t8 10
 STORE $sa $t8 0
 ADDI $sa $sa -1
-STORE $sp $s1 0
+STORE $sp $s0 0
 ADDI $sp $sp 1
 STORE $sp $gp 0
 ADDI $sp $sp 1
@@ -161,19 +163,20 @@ BL .sort
 ADDI $sp $sp -1
 LOAD $gp $sp 0
 ADDI $sp $sp -1
-LOAD $s1 $sp 0
+LOAD $s0 $sp 0
 LI $t8 0
-MOV $t8 $s1
+MOV $t8 $s0
 ._l11
 LI $t8 10
-BLT $s1 $t8 ._l12
+BLT $s0 $t8 ._l12
 B ._l13
 ._l12
-ADD $t8 $s0 $s1
+LI $t8 0
+ADD $t8 $t8 $s0
 LOAD $t8 $t8 0
 STORE $sa $t8 0
 ADDI $sa $sa -1
-STORE $sp $s1 0
+STORE $sp $s0 0
 ADDI $sp $sp 1
 STORE $sp $gp 0
 ADDI $sp $sp 1
@@ -181,9 +184,9 @@ BL .output
 ADDI $sp $sp -1
 LOAD $gp $sp 0
 ADDI $sp $sp -1
-LOAD $s1 $sp 0
+LOAD $s0 $sp 0
 LI $t8 1
-ADD $s1 $s1 $t8
+ADD $s0 $s0 $t8
 B ._l11
 ._l13
 HALT
