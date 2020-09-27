@@ -223,7 +223,6 @@ string getRegisterLikeRead(string id, string scope, int *temp_use){
                 bucketElement = getBucketElement(vector_acess[0], scope);
                 int previousTempUse = *temp_use;
                 string desloc = getRegisterLikeRead(vector_acess[1], scope, temp_use);
-                *temp_use = previousTempUse;
                 if((bucketElement->is_parameter)&&(bucketElement->value_in_register)){
                     assembly.push_back("ADD $t"+to_string(*temp_use)+" "+bucketElement->loc_register+" "+desloc);
                     assembly.push_back("LOAD $t"+to_string(*temp_use)+" $t"+to_string(*temp_use)+" 0");

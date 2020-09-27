@@ -2,7 +2,8 @@ int vet[ 10 ];/*$s0 = vet*/
 
 int minloc ( int a[], int low, int high )
 {	
-	/*a = $s6, low = $s5, high = $s4, i = $s1, x = $s2, k = $s3*/
+	/*high = s3, low = $s4, a = $s5*/
+	/*k = $s2, x = $s1, $s0 = i*/
 	int i; int x; int k;
 	k = low;
 	x = a[low];
@@ -20,7 +21,8 @@ int minloc ( int a[], int low, int high )
 
 void sort( int a[], int low, int high)
 {	
-	/*i = $s1, k = $s2, t = $s3, high = $s4, low = $s5, a = $s6*/
+	/*high = $s3, low = $s4, a = $s5*/
+	/*i = $s0, k = $s1, t = $s2*/
 	int i; int k;
 	i = low;
 	/*._l5*/
@@ -28,7 +30,7 @@ void sort( int a[], int low, int high)
 		int t;
 		k = minloc(a,i,high);
 		t = a[k];
-		a[k] = a[i];/*$t8 = a[i], $t9 = a[k]*/
+		a[k] = a[i];
 		a[i] = t;
 		i = i + 1;
 	}/*._l7*/
@@ -36,7 +38,6 @@ void sort( int a[], int low, int high)
 
 void main(void)
 {
-	/*$s1 = i*/
 	int i;
 	i = 0;
 	/*._l8*/

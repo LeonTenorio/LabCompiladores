@@ -41,18 +41,17 @@ ADDI $sp $sp 1
 ADDI $sa $sa 1
 LOAD $t8 $sa 0
 LI $t9 1
-LOAD $t9 $t9 0
 ADD $t9 $t9 $gp
 STORE $t9 $t8 0
 LI $t8 0
 ADD $t8 $t8 $gp
 LOAD $t8 $t8 0
-LI $t8 1
-ADD $t8 $gp $t8
-LOAD $t8 $t8 0
-ADD $t8 $t8 $t8
-LOAD $t8 $t8 0
-MOV $t8 $v0
+LI $t9 1
+ADD $t9 $gp $t9
+LOAD $t9 $t9 0
+ADD $t9 $t9 $t8
+LOAD $t9 $t9 0
+MOV $t9 $v0
 B .ENDFUN
 B .ENDFUN
 .main
@@ -61,13 +60,10 @@ LI $t8 50
 MOV $t8 $s0
 MOV $s0 $t8
 LI $t9 0
-ADD $t9 $t9 $gp
 LI $t10 5
-ADD $t9 $t9 $t10
-STORE $t9 $t8 0
+ADD $t10 $t9 $t10
+STORE $t10 $t8 0
 LI $t8 0
-ADD $t8 $t8 $gp
-LOAD $t8 $t8 0
 STORE $sa $t8 0
 ADDI $sa $sa -1
 LI $t8 5
