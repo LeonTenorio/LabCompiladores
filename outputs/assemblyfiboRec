@@ -97,6 +97,7 @@ B .ENDFUN
 ._l2
 B .ENDFUN
 .main
+MOV $sp $gp
 LI $t8 5
 STORE $sa $t8 0
 ADDI $sa $sa -1

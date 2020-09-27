@@ -76,6 +76,7 @@ B .ENDFUN
 ._l2
 B .ENDFUN
 .main
+MOV $sp $gp
 LI $t8 30
 MOV $t8 $s0
 LI $t8 24

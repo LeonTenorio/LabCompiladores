@@ -88,7 +88,8 @@ int _getRegister(string loc_register){/*
     else if(loc_register.compare("$fp")==0)     return 30;
     else if(loc_register.compare("$ra")==0)     return 31;
     else{
-        cout << "Erro, registrador nao especificado" << endl;
+        cout << "Erro, registrador nao especificado " << loc_register << endl;
+        exit (-1);
         return (-1);
     }
 }
@@ -118,7 +119,7 @@ string lineToBinary(vector<string> params, vector<string> labels, map<string, in
         return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(4)+getRegister(params[2])+getRegister(params[3])+getRegister(params[1]);
     }
     else if(params[0].compare("ADDI")==0){
-        return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(5)+getRegister(params[1])+getRegister(params[2])+convertNumberToBinary14Size(stoi(params[3]));
+        return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(5)+getRegister(params[2])+getRegister(params[1])+convertNumberToBinary14Size(stoi(params[3]));
     }
     else if(params[0].compare("SUB")==0){
         return convertNumberToBinary4Size(1)+convertNumberToBinary4Size(6)+getRegister(params[2])+getRegister(params[3])+getRegister(params[1]);

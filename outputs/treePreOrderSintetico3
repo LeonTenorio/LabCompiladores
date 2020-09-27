@@ -1,0 +1,262 @@
+{
+'tree:'
+     [
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          }
+     },
+     {
+     'Node': 'output', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'q', 
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'r', 
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 's', 
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 't', 
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'u', 
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'v', 
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'w', 
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'x', 
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'y', 
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'z', 
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'vet', 
+          'child[0]': 
+               {
+               'Node': 10
+               }
+          }
+     }     ,
+     {
+     'Node': 'int', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          'child[0]': 
+               [
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'vector', 
+                    }
+               },
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'index', 
+                    }
+               }
+          'child[1]': 
+               [
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'a', 
+                    }
+               },
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'b', 
+                    }
+               }               ,
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'c', 
+                    }
+               }               ,
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'd', 
+                    }
+               }               ,
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'e', 
+                    }
+               }               ,
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'f', 
+                    }
+               }               ,
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'g', 
+                    }
+               }               ,
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'h', 
+                    }
+               }               ,
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'i', 
+                    }
+               }               ,
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'k', 
+                    }
+               }               ,
+               {
+               'Node': 'return', 
+               'child[0]': 
+                    {
+                    'Node': 'vector', 
+                    'child[0]': 
+                         {
+                         'Node': 'index', 
+                         }
+                    }
+               }
+          }
+     }     ,
+     {
+     'Node': 'void', 
+     'child[0]': 
+          {
+          'Node': 'FUNCTION', 
+          'child[1]': 
+               [
+               {
+               'Node': 'int', 
+               'child[0]': 
+                    {
+                    'Node': 'a', 
+                    }
+               },
+               {
+               'Node': '=', 
+               'child[0]': 
+                    {
+                    'Node': 'a', 
+                    }
+               'child[1]': 
+                    {
+                    'Node': 50
+                    }
+               }               ,
+               {
+               'Node': '=', 
+               'child[0]': 
+                    {
+                    'Node': 'vet', 
+                    'child[0]': 
+                         {
+                         'Node': 5
+                         }
+                    }
+               'child[1]': 
+                    {
+                    'Node': 'a', 
+                    }
+               }               ,
+               {
+               'Node': 'CALL - output',
+               'child[0]': 
+                    {
+                    'Node': 'CALL - valor',
+                    'child[0]': 
+                         [
+                         {
+                         'Node': 'vet', 
+                         },
+                         {
+                         'Node': 5
+                         }
+                    }
+               }
+          }
+     }
+}
