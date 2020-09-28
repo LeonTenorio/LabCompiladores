@@ -78,4 +78,20 @@ ADDI $sp $sp -1
 LOAD $gp $sp 0
 ADDI $sp $sp -1
 LOAD $s0 $sp 0
+MOV $v0 $t0
+STORE $sa $t0 0
+ADDI $sa $sa -1
+STORE $sp $s0 0
+ADDI $sp $sp 1
+STORE $sp $t0 0
+ADDI $sp $sp 1
+STORE $sp $gp 0
+ADDI $sp $sp 1
+BL .output
+ADDI $sp $sp -1
+LOAD $gp $sp 0
+ADDI $sp $sp -1
+LOAD $t0 $sp 0
+ADDI $sp $sp -1
+LOAD $s0 $sp 0
 HALT
