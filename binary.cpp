@@ -197,6 +197,14 @@ string lineToBinary(vector<string> params, vector<string> labels, map<string, in
     }
 }
 
+string lineToOutputFormat(int index){
+    string ret = to_string(index);
+    while(ret.size()<3){
+        ret = " "+ret;
+    }
+    return ret;
+}
+
 string generateBinary(vector<string> assembly_lines, vector<string> labels, map<string, int> labels_lines, bool binaryToQuartus, bool showBinary){
     string assemblyString = "";
     for(int i=0;i<assembly_lines.size();i++){
@@ -227,7 +235,7 @@ string generateBinary(vector<string> assembly_lines, vector<string> labels, map<
             assemblyString = assemblyString + "registers["+to_string(i)+"] = {32'b" + binaryCode[i] + "};\n";
         }
         else{
-            assemblyString = assemblyString + binaryCode[i] + "\n";
+            assemblyString = assemblyString + lineToOutputFormat(i) +": "+binaryCode[i] + "\n";
         }
     }
     return assemblyString;

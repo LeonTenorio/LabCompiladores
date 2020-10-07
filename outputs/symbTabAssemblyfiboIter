@@ -1,10 +1,10 @@
 ID: fmenos   SCOPE: fibonacciPARAM: false DATA TYPE: int  TYPE ID: var  LINES: 11 10 7 4                        MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s2
 ID: input    SCOPE:         PARAM: false DATA TYPE: int  TYPE ID: func LINES: 0                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
-ID: val      SCOPE: output  PARAM: true  DATA TYPE: int  TYPE ID: var  LINES: 20                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
+ID: val      SCOPE: output  PARAM: true  DATA TYPE: int  TYPE ID: var  LINES: 21                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
 ID: c        SCOPE: fibonacciPARAM: false DATA TYPE: int  TYPE ID: var  LINES: 13 13 8 5 2                      MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s0
 ID: fn       SCOPE: fibonacciPARAM: false DATA TYPE: int  TYPE ID: var  LINES: 15 12 12 11 6 3                  MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s1
 ID: aux      SCOPE: fibonacciPARAM: false DATA TYPE: int  TYPE ID: var  LINES: 12 10 9                          MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s3
-ID: val      SCOPE: input   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 20                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s0
+ID: val      SCOPE: input   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 21                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s0
 ID: main     SCOPE:         PARAM: false DATA TYPE: void TYPE ID: func LINES: 18                               MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   VARS: []
 ID: n        SCOPE: fibonacciPARAM: true  DATA TYPE: int  TYPE ID: var  LINES: 8 1                              MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: $s4
 ID: output   SCOPE:         PARAM: false DATA TYPE: void TYPE ID: func LINES: 19 0                             MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
