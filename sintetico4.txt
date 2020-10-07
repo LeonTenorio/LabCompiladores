@@ -1,0 +1,11 @@
+void funcao(int n){
+    if(n==1){
+        return;
+    }
+    output(1);
+}
+
+void main(void)
+{
+	funcao(5);
+}
