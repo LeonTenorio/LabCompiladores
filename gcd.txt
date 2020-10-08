@@ -1,5 +1,5 @@
 int gcd(int u, int v){
-	if(v==0){
+    if(v==0){
         return u;
     }
     else{
@@ -8,9 +8,9 @@ int gcd(int u, int v){
 }
 
 void main(void){
-	int x; 
+    int x; 
     int y;
-	x = 30;
+    x = 30;
     y = 24;
-	output(gcd(x, y));
+    output(gcd(x, y));
 }

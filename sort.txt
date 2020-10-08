@@ -1,55 +1,44 @@
-int vet[ 10 ];/*$s0 = vet*/
+int vet[ 10 ];
 
-int minloc ( int a[], int low, int high )
-{	
-	/*high = s3, low = $s4, a = $s5*/
-	/*k = $s2, x = $s1, $s0 = i*/
-	int i; int x; int k;
-	k = low;
-	x = a[low];
-	i = low + 1;
-	/*._l0*/
-	while (i < high){/*._l1*/
-		if (a[i] < x){/*._l3*/
-			x = a[i];
-			k = i;
-		}/*._l4*/
+int minloc ( int a[], int low, int high ){	
+    int i; int x; int k;
+    k = low;
+    x = a[low];
+    i = low + 1;
+    while (i < high){
+        if (a[i] < x){
+            x = a[i];
+            k = i;
+        }
 		i = i + 1;
-	}/*._l2*/
-	return k;
+	}
+    return k;
 }
 
-void sort( int a[], int low, int high)
-{	
-	/*high = $s3, low = $s4, a = $s5*/
-	/*i = $s0, k = $s1, t = $s2*/
-	int i; int k;
-	i = low;
-	/*._l5*/
-	while (i < high-1){/*._l6*/
-		int t;
-		k = minloc(a,i,high);
-		t = a[k];
-		a[k] = a[i];
-		a[i] = t;
-		i = i + 1;
-	}/*._l7*/
+void sort( int a[], int low, int high){	
+    int i; int k;
+    i = low;
+    while (i < high-1){
+        int t;
+        k = minloc(a,i,high);
+        t = a[k];
+        a[k] = a[i];
+        a[i] = t;
+        i = i + 1;
+    }
 }
 
-void main(void)
-{
-	int i;
-	i = 0;
-	/*._l8*/
-	while (i < 10){/*._l9*/
-		vet[i] = 25-i;
-		i = i + 1;
-	}/*._l10*/
-	sort(vet,0,10);
-	i = 0;
-	/*._l11*/
-	while (i < 10){/*._l12*/
-		output(vet[i]);
-		i = i + 1;
-	}/*._l13*/
+void main(void){
+    int i;
+    i = 0;
+    while (i < 10){
+        vet[i] = 25-i;
+        i = i + 1;
+    }
+    sort(vet,0,10);
+    i = 0;
+    while (i < 10){
+        output(vet[i]);
+        i = i + 1;
+    }
 }

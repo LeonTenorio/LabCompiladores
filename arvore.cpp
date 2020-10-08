@@ -191,10 +191,12 @@ string quadCodeGenerator(treeNode *node){
       }
       case ReturnK:{
         string left = quadCodeGenerator(node->child[0]);
-        if(node->child[0]->nodeKind==CallK){
-          left = "_t"+to_string(tempIndex);
-          quadCode = quadCode + "(catch_return," + left + ", , )\n";
-          tempIndex++;
+        if(node->child[0]!=NULL){
+          if(node->child[0]->nodeKind==CallK){
+            left = "_t"+to_string(tempIndex);
+            quadCode = quadCode + "(catch_return," + left + ", , )\n";
+            tempIndex++;
+          }
         }
         quadCode = quadCode + "(asn_ret, "+ left + ", , )\n";
         string aux = quadCodeGenerator(node->sibling);

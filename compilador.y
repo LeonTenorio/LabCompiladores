@@ -595,6 +595,7 @@ int main(int argc, char **argv)
   bool showBinary;
   bool binaryToQuartus;
   obterParametros(argc, argv, &inputName, &outSufix, &debug, &binaryToQuartus, &showBinary);
+  debug = false;
   cout << "\nBison em execução...\n";
   abrirArq(&inputName[0]);
   insertSymTab("GLOBAL", FuncType, " ", Void, 0, 0, false);

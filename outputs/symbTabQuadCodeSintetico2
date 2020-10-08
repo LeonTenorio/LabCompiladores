@@ -16,6 +16,6 @@ ID: main     SCOPE:         PARAM: false DATA TYPE: void TYPE ID: func LINES: 8 
 ID: c        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: mem[ ]
 ID: a        SCOPE: main    PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 12 11 10                         MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: mem[ ]
 ID: a        SCOPE: valor   PARAM: false DATA TYPE: int  TYPE ID: var  LINES: 4                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 0   REG: mem[ ]
-ID: output   SCOPE:         PARAM: false DATA TYPE: void TYPE ID: func LINES: 0                                MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
+ID: output   SCOPE:         PARAM: false DATA TYPE: void TYPE ID: func LINES: 13 0                             MEMLOC: 0      MEMPOS: -1     VARAMOUNT: 1   VARS: [val]
 ID: GLOBAL   SCOPE:         PARAM: false DATA TYPE: void TYPE ID: func LINES: 0                                MEMLOC: 10     MEMPOS: -1     VARAMOUNT: 1   VARS: [vet]
 ID: vet      SCOPE:         PARAM: false DATA TYPE: int* TYPE ID: var  LINES: 1                                MEMLOC: 10     MEMPOS: -1     VARAMOUNT: 0   REG: mem[ ]
