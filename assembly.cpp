@@ -354,7 +354,6 @@ void lineToAssembly(vector<string> params, bool debug){
     }
     else if(params[0].compare("asn_ret")==0){
         writeDebugAssembly("ASN RET", debug);
-        cout << "AQUI " << params.size() << endl;
         if(params.size()>1 && params[1].length()>0){
             int temp_use = USETEMPREGISTERAMOUNT;
             string rs = getRegisterLikeRead(params[1], scope, &temp_use);
